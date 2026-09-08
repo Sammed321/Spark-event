@@ -9,10 +9,26 @@ const STATS = [
 ];
 
 const PILLARS = [
-  { icon: '💡', title: 'Innovation', desc: 'Sparking entrepreneurial thinking and creative problem-solving in students across India.' },
-  { icon: '📈', title: 'Growth', desc: 'Real startup skills, frameworks and hands-on experience for the next generation.' },
-  { icon: '🌐', title: 'Reach', desc: 'Spreading entrepreneurship culture from IIT Bombay to 15+ states.' },
-  { icon: '📚', title: 'Knowledge', desc: 'Curriculum crafted by entrepreneurs, professionals and IIT Bombay alumni.' },
+  { 
+    sticker: '/stickers/innovation.png', 
+    title: 'Innovation', 
+    desc: 'Sparking entrepreneurial thinking and creative problem-solving in students across India.' 
+  },
+  { 
+    sticker: '/stickers/growth.png', 
+    title: 'Growth', 
+    desc: 'Real startup skills, frameworks and hands-on experience for the next generation.' 
+  },
+  { 
+    sticker: '/stickers/reach.png', 
+    title: 'Reach', 
+    desc: 'Spreading entrepreneurship culture from IIT Bombay to 15+ states.' 
+  },
+  { 
+    sticker: '/stickers/knowledge.png', 
+    title: 'Knowledge', 
+    desc: 'Curriculum crafted by entrepreneurs, professionals and IIT Bombay alumni.' 
+  },
 ];
 
 function Counter({ target, suffix }) {
@@ -102,7 +118,21 @@ export function AboutSection() {
                 transform: pillarsVisible ? 'translateY(0)' : 'translateY(24px)',
                 transition: `all .6s ease ${i * 80}ms`,
               }}>
-                <div style={{ fontSize: 28, marginBottom: 12 }} aria-hidden="true">{p.icon}</div>
+                <div style={{
+                  width: 52,
+                  height: 52,
+                  marginBottom: 16,
+                  borderRadius: 16,
+                  background: 'rgba(124, 58, 237, 0.12)',
+                  border: '1px solid rgba(167, 139, 250, 0.25)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: 6,
+                  filter: 'drop-shadow(0 6px 16px rgba(124, 58, 237, 0.3))'
+                }}>
+                  <img src={p.sticker} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                </div>
                 <div className="font-grotesk" style={{ fontSize: 15, fontWeight: 600, color: '#e9d5ff', marginBottom: 8 }}>{p.title}</div>
                 <p className="font-inter" style={{ fontSize: 13, color: 'rgba(196,181,253,.6)', lineHeight: 1.65 }}>{p.desc}</p>
               </div>

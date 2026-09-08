@@ -1,12 +1,13 @@
 import { useInView } from '../hooks/useInView';
+import { GraduationCap, Trophy, Gift, BarChart, FileBadge, Handshake } from 'lucide-react';
 
 const CARDS = [
-  { icon:'🎓', title:'Expert Training',       desc:'Curriculum delivered by seasoned entrepreneurs and professionals.' },
-  { icon:'🏆', title:'E-Cell Certification',  desc:'Certificates certified and issued by Entrepreneurship Cell, IIT Bombay.' },
-  { icon:'🎁', title:'Exclusive Startup Kit', desc:'Includes Business Model Canvas and curated entrepreneurship resources.' },
-  { icon:'📊', title:'BMC Workshop',           desc:'Hands-on Business Model Canvas session — ideate, validate, present.' },
-  { icon:'📜', title:'Coordinator Certs',      desc:'Certificates of Coordination for 5 student coordinators.' },
-  { icon:'🤝', title:'Faculty Certificate',    desc:'Certificate of Appreciation for the faculty coordinator.' },
+  { Icon: GraduationCap, title:'Expert Training',       desc:'Curriculum delivered by seasoned entrepreneurs and professionals.' },
+  { Icon: Trophy,        title:'E-Cell Certification',  desc:'Certificates certified and issued by Entrepreneurship Cell, IIT Bombay.' },
+  { Icon: Gift,          title:'Exclusive Startup Kit', desc:'Includes Business Model Canvas and curated entrepreneurship resources.' },
+  { Icon: BarChart,      title:'BMC Workshop',           desc:'Hands-on Business Model Canvas session — ideate, validate, present.' },
+  { Icon: FileBadge,     title:'Coordinator Certs',      desc:'Certificates of Coordination for 5 student coordinators.' },
+  { Icon: Handshake,     title:'Faculty Certificate',    desc:'Certificate of Appreciation for the faculty coordinator.' },
 ];
 
 export function WorkshopIntroSection() {
@@ -73,17 +74,33 @@ export function WorkshopIntroSection() {
 
         {/* Cards */}
         <div ref={gridRef} style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:20 }} className="intro-grid">
-          {CARDS.map((c, i) => (
+          {CARDS.map((c, i) => {
+            const IconComponent = c.Icon;
+            return (
             <div key={c.title} className="glass glass-hover" style={{
               padding:'28px 26px',
               opacity: gridVis ? 1 : 0, transform: gridVis ? 'translateY(0)' : 'translateY(28px)',
               transition: `all .55s ease ${i * 70}ms`,
             }}>
-              <div style={{ fontSize:32, marginBottom:14 }} aria-hidden="true">{c.icon}</div>
+              <div style={{
+                width: 52,
+                height: 52,
+                marginBottom: 16,
+                borderRadius: 16,
+                background: 'rgba(124, 58, 237, 0.12)',
+                border: '1px solid rgba(167, 139, 250, 0.25)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#a855f7',
+                filter: 'drop-shadow(0 6px 16px rgba(124, 58, 237, 0.3))'
+              }}>
+                <IconComponent size={28} strokeWidth={1.5} />
+              </div>
               <div className="font-grotesk" style={{ fontSize:15, fontWeight:600, color:'#e9d5ff', marginBottom:8 }}>{c.title}</div>
               <p className="font-inter" style={{ fontSize:13, color:'rgba(196,181,253,.6)', lineHeight:1.65 }}>{c.desc}</p>
             </div>
-          ))}
+          )})}
         </div>
       </div>
 

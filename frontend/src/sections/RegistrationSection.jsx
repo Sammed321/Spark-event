@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { submitRegistration } from '../services/registrationService';
 import { createPaymentOrder, verifyPayment, WORKSHOP_FEE } from '../services/paymentService';
-import { CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { CheckCircle, AlertCircle, Loader2, Ticket, Sparkles } from 'lucide-react';
 
 export function RegistrationSection() {
   const [step, setStep] = useState(1); // 1: Form, 2: Summary, 3: Processing, 4: Success, 5: Error
@@ -54,127 +54,207 @@ export function RegistrationSection() {
   };
 
   return (
-    <section id="register" className="section" style={{ background: '#080016', position: 'relative' }}>
-      <div className="container" style={{ position: 'relative', zIndex: 2, maxWidth: 600 }}>
+    <section id="register" className="section" style={{ background: '#05000e', position: 'relative' }}>
+      {/* Decorative Orbs */}
+      <div className="orb anim-pulse" style={{ width: 600, height: 600, bottom: '-20%', left: '-10%', background: 'radial-gradient(circle, rgba(167,139,250,0.15) 0%, transparent 60%)' }} aria-hidden="true" />
+      <div className="orb" style={{ width: 500, height: 500, top: '10%', right: '-5%', background: 'radial-gradient(circle, rgba(232,121,249,0.1) 0%, transparent 60%)' }} aria-hidden="true" />
+
+      <div className="container" style={{ position: 'relative', zIndex: 2 }}>
         
-        <div style={{ textAlign: 'center', marginBottom: 48 }}>
-          <span className="eyebrow">Register</span>
-          <h2 className="font-syne" style={{ fontSize: 'clamp(32px,5vw,48px)', fontWeight: 800, color: '#fff' }}>
+        {/* Heading */}
+        <div style={{ textAlign: 'center', marginBottom: 64 }}>
+          <span className="eyebrow" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            <Sparkles size={14} /> Register
+          </span>
+          <h2 className="font-syne" style={{ fontSize: 'clamp(36px,5vw,52px)', fontWeight: 800, color: '#fff', lineHeight: 1.15 }}>
             Secure Your <span className="grad-text">Spot</span>
           </h2>
-          <p className="font-inter" style={{ fontSize: 16, color: 'rgba(196,181,253,.65)', marginTop: 16 }}>
-            Cross-college participation is allowed. Minimum 70 participants.
+          <p className="font-inter" style={{ fontSize: 16, color: 'rgba(196,181,253,.7)', maxWidth: 580, margin: '16px auto 0' }}>
+            Cross-college participation is allowed. Minimum 70 participants required. 
+            Join the movement of student entrepreneurs today.
           </p>
         </div>
 
-        <div className="glass-strong" style={{ padding: '40px', borderRadius: '24px' }}>
+        {/* Layout Grid */}
+        <div style={{ display: 'grid', gap: 40 }} className="reg-grid">
           
-          {step === 1 && (
-            <form onSubmit={handleProceedToSummary}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-                <div>
-                  <input className={`field-input ${errors.name ? 'error' : ''}`} type="text" name="name" placeholder="Full Name" value={formData.name} onChange={handleChange} />
-                  {errors.name && <div style={{ color: '#f87171', fontSize: 12, marginTop: 4 }}>{errors.name}</div>}
-                </div>
-                <div>
-                  <input className={`field-input ${errors.usn ? 'error' : ''}`} type="text" name="usn" placeholder="USN" value={formData.usn} onChange={handleChange} />
-                  {errors.usn && <div style={{ color: '#f87171', fontSize: 12, marginTop: 4 }}>{errors.usn}</div>}
-                </div>
-                <div>
-                  <input className={`field-input ${errors.email ? 'error' : ''}`} type="email" name="email" placeholder="Email ID" value={formData.email} onChange={handleChange} />
-                  {errors.email && <div style={{ color: '#f87171', fontSize: 12, marginTop: 4 }}>{errors.email}</div>}
-                </div>
-                <div>
-                  <input className={`field-input ${errors.college ? 'error' : ''}`} type="text" name="college" placeholder="College Name" value={formData.college} onChange={handleChange} />
-                  {errors.college && <div style={{ color: '#f87171', fontSize: 12, marginTop: 4 }}>{errors.college}</div>}
-                </div>
-                <div>
-                  <select className={`field-input ${errors.source ? 'error' : ''}`} name="source" value={formData.source} onChange={handleChange}>
-                    <option value="" disabled>How did you get to know about this event?</option>
-                    <option value="College">College</option>
-                    <option value="Friend">Friend</option>
-                    <option value="Social Media">Social Media</option>
-                    <option value="WhatsApp">WhatsApp</option>
-                    <option value="Instagram">Instagram</option>
-                    <option value="Other">Other</option>
-                  </select>
-                  {errors.source && <div style={{ color: '#f87171', fontSize: 12, marginTop: 4 }}>{errors.source}</div>}
-                </div>
-                <button type="submit" className="btn btn-primary btn-xl" style={{ width: '100%', marginTop: 16 }}>
-                  Continue to Payment
-                </button>
-              </div>
-            </form>
-          )}
-
-          {step === 2 && (
-            <div style={{ textAlign: 'center' }}>
-              <h3 className="font-syne" style={{ fontSize: 24, marginBottom: 24 }}>Order Summary</h3>
-              <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 16, padding: 24, textAlign: 'left', marginBottom: 32 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
-                  <span style={{ color: 'rgba(255,255,255,0.6)' }}>Event:</span>
-                  <span style={{ fontWeight: 600 }}>Illuminate Workshop</span>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
-                  <span style={{ color: 'rgba(255,255,255,0.6)' }}>Participant:</span>
-                  <span style={{ fontWeight: 600 }}>{formData.name}</span>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
-                  <span style={{ color: 'rgba(255,255,255,0.6)' }}>College:</span>
-                  <span style={{ fontWeight: 600 }}>{formData.college}</span>
-                </div>
-                <div style={{ height: 1, background: 'rgba(255,255,255,0.1)', margin: '0 -24px 24px -24px' }} />
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 20, fontWeight: 700 }}>
-                  <span>Total Fee:</span>
-                  <span className="grad-text">₹{WORKSHOP_FEE}</span>
-                </div>
-              </div>
-              <div style={{ display: 'flex', gap: 16 }}>
-                <button className="btn btn-outline" style={{ flex: 1 }} onClick={() => setStep(1)}>Back</button>
-                <button className="btn btn-primary" style={{ flex: 2 }} onClick={handlePayment}>Proceed to Payment</button>
-              </div>
-            </div>
-          )}
-
-          {step === 3 && (
-            <div style={{ textAlign: 'center', padding: '48px 0' }}>
-              <Loader2 size={48} className="anim-spin-slow" style={{ color: '#a78bfa', margin: '0 auto 24px' }} />
-              <h3 className="font-syne" style={{ fontSize: 24, marginBottom: 12 }}>Processing Payment</h3>
-              <p style={{ color: 'rgba(255,255,255,0.6)' }}>Please do not refresh the page.</p>
-            </div>
-          )}
-
-          {step === 4 && (
-            <div style={{ textAlign: 'center', padding: '24px 0' }}>
-              <CheckCircle size={64} style={{ color: '#34d399', margin: '0 auto 24px' }} />
-              <h3 className="font-syne" style={{ fontSize: 28, marginBottom: 16 }}>Registration Successful</h3>
-              <p style={{ color: 'rgba(255,255,255,0.7)', marginBottom: 32 }}>Welcome to Illuminate, {formData.name}!</p>
+          {/* Left: Beautiful Ticket / Value Prop */}
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <div style={{
+              background: 'linear-gradient(145deg, rgba(124,58,237,0.12) 0%, rgba(88,28,135,0.05) 100%)',
+              border: '1px solid rgba(167,139,250,0.3)',
+              borderRadius: 32,
+              padding: 48,
+              position: 'relative',
+              overflow: 'hidden',
+              boxShadow: '0 30px 60px rgba(0,0,0,0.5), inset 0 0 20px rgba(167,139,250,0.05)',
+              display: 'flex',
+              flexDirection: 'column',
+              minHeight: 480
+            }} className="glass-spotlight">
               
-              <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 16, padding: 24, textAlign: 'left', marginBottom: 32 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
-                  <span style={{ color: 'rgba(255,255,255,0.6)' }}>Registration ID:</span>
-                  <span style={{ fontWeight: 700, color: '#e879f9' }}>{paymentDetails?.registrationId}</span>
+              {/* Holographic shimmer */}
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.08) 25%, transparent 30%)', backgroundSize: '200% 100%', animation: 'shimmer 4s infinite linear', pointerEvents: 'none' }} />
+              
+              <div style={{ flex: 1 }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(124,58,237,0.2)', padding: '6px 14px', borderRadius: 20, marginBottom: 32, border: '1px solid rgba(167,139,250,0.3)' }}>
+                  <Ticket size={16} color="#e879f9" />
+                  <span className="font-grotesk" style={{ fontSize: 12, fontWeight: 600, color: '#e879f9', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Official Event Pass</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ color: 'rgba(255,255,255,0.6)' }}>Status:</span>
-                  <span style={{ fontWeight: 600, color: '#34d399' }}>Paid (₹{WORKSHOP_FEE})</span>
+                
+                <h3 className="font-syne" style={{ fontSize: 'clamp(32px, 4vw, 42px)', fontWeight: 800, color: '#fff', lineHeight: 1.1, marginBottom: 16 }}>
+                  Illuminate <br /><span className="grad-text">Workshop '26</span>
+                </h3>
+                
+                <p className="font-inter" style={{ fontSize: 16, color: 'rgba(196,181,253,0.7)', lineHeight: 1.7, marginBottom: 24, maxWidth: 320 }}>
+                  A full-day immersive experience giving you the tools, mindset, and certification to build your own venture.
+                </p>
+              </div>
+
+              {/* Ticket perforated tear line */}
+              <div style={{ borderTop: '2px dashed rgba(167,139,250,0.3)', margin: '0 -48px 32px -48px', position: 'relative' }}>
+                <div style={{ position: 'absolute', top: -16, left: -16, width: 32, height: 32, borderRadius: '50%', background: '#05000e', borderRight: '2px solid rgba(167,139,250,0.3)' }} />
+                <div style={{ position: 'absolute', top: -16, right: -16, width: 32, height: 32, borderRadius: '50%', background: '#05000e', borderLeft: '2px solid rgba(167,139,250,0.3)' }} />
+              </div>
+              
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                <div>
+                  <div className="font-grotesk" style={{ fontSize: 12, color: 'rgba(196,181,253,0.5)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 6 }}>Venue</div>
+                  <div className="font-inter" style={{ fontWeight: 600, color: '#e9d5ff', fontSize: 15 }}>TBA / On-Campus</div>
+                </div>
+                <div style={{ textAlign: 'right' }}>
+                  <div className="font-grotesk" style={{ fontSize: 12, color: 'rgba(196,181,253,0.5)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 6 }}>Fee per student</div>
+                  <div className="font-syne grad-text" style={{ fontSize: 32, fontWeight: 700, lineHeight: 1 }}>₹{WORKSHOP_FEE}</div>
                 </div>
               </div>
-              <button className="btn btn-primary btn-xl" style={{ width: '100%' }} onClick={() => window.location.href = '/'}>Back to Home</button>
             </div>
-          )}
+          </div>
 
-          {step === 5 && (
-            <div style={{ textAlign: 'center', padding: '24px 0' }}>
-              <AlertCircle size={64} style={{ color: '#f87171', margin: '0 auto 24px' }} />
-              <h3 className="font-syne" style={{ fontSize: 24, marginBottom: 16 }}>Payment Failed</h3>
-              <p style={{ color: 'rgba(255,255,255,0.7)', marginBottom: 32 }}>{errorMsg}</p>
-              <button className="btn btn-primary btn-xl" onClick={() => setStep(2)}>Try Again</button>
-            </div>
-          )}
+          {/* Right: Registration Form */}
+          <div className="glass-strong neon-card" style={{ padding: '48px', borderRadius: '32px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            
+            {step === 1 && (
+              <form onSubmit={handleProceedToSummary}>
+                <div style={{ marginBottom: 32 }}>
+                  <h3 className="font-syne" style={{ fontSize: 24, fontWeight: 700, color: '#fff', marginBottom: 8 }}>Participant Details</h3>
+                  <p className="font-inter" style={{ fontSize: 14, color: 'rgba(196,181,253,0.6)' }}>Fill in your info to reserve your ticket.</p>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                  <div>
+                    <input className={`field-input ${errors.name ? 'error' : ''}`} type="text" name="name" placeholder="Full Name" value={formData.name} onChange={handleChange} />
+                    {errors.name && <div style={{ color: '#f87171', fontSize: 12, marginTop: 6 }}>{errors.name}</div>}
+                  </div>
+                  <div>
+                    <input className={`field-input ${errors.usn ? 'error' : ''}`} type="text" name="usn" placeholder="USN / Roll Number" value={formData.usn} onChange={handleChange} />
+                    {errors.usn && <div style={{ color: '#f87171', fontSize: 12, marginTop: 6 }}>{errors.usn}</div>}
+                  </div>
+                  <div>
+                    <input className={`field-input ${errors.email ? 'error' : ''}`} type="email" name="email" placeholder="Email Address" value={formData.email} onChange={handleChange} />
+                    {errors.email && <div style={{ color: '#f87171', fontSize: 12, marginTop: 6 }}>{errors.email}</div>}
+                  </div>
+                  <div>
+                    <input className={`field-input ${errors.college ? 'error' : ''}`} type="text" name="college" placeholder="College Name" value={formData.college} onChange={handleChange} />
+                    {errors.college && <div style={{ color: '#f87171', fontSize: 12, marginTop: 6 }}>{errors.college}</div>}
+                  </div>
+                  <div>
+                    <select className={`field-input ${errors.source ? 'error' : ''}`} name="source" value={formData.source} onChange={handleChange} style={{ color: formData.source ? '#ede9fe' : 'rgba(196,181,253,.35)' }}>
+                      <option value="" disabled>How did you hear about us?</option>
+                      <option value="College" style={{ color: '#000' }}>College</option>
+                      <option value="Friend" style={{ color: '#000' }}>Friend</option>
+                      <option value="Social Media" style={{ color: '#000' }}>Social Media</option>
+                      <option value="WhatsApp" style={{ color: '#000' }}>WhatsApp</option>
+                      <option value="Instagram" style={{ color: '#000' }}>Instagram</option>
+                      <option value="Other" style={{ color: '#000' }}>Other</option>
+                    </select>
+                    {errors.source && <div style={{ color: '#f87171', fontSize: 12, marginTop: 6 }}>{errors.source}</div>}
+                  </div>
+                  <button type="submit" className="btn btn-primary btn-xl" style={{ width: '100%', marginTop: 24 }}>
+                    Continue to Payment
+                  </button>
+                </div>
+              </form>
+            )}
 
+            {step === 2 && (
+              <div style={{ textAlign: 'center' }}>
+                <h3 className="font-syne" style={{ fontSize: 26, marginBottom: 24 }}>Order Summary</h3>
+                <div style={{ background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(139,92,246,0.15)', borderRadius: 20, padding: 28, textAlign: 'left', marginBottom: 32 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
+                    <span className="font-inter" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14 }}>Event</span>
+                    <span className="font-inter" style={{ fontWeight: 600, fontSize: 15 }}>Illuminate Workshop</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
+                    <span className="font-inter" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14 }}>Participant</span>
+                    <span className="font-inter" style={{ fontWeight: 600, fontSize: 15 }}>{formData.name}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 28 }}>
+                    <span className="font-inter" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14 }}>College</span>
+                    <span className="font-inter" style={{ fontWeight: 600, fontSize: 15 }}>{formData.college}</span>
+                  </div>
+                  <div style={{ height: 1, background: 'rgba(139,92,246,0.2)', margin: '0 -28px 24px -28px' }} />
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span className="font-grotesk" style={{ fontSize: 16, color: 'rgba(255,255,255,0.7)' }}>Total Fee</span>
+                    <span className="font-syne grad-text" style={{ fontSize: 28, fontWeight: 700 }}>₹{WORKSHOP_FEE}</span>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: 16 }}>
+                  <button className="btn btn-outline" style={{ flex: 1, padding: '16px' }} onClick={() => setStep(1)}>Back</button>
+                  <button className="btn btn-primary" style={{ flex: 2, padding: '16px' }} onClick={handlePayment}>Pay & Register</button>
+                </div>
+              </div>
+            )}
+
+            {step === 3 && (
+              <div style={{ textAlign: 'center', padding: '64px 0' }}>
+                <Loader2 size={56} className="anim-spin-slow" style={{ color: '#a855f7', margin: '0 auto 28px' }} />
+                <h3 className="font-syne" style={{ fontSize: 26, marginBottom: 14 }}>Processing Payment</h3>
+                <p className="font-inter" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 15 }}>Please do not refresh the page or click back.</p>
+              </div>
+            )}
+
+            {step === 4 && (
+              <div style={{ textAlign: 'center', padding: '32px 0' }}>
+                <CheckCircle size={72} style={{ color: '#34d399', margin: '0 auto 28px' }} />
+                <h3 className="font-syne" style={{ fontSize: 32, marginBottom: 16 }}>You're In!</h3>
+                <p className="font-inter" style={{ color: 'rgba(255,255,255,0.7)', marginBottom: 36, fontSize: 16 }}>Welcome to Illuminate, {formData.name}!</p>
+                
+                <div style={{ background: 'rgba(16,185,129,0.05)', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 20, padding: 28, textAlign: 'left', marginBottom: 36 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
+                    <span className="font-inter" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 14 }}>Registration ID:</span>
+                    <span className="font-grotesk" style={{ fontWeight: 700, color: '#e879f9', letterSpacing: '0.05em' }}>{paymentDetails?.registrationId}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span className="font-inter" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 14 }}>Status:</span>
+                    <span className="font-inter" style={{ fontWeight: 600, color: '#34d399' }}>Paid Successfully (₹{WORKSHOP_FEE})</span>
+                  </div>
+                </div>
+                <button className="btn btn-primary btn-xl" style={{ width: '100%' }} onClick={() => window.location.href = '/'}>Back to Home</button>
+              </div>
+            )}
+
+            {step === 5 && (
+              <div style={{ textAlign: 'center', padding: '32px 0' }}>
+                <AlertCircle size={72} style={{ color: '#f87171', margin: '0 auto 28px' }} />
+                <h3 className="font-syne" style={{ fontSize: 28, marginBottom: 16 }}>Payment Failed</h3>
+                <p className="font-inter" style={{ color: 'rgba(255,255,255,0.7)', marginBottom: 36, fontSize: 15, lineHeight: 1.6 }}>{errorMsg}</p>
+                <button className="btn btn-primary btn-xl" style={{ width: '100%' }} onClick={() => setStep(2)}>Try Again</button>
+              </div>
+            )}
+
+          </div>
         </div>
       </div>
+
+      <style>{`
+        .reg-grid { grid-template-columns: 1fr 1.1fr; }
+        @media (max-width: 960px) {
+          .reg-grid { grid-template-columns: 1fr; gap: 32px; }
+          .reg-grid > div:first-child { max-width: 500px; margin: 0 auto; width: 100%; }
+        }
+        @media (max-width: 500px) {
+          .glass-strong.neon-card { padding: 32px !important; }
+        }
+      `}</style>
     </section>
   );
 }
