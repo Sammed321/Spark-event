@@ -71,7 +71,7 @@ export function HeroSection() {
           transition: 'all .7s ease .1s',
         }}>
           <span className="eyebrow">
-            ✦ &nbsp; E-Cell, IIT Bombay Presents
+            ✦ &nbsp; E-Cell, IIT Bombay X Spark Presents 
           </span>
         </div>
 
@@ -92,7 +92,7 @@ export function HeroSection() {
             color: 'rgba(196,181,253,.8)', fontWeight: 400, letterSpacing: '0.06em',
             marginBottom: 0,
           }}>
-            Entrepreneurship Workshop &nbsp;·&nbsp; E-Cell, IIT Bombay
+            Entrepreneurship Workshop &nbsp;·&nbsp; E-Cell, IIT Bombay X Spark 
           </p>
         </div>
 
