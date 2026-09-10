@@ -1,7 +1,9 @@
+import { useRef } from 'react';
 import { useInView } from '../hooks/useInView';
 import { GraduationCap, Trophy, Gift, BarChart, FileBadge, Handshake } from 'lucide-react';
 import { CyberCard } from '../components/CyberCard';
 import FolderComponent from '../components/ui/folder-component';
+import { useGsapFloatingOrbs, useGsapStaggerCards } from '../utils/gsapAnimations';
 
 const CARDS = [
   { Icon: GraduationCap, title:'Expert Training',       desc:'Curriculum delivered by seasoned entrepreneurs and professionals.' },
@@ -13,11 +15,15 @@ const CARDS = [
 ];
 
 export function WorkshopIntroSection() {
+  const sectionRef = useRef(null);
   const [bannerRef, bannerVis] = useInView();
   const [gridRef, gridVis] = useInView();
 
+  useGsapFloatingOrbs(sectionRef);
+  useGsapStaggerCards(gridRef, '.cyber-box', { y: 35, stagger: 0.08 });
+
   return (
-    <section id="workshop" className="section" style={{ background:'#060010' }}>
+    <section ref={sectionRef} id="workshop" className="section" style={{ background:'#060010' }}>
       <div className="orb" style={{ width:600, height:400, top:'20%', left:'5%',
         background:'radial-gradient(ellipse, rgba(124,58,237,.12) 0%, transparent 70%)' }} aria-hidden="true" />
       <div className="grid-bg" style={{ position:'absolute', inset:0, opacity:.25, pointerEvents:'none' }} />
@@ -81,11 +87,6 @@ export function WorkshopIntroSection() {
             return (
             <CyberCard
               key={c.title}
-              style={{
-                opacity: gridVis ? 1 : 0,
-                transform: gridVis ? 'translateY(0)' : 'translateY(28px)',
-                transition: `all .55s ease ${i * 70}ms`,
-              }}
               innerStyle={{
                 padding: '28px 24px',
                 display: 'flex',

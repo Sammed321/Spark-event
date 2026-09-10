@@ -1,16 +1,22 @@
 import { useEffect, useState } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { bind, setVolume, setEnabled } from 'cuelume';
 import { handleScrollSound } from './utils/scrollSound';
-import { Navbar } from './components/Navbar';
-import { HeroSection } from './sections/HeroSection';
-import { AboutSection } from './sections/AboutSection';
-import { WorkshopIntroSection } from './sections/WorkshopIntroSection';
-import { WorkshopTimelineSection } from './sections/WorkshopTimelineSection';
-import { RegistrationSection } from './sections/RegistrationSection';
-import { ContactSection } from './sections/ContactSection';
-import { Footer } from './components/Footer';
+import { HomePage } from './pages/HomePage';
+import { RegisterPage } from './pages/RegisterPage';
+import { ConfirmPaymentPage } from './pages/ConfirmPaymentPage';
 
-function App() {
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
+function MainLayout() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
 
@@ -45,6 +51,8 @@ function App() {
 
   return (
     <>
+      <ScrollToTop />
+
       {/* Scroll Progress Bar */}
       <div className="scroll-progress-bar" style={{ width: `${scrollProgress}%` }} />
 
@@ -63,17 +71,22 @@ function App() {
         }}
       />
 
-      <Navbar />
-      <main>
-        <HeroSection />
-        <AboutSection />
-        <WorkshopIntroSection />
-        <WorkshopTimelineSection />
-        <RegistrationSection />
-        <ContactSection />
-      </main>
-      <Footer />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/confirm-payment" element={<ConfirmPaymentPage />} />
+        <Route path="/verify-utr" element={<Navigate to="/confirm-payment" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <MainLayout />
+    </BrowserRouter>
   );
 }
 

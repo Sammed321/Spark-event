@@ -1,5 +1,7 @@
+import { useRef } from 'react';
 import { useInView } from '../hooks/useInView';
 import { CyberCard } from '../components/CyberCard';
+import { useGsapFloatingOrbs, useGsapStaggerCards } from '../utils/gsapAnimations';
 
 const PILLARS = [
   { 
@@ -26,11 +28,15 @@ const PILLARS = [
 
 
 export function AboutSection() {
+  const sectionRef = useRef(null);
   const [cardRef, cardVisible] = useInView();
-  const [pillarsRef, pillarsVisible] = useInView();
+  const pillarsRef = useRef(null);
+
+  useGsapFloatingOrbs(sectionRef);
+  useGsapStaggerCards(pillarsRef, '.cyber-box', { y: 35, stagger: 0.1 });
 
   return (
-    <section id="about" className="section" style={{ background: 'linear-gradient(180deg, #060010 0%, #080018 100%)' }}>
+    <section ref={sectionRef} id="about" className="section" style={{ background: 'linear-gradient(180deg, #060010 0%, #080018 100%)' }}>
       <div className="orb" style={{
         width: 500, height: 500, top: '-10%', right: '-5%',
         background: 'radial-gradient(ellipse, rgba(109,40,217,.15) 0%, transparent 70%)'
@@ -88,12 +94,8 @@ export function AboutSection() {
 
           {/* Right pillars */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, padding: '0 6px 6px 0' }} ref={pillarsRef} className="pillars-grid">
-            {PILLARS.map((p, i) => (
-              <CyberCard key={p.title} style={{
-                opacity: pillarsVisible ? 1 : 0,
-                transform: pillarsVisible ? 'translateY(0)' : 'translateY(24px)',
-                transition: `all .6s ease ${i * 80}ms`,
-              }} innerStyle={{ padding: '24px 22px' }}>
+            {PILLARS.map((p) => (
+              <CyberCard key={p.title} innerStyle={{ padding: '24px 22px' }}>
                 <div style={{
                   width: 52,
                   height: 52,
