@@ -47,18 +47,69 @@ export function Navbar() {
       }}>
         <div className="container" style={{ display:'flex', alignItems:'center', justifyContent:'space-between', height: 68 }}>
 
-          {/* Logo */}
-          <button onClick={() => click('home')} style={{
-            background: 'none', border: 'none', cursor: 'pointer',
-            display: 'flex', alignItems: 'center', gap: 10,
-          }}>
+          {/* Brand & Institution Logos */}
+          <div
+            onClick={() => click('home')}
+            style={{
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              userSelect: 'none',
+            }}
+            role="button"
+            tabIndex={0}
+            onKeyDown={e => { if (e.key === 'Enter') click('home'); }}
+            aria-label="Illuminate Home"
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <img
+                src="/kls-logo.png"
+                alt="Karnataka Law Society"
+                title="Karnataka Law Society (KLS)"
+                style={{
+                  height: 'clamp(32px, 4vw, 42px)',
+                  width: 'auto',
+                  objectFit: 'contain',
+                  filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.35))',
+                }}
+                className="hover-scale"
+              />
+              <img
+                src="/git-logo.png"
+                alt="KLS Gogte Institute of Technology"
+                title="KLS Gogte Institute of Technology (GIT)"
+                style={{
+                  height: 'clamp(32px, 4vw, 42px)',
+                  width: 'auto',
+                  objectFit: 'contain',
+                  filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.35))',
+                }}
+                className="hover-scale"
+              />
+            </div>
+
+            {/* Subtle Divider */}
+            <div
+              style={{
+                width: 1,
+                height: 28,
+                background: 'linear-gradient(to bottom, transparent, rgba(167, 139, 250, 0.4), transparent)',
+              }}
+              aria-hidden="true"
+            />
+
             <img
               src="/logo2.png"
               alt="Illuminate logo"
-              style={{ height: 52, width: 'auto', objectFit: 'contain' }}
+              style={{
+                height: 'clamp(38px, 5.5vw, 48px)',
+                width: 'auto',
+                objectFit: 'contain',
+                filter: 'drop-shadow(0 2px 10px rgba(139,92,246,0.3))',
+              }}
             />
-         
-          </button>
+          </div>
 
           {/* Desktop Nav */}
           <nav style={{ display:'flex', alignItems:'center', gap: 4 }} className="hidden-mobile">
@@ -141,6 +192,8 @@ export function Navbar() {
       <style>{`
         @media (max-width: 767px) { .hidden-mobile { display: none !important; } .show-mobile-flex { display: flex !important; } }
         @media (min-width: 768px) { .show-mobile-flex { display: none !important; } }
+        .hover-scale { transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .hover-scale:hover { transform: scale(1.08); }
       `}</style>
     </>
   );
