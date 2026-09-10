@@ -1,5 +1,6 @@
 import { Mail, Phone } from 'lucide-react';
 import { useInView } from '../hooks/useInView';
+import { CyberCard } from '../components/CyberCard';
 
 const CONTACTS = [
   { name: 'Shrihari Chikkodikar', phone: '+91 93804 59314', email: 'shriharichikkodikar@gmail.com' },
@@ -17,13 +18,13 @@ export function ContactSection() {
           Contact <span className="grad-text">Us</span>
         </h2>
 
-        <div ref={ref} style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 24 }}>
+        <div ref={ref} style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 32, padding: '0 10px 10px 0' }}>
           {CONTACTS.map((contact, index) => (
-            <div key={contact.name} className="glass glass-hover" style={{
-              padding: '32px', minWidth: 300, textAlign: 'left',
+            <CyberCard key={contact.name} style={{
+              minWidth: 320, textAlign: 'left',
               opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(24px)',
               transition: `all 0.5s ease ${index * 100}ms`
-            }}>
+            }} innerStyle={{ padding: '32px' }}>
               <h3 className="font-syne" style={{ fontSize: 24, fontWeight: 700, marginBottom: 16 }}>{contact.name}</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 <a href={`tel:${contact.phone.replace(/ /g, '')}`} style={{ display: 'flex', alignItems: 'center', gap: 12, color: 'rgba(221,214,254,.8)', textDecoration: 'none', transition: 'color .2s' }} onMouseEnter={e => e.currentTarget.style.color='#fff'} onMouseLeave={e => e.currentTarget.style.color='rgba(221,214,254,.8)'}>
@@ -35,7 +36,7 @@ export function ContactSection() {
                   <span className="font-inter">{contact.email}</span>
                 </a>
               </div>
-            </div>
+            </CyberCard>
           ))}
         </div>
       </div>

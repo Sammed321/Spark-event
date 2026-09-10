@@ -1,4 +1,5 @@
 import { useInView } from '../hooks/useInView';
+import { CyberCard } from '../components/CyberCard';
 
 const SESSIONS = [
   { id: '01', title: 'Introduction', desc: 'Welcome & Ice Breaking Session' },
@@ -28,14 +29,13 @@ export function WorkshopTimelineSection() {
 
         <div ref={ref} style={{
           display: 'flex', flexDirection: 'column', gap: 24,
-          maxWidth: 800, margin: '0 auto',
+          maxWidth: 800, margin: '0 auto', padding: '0 10px 10px 0'
         }}>
           {SESSIONS.map((session, index) => (
-            <div key={session.id} className="glass glass-hover" style={{
-              display: 'flex', alignItems: 'center', gap: 24, padding: '24px 32px',
+            <CyberCard key={session.id} style={{
               opacity: inView ? 1 : 0, transform: inView ? 'translateX(0)' : 'translateX(-24px)',
               transition: `all 0.5s ease ${index * 80}ms`
-            }}>
+            }} innerStyle={{ display: 'flex', alignItems: 'center', gap: 24, padding: '24px 32px' }}>
               <div className="font-syne grad-text" style={{ fontSize: 36, fontWeight: 800, opacity: 0.8 }}>
                 {session.id}
               </div>
@@ -47,7 +47,7 @@ export function WorkshopTimelineSection() {
                   {session.desc}
                 </p>
               </div>
-            </div>
+            </CyberCard>
           ))}
         </div>
         

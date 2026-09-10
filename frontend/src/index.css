@@ -91,6 +91,113 @@ body {
 }
 
 /* =====================================================
+   CYBER CARD (Sci-Fi Cut-Corner Box with Purple Accent)
+   ===================================================== */
+.cyber-box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Purple offset shadow / backdrop */
+.cyber-box-offset {
+  position: absolute;
+  inset: 0;
+  transform: translate(10px, 10px);
+  background: #7c3aed;
+  clip-path: polygon(
+    22px 0%,
+    calc(100% - 22px) 0%,
+    100% 22px,
+    100% calc(100% - 22px),
+    calc(100% - 22px) 100%,
+    22px 100%,
+    0% calc(100% - 22px),
+    0% 22px
+  );
+  z-index: 1;
+  pointer-events: none;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease, filter 0.3s ease;
+}
+
+/* Glowing pill / tab on right edge */
+.cyber-box-tab {
+  position: absolute;
+  right: -5px;
+  top: 42%;
+  width: 10px;
+  height: 48px;
+  background: #ede9fe;
+  border-radius: 4px;
+  box-shadow: 0 0 14px 2px rgba(168, 85, 247, 0.85), 0 0 4px #fff;
+  z-index: 4;
+  pointer-events: none;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+/* Front card outer layer (Border) */
+.cyber-box-card {
+  position: relative;
+  z-index: 2;
+  background: #8b5cf6;
+  padding: 2px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  clip-path: polygon(
+    22px 0%,
+    calc(100% - 22px) 0%,
+    100% 22px,
+    100% calc(100% - 22px),
+    calc(100% - 22px) 100%,
+    22px 100%,
+    0% calc(100% - 22px),
+    0% 22px
+  );
+  transition: background 0.3s ease, filter 0.3s ease;
+}
+
+/* Front card inner layer (Dark Content Container) */
+.cyber-box-inner {
+  position: relative;
+  z-index: 3;
+  background: linear-gradient(180deg, #090218 0%, #050010 100%);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  clip-path: polygon(
+    21px 0%,
+    calc(100% - 21px) 0%,
+    100% 21px,
+    100% calc(100% - 21px),
+    calc(100% - 21px) 100%,
+    21px 100%,
+    0% calc(100% - 21px),
+    0% 21px
+  );
+  box-sizing: border-box;
+}
+
+/* Hover effects */
+.cyber-box:hover .cyber-box-card {
+  background: #c084fc;
+  filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.5));
+}
+
+.cyber-box:hover .cyber-box-offset {
+  transform: translate(12px, 12px);
+  background: #9333ea;
+  filter: drop-shadow(0 0 15px rgba(124, 58, 237, 0.6));
+}
+
+.cyber-box:hover .cyber-box-tab {
+  box-shadow: 0 0 22px 5px rgba(192, 132, 252, 0.95), 0 0 6px #fff;
+  transform: scaleY(1.08);
+}
+
+
+/* =====================================================
    BUTTONS
    ===================================================== */
 .btn {

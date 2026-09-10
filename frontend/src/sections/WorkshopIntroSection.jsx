@@ -1,5 +1,6 @@
 import { useInView } from '../hooks/useInView';
 import { GraduationCap, Trophy, Gift, BarChart, FileBadge, Handshake } from 'lucide-react';
+import { CyberCard } from '../components/CyberCard';
 
 const CARDS = [
   { Icon: GraduationCap, title:'Expert Training',       desc:'Curriculum delivered by seasoned entrepreneurs and professionals.' },
@@ -73,15 +74,19 @@ export function WorkshopIntroSection() {
         </div>
 
         {/* Cards */}
-        <div ref={gridRef} style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:20 }} className="intro-grid">
+        <div ref={gridRef} style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:24, padding: '0 10px 10px 0' }} className="intro-grid">
           {CARDS.map((c, i) => {
             const IconComponent = c.Icon;
             return (
-            <div key={c.title} className="glass glass-hover" style={{
-              padding:'28px 26px',
-              opacity: gridVis ? 1 : 0, transform: gridVis ? 'translateY(0)' : 'translateY(28px)',
-              transition: `all .55s ease ${i * 70}ms`,
-            }}>
+            <CyberCard
+              key={c.title}
+              style={{
+                opacity: gridVis ? 1 : 0,
+                transform: gridVis ? 'translateY(0)' : 'translateY(28px)',
+                transition: `all .55s ease ${i * 70}ms`,
+              }}
+              innerStyle={{ padding: '28px 24px' }}
+            >
               <div style={{
                 width: 52,
                 height: 52,
@@ -99,7 +104,7 @@ export function WorkshopIntroSection() {
               </div>
               <div className="font-grotesk" style={{ fontSize:15, fontWeight:600, color:'#e9d5ff', marginBottom:8 }}>{c.title}</div>
               <p className="font-inter" style={{ fontSize:13, color:'rgba(196,181,253,.6)', lineHeight:1.65 }}>{c.desc}</p>
-            </div>
+            </CyberCard>
           )})}
         </div>
       </div>

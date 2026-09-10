@@ -1,12 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
 import { useInView } from '../hooks/useInView';
-
-const STATS = [
-  { n: 18000, suf: '+', label: 'Students Reached' },
-  { n: 200, suf: '+', label: 'Workshops Conducted' },
-  { n: 15, suf: '+', label: 'States Covered' },
-  { n: 1, suf: 'K+', label: 'College Partners' },
-];
+import { CyberCard } from '../components/CyberCard';
 
 const PILLARS = [
   { 
@@ -31,22 +24,6 @@ const PILLARS = [
   },
 ];
 
-function Counter({ target, suffix }) {
-  const [count, setCount] = useState(0);
-  const [ref, visible] = useInView();
-  useEffect(() => {
-    if (!visible) return;
-    const dur = 1800, steps = 60, inc = target / steps;
-    let cur = 0;
-    const t = setInterval(() => {
-      cur += inc;
-      if (cur >= target) { setCount(target); clearInterval(t); }
-      else setCount(Math.floor(cur));
-    }, dur / steps);
-    return () => clearInterval(t);
-  }, [visible, target]);
-  return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
-}
 
 export function AboutSection() {
   const [cardRef, cardVisible] = useInView();
@@ -74,14 +51,14 @@ export function AboutSection() {
 
         {/* Main grid */}
         <div style={{
-          display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 28, marginBottom: 52,
+          display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 28,
           opacity: cardVisible ? 1 : 0,
           transform: cardVisible ? 'translateY(0)' : 'translateY(32px)',
           transition: 'all .7s ease',
         }} ref={cardRef} className="about-grid">
 
           {/* Left prose card */}
-          <div className="glass-strong" style={{ padding: '36px 40px' }}>
+          <CyberCard innerStyle={{ padding: '36px 40px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 24 }}>
               <div style={{ width: 4, height: 52, borderRadius: 4, background: 'linear-gradient(to bottom, #7c3aed, #a855f7)', flexShrink: 0 }} />
               <div>
@@ -107,17 +84,16 @@ export function AboutSection() {
                 Official initiative of E-Cell, IIT Bombay X Spark 
               </span>
             </div>
-          </div>
+          </CyberCard>
 
           {/* Right pillars */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }} ref={pillarsRef}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, padding: '0 10px 10px 0' }} ref={pillarsRef}>
             {PILLARS.map((p, i) => (
-              <div key={p.title} className="glass glass-hover" style={{
-                padding: '24px 22px',
+              <CyberCard key={p.title} style={{
                 opacity: pillarsVisible ? 1 : 0,
                 transform: pillarsVisible ? 'translateY(0)' : 'translateY(24px)',
                 transition: `all .6s ease ${i * 80}ms`,
-              }}>
+              }} innerStyle={{ padding: '24px 22px' }}>
                 <div style={{
                   width: 52,
                   height: 52,
@@ -135,34 +111,15 @@ export function AboutSection() {
                 </div>
                 <div className="font-grotesk" style={{ fontSize: 15, fontWeight: 600, color: '#e9d5ff', marginBottom: 8 }}>{p.title}</div>
                 <p className="font-inter" style={{ fontSize: 13, color: 'rgba(196,181,253,.6)', lineHeight: 1.65 }}>{p.desc}</p>
-              </div>
+              </CyberCard>
             ))}
           </div>
         </div>
 
-        {/* Stats row */}
-        <div style={{ textAlign: 'center', marginBottom: 20 }}>
-          <span className="eyebrow" style={{ marginBottom: 28 }}>Previous Year Highlights</span>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }} className="stats-grid">
-          {STATS.map((s, i) => (
-            <div key={s.label} className="glass-strong" style={{
-              padding: '20px 12px', textAlign: 'center',
-              border: '1px solid rgba(139,92,246,.22)',
-              borderRadius: 20,
-            }}>
-              <div className="font-syne grad-text" style={{ fontSize: 'clamp(20px,3.5vw,34px)', fontWeight: 700, lineHeight: 1 }}>
-                <Counter target={s.n} suffix={s.suf} />
-              </div>
-              <div className="font-inter" style={{ fontSize: 13, color: 'rgba(196,181,253,.55)', marginTop: 8 }}>{s.label}</div>
-            </div>
-          ))}
-        </div>
       </div>
 
       <style>{`
         @media (max-width: 900px) { .about-grid { grid-template-columns: 1fr !important; } }
-        @media (max-width: 640px) { .stats-grid { grid-template-columns: 1fr 1fr !important; } }
       `}</style>
     </section>
   );
