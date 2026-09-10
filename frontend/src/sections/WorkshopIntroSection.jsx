@@ -75,7 +75,7 @@ export function WorkshopIntroSection() {
         </div>
 
         {/* Cards */}
-        <div ref={gridRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24, padding: '0 10px 10px 0' }} className="intro-grid">
+        <div ref={gridRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24, padding: '0 6px 6px 0' }} className="intro-grid">
           {CARDS.map((c, i) => {
             const IconComponent = c.Icon;
             return (

@@ -36,8 +36,8 @@ export function HeroSection() {
         transform: 'translate(-50%, -50%)',
         zIndex: 1,
         pointerEvents: 'none',
-        opacity: 0.5,
-        filter: 'blur(35px)',
+        opacity: 0.55,
+        filter: 'blur(80px)',
       }} aria-hidden="true">
         <FluidOrb size={460} color="#7c3aed" />
       </div>
@@ -49,6 +49,7 @@ export function HeroSection() {
         zIndex: 2,
         pointerEvents: 'none',
         opacity: 0.35,
+        filter: 'blur(50px)',
       }} aria-hidden="true">
         <FluidOrb size={280} color="#c084fc" />
       </div>

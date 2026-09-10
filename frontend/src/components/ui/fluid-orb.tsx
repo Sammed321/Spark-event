@@ -79,7 +79,7 @@ void main() {
   col = mix(col, light, smoothstep(0.28, 0.52, shade));
   col = mix(col, dark, smoothstep(0.58, 0.88, shade));
 
-  float edge = smoothstep(0.5, 0.49, distance(uv, vec2(0.5)));
+  float edge = smoothstep(0.5, 0.25, distance(uv, vec2(0.5)));
 
   gl_FragColor = vec4(col * edge, edge);
 }

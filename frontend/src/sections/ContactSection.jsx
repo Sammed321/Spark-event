@@ -18,7 +18,7 @@ export function ContactSection() {
           Contact <span className="grad-text">Us</span>
         </h2>
 
-        <div ref={ref} style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 32, padding: '0 10px 10px 0' }}>
+        <div ref={ref} style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 32, padding: '0 6px 6px 0' }}>
           {CONTACTS.map((contact, index) => (
             <CyberCard key={contact.name} style={{
               width: '100%', maxWidth: 360, minWidth: 'min(300px, 100%)', textAlign: 'left',

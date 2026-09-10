@@ -156,7 +156,7 @@ h1, h2, h3, h4, h5, h6 {
 .cyber-box-offset {
   position: absolute;
   inset: 0;
-  transform: translate(10px, 10px);
+  transform: translate(4px, 4px);
   background: #7c3aed;
   clip-path: polygon(
     22px 0%,
@@ -176,13 +176,13 @@ h1, h2, h3, h4, h5, h6 {
 /* Glowing pill / tab on right edge */
 .cyber-box-tab {
   position: absolute;
-  right: -5px;
+  right: -3px;
   top: 42%;
-  width: 10px;
-  height: 48px;
+  width: 7px;
+  height: 36px;
   background: #ede9fe;
-  border-radius: 4px;
-  box-shadow: 0 0 14px 2px rgba(168, 85, 247, 0.85), 0 0 4px #fff;
+  border-radius: 3px;
+  box-shadow: 0 0 12px 2px rgba(168, 85, 247, 0.8), 0 0 4px #fff;
   z-index: 4;
   pointer-events: none;
   transition: box-shadow 0.3s ease, transform 0.3s ease;
@@ -238,13 +238,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .cyber-box:hover .cyber-box-offset {
-  transform: translate(12px, 12px);
+  transform: translate(6px, 6px);
   background: #9333ea;
-  filter: drop-shadow(0 0 15px rgba(124, 58, 237, 0.6));
+  filter: drop-shadow(0 0 12px rgba(124, 58, 237, 0.5));
 }
 
 .cyber-box:hover .cyber-box-tab {
-  box-shadow: 0 0 22px 5px rgba(192, 132, 252, 0.95), 0 0 6px #fff;
+  box-shadow: 0 0 18px 4px rgba(192, 132, 252, 0.95), 0 0 6px #fff;
   transform: scaleY(1.08);
 }
 
@@ -469,7 +469,7 @@ input:-webkit-autofill:focus {
 }
 
 .cyber-box.session-active .cyber-box-offset {
-  transform: translate(12px, 12px) !important;
+  transform: translate(6px, 6px) !important;
   background: #9333ea !important;
   filter: drop-shadow(0 0 20px rgba(147, 51, 234, 0.7)) !important;
 }

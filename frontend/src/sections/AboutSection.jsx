@@ -87,7 +87,7 @@ export function AboutSection() {
           </CyberCard>
 
           {/* Right pillars */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, padding: '0 10px 10px 0' }} ref={pillarsRef} className="pillars-grid">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, padding: '0 6px 6px 0' }} ref={pillarsRef} className="pillars-grid">
             {PILLARS.map((p, i) => (
               <CyberCard key={p.title} style={{
                 opacity: pillarsVisible ? 1 : 0,
