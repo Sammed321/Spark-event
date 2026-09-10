@@ -1,5 +1,39 @@
-@import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Syne:wght@400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400..800;1,7..72,400..800&family=Lora:ital,wght@0,400..700;1,400..700&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
+
+/* =====================================================
+   COPERNICUS (CLAUDE-STYLE EDITORIAL SERIF TYPOGRAPHY)
+   ===================================================== */
+@font-face {
+  font-family: 'Copernicus';
+  src: url('/fonts/Copernicus-Book.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Copernicus';
+  src: url('/fonts/Copernicus-Semibold.woff2') format('woff2');
+  font-weight: 500 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Copernicus';
+  src: url('/fonts/Copernicus-Bold.woff2') format('woff2');
+  font-weight: 700 800 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --background: #0d0221;
+  --foreground: #ede9fe;
+  --border: rgba(139, 92, 246, 0.35);
+  --muted: rgba(124, 58, 237, 0.2);
+}
 
 /* =====================================================
    GLOBAL RESET & BASE
@@ -28,10 +62,28 @@ body {
 :focus-visible { outline: 2px solid #8b5cf6; outline-offset: 3px; border-radius: 6px; }
 
 /* =====================================================
-   TYPOGRAPHY HELPERS
+   TYPOGRAPHY HELPERS & HEADINGS
    ===================================================== */
-.font-syncopate { font-family: 'Syncopate', sans-serif !important; }
-.font-syne    { font-family: 'Syncopate', sans-serif !important; }
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Copernicus', 'Literata', 'Lora', Georgia, serif;
+  letter-spacing: -0.012em;
+}
+
+.font-copernicus {
+  font-family: 'Copernicus', 'Literata', 'Lora', Georgia, serif !important;
+  letter-spacing: -0.012em;
+}
+
+.font-syne {
+  font-family: 'Copernicus', 'Literata', 'Lora', Georgia, serif !important;
+  letter-spacing: -0.012em;
+}
+
+.font-syncopate {
+  font-family: 'Copernicus', 'Literata', 'Lora', Georgia, serif !important;
+  letter-spacing: -0.012em;
+}
+
 .font-grotesk { font-family: 'Space Grotesk', sans-serif !important; }
 .font-inter   { font-family: 'Inter', sans-serif !important; }
 

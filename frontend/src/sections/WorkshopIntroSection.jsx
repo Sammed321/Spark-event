@@ -1,6 +1,7 @@
 import { useInView } from '../hooks/useInView';
 import { GraduationCap, Trophy, Gift, BarChart, FileBadge, Handshake } from 'lucide-react';
 import { CyberCard } from '../components/CyberCard';
+import FolderComponent from '../components/ui/folder-component';
 
 const CARDS = [
   { Icon: GraduationCap, title:'Expert Training',       desc:'Curriculum delivered by seasoned entrepreneurs and professionals.' },
@@ -134,6 +135,50 @@ export function WorkshopIntroSection() {
               </p>
             </CyberCard>
           )})}
+        </div>
+
+        {/* Rare UI Interactive 3D Folder: Startup Kit & BMC */}
+        <div style={{
+          marginTop: 64,
+          borderRadius: 32,
+          background: 'linear-gradient(145deg, rgba(124, 58, 237, 0.1) 0%, rgba(88, 28, 135, 0.05) 100%)',
+          border: '1px solid rgba(167, 139, 250, 0.25)',
+          padding: '48px 40px',
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 36,
+          position: 'relative',
+          overflow: 'hidden',
+          boxShadow: '0 24px 64px rgba(0,0,0,0.4)',
+        }} className="glass-spotlight">
+          <div style={{ flex: '1 1 340px', textAlign: 'left' }}>
+            <span className="eyebrow" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 16 }}>
+              ✦ Interactive Kit
+            </span>
+            <h3 className="font-copernicus" style={{ fontSize: 'clamp(26px, 3.5vw, 36px)', fontWeight: 700, color: '#fff', lineHeight: 1.2, marginBottom: 14 }}>
+              Exclusive <span className="grad-text">Startup Kit & BMC</span>
+            </h3>
+            <p className="font-inter" style={{ fontSize: 15, color: 'rgba(196, 181, 253, 0.72)', lineHeight: 1.7, marginBottom: 24, maxWidth: 460 }}>
+              Every participant receives curated entrepreneurship assets. Hover over the folder to fan out the resources, and click to inspect the official toolkit!
+            </p>
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+              <div style={{ background: 'rgba(124, 58, 237, 0.18)', padding: '6px 14px', borderRadius: 12, fontSize: 13, color: '#e879f9', border: '1px solid rgba(167, 139, 250, 0.3)' }}>
+                ✦ Business Model Canvas
+              </div>
+              <div style={{ background: 'rgba(124, 58, 237, 0.18)', padding: '6px 14px', borderRadius: 12, fontSize: 13, color: '#e879f9', border: '1px solid rgba(167, 139, 250, 0.3)' }}>
+                ✦ Pitch Deck Template
+              </div>
+              <div style={{ background: 'rgba(124, 58, 237, 0.18)', padding: '6px 14px', borderRadius: 12, fontSize: 13, color: '#e879f9', border: '1px solid rgba(167, 139, 250, 0.3)' }}>
+                ✦ Curated Resource Vault
+              </div>
+            </div>
+          </div>
+
+          <div style={{ flex: '1 1 300px', display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 280 }}>
+            <FolderComponent color="black" size="md" />
+          </div>
         </div>
       </div>
 

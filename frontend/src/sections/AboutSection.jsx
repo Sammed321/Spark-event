@@ -62,7 +62,7 @@ export function AboutSection() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 24 }}>
               <div style={{ width: 4, height: 52, borderRadius: 4, background: 'linear-gradient(to bottom, #7c3aed, #a855f7)', flexShrink: 0 }} />
               <div>
-                <div className="font-syne" style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.18em', color: '#a78bfa', textTransform: 'uppercase' }}>
+                <div className="font-grotesk" style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.18em', color: '#a78bfa', textTransform: 'uppercase' }}>
                   Entrepreneurship Cell X Spark
                 </div>
                 <div className="font-syne" style={{ fontSize: 22, fontWeight: 800, color: '#fff' }}>IIT Bombay</div>

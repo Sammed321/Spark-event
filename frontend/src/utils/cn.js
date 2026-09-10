@@ -1,1 +1,5 @@
-export const cn = (...c) => c.filter(Boolean).join(' ');
+import { clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+export const cn = (...c) => twMerge(clsx(c));
+

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { submitRegistration } from '../services/registrationService';
 import { createPaymentOrder, verifyPayment, WORKSHOP_FEE } from '../services/paymentService';
 import { CheckCircle, AlertCircle, Loader2, Ticket, Sparkles } from 'lucide-react';
+import FluidOrb from '../components/ui/fluid-orb';
 
 export function RegistrationSection() {
   const [step, setStep] = useState(1); // 1: Form, 2: Summary, 3: Processing, 4: Success, 5: Error
@@ -96,7 +97,12 @@ export function RegistrationSection() {
               {/* Holographic shimmer */}
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.08) 25%, transparent 30%)', backgroundSize: '200% 100%', animation: 'shimmer 4s infinite linear', pointerEvents: 'none' }} />
               
-              <div style={{ flex: 1 }}>
+              {/* Rare UI Fluid Orb inside ticket pass */}
+              <div style={{ position: 'absolute', top: 16, right: 16, pointerEvents: 'none', opacity: 0.45, zIndex: 1 }} aria-hidden="true">
+                <FluidOrb size={130} color="#c084fc" />
+              </div>
+
+              <div style={{ flex: 1, position: 'relative', zIndex: 2 }}>
                 <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(124,58,237,0.2)', padding: '6px 14px', borderRadius: 20, marginBottom: 32, border: '1px solid rgba(167,139,250,0.3)' }}>
                   <Ticket size={16} color="#e879f9" />
                   <span className="font-grotesk" style={{ fontSize: 12, fontWeight: 600, color: '#e879f9', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Official Event Pass</span>
@@ -112,12 +118,12 @@ export function RegistrationSection() {
               </div>
 
               {/* Ticket perforated tear line */}
-              <div className="ticket-tear" style={{ borderTop: '2px dashed rgba(167,139,250,0.3)', margin: '0 -48px 32px -48px', position: 'relative' }}>
+              <div className="ticket-tear" style={{ borderTop: '2px dashed rgba(167,139,250,0.3)', margin: '0 -48px 32px -48px', position: 'relative', zIndex: 2 }}>
                 <div style={{ position: 'absolute', top: -16, left: -16, width: 32, height: 32, borderRadius: '50%', background: '#05000e', borderRight: '2px solid rgba(167,139,250,0.3)' }} />
                 <div style={{ position: 'absolute', top: -16, right: -16, width: 32, height: 32, borderRadius: '50%', background: '#05000e', borderLeft: '2px solid rgba(167,139,250,0.3)' }} />
               </div>
               
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', position: 'relative', zIndex: 2 }}>
                 <div>
                   <div className="font-grotesk" style={{ fontSize: 12, color: 'rgba(196,181,253,0.5)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 6 }}>Venue</div>
                   <div className="font-inter" style={{ fontWeight: 600, color: '#e9d5ff', fontSize: 15 }}>TBA / On-Campus</div>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Calendar, Clock, Users, ChevronDown, IndianRupee } from 'lucide-react';
+import FluidOrb from '../components/ui/fluid-orb';
 
 const PARTICLES = Array.from({ length: 24 }, () => ({
   w: Math.random() * 3 + 2,
@@ -26,6 +27,31 @@ export function HeroSection() {
 
       {/* Grid overlay */}
       <div className="grid-bg" style={{ position:'absolute', inset:0, opacity:.4, pointerEvents:'none' }} />
+
+      {/* Rare UI Fluid Orb - Dynamic interactive WebGL fluid background */}
+      <div style={{
+        position: 'absolute',
+        top: '38%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 1,
+        pointerEvents: 'none',
+        opacity: 0.5,
+        filter: 'blur(35px)',
+      }} aria-hidden="true">
+        <FluidOrb size={460} color="#7c3aed" />
+      </div>
+      <div style={{
+        position: 'absolute',
+        top: '36%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 2,
+        pointerEvents: 'none',
+        opacity: 0.35,
+      }} aria-hidden="true">
+        <FluidOrb size={280} color="#c084fc" />
+      </div>
 
       {/* Orbs */}
       <div className="orb" style={{ width:700, height:700, top:'50%', left:'50%', transform:'translate(-50%,-55%)',
@@ -120,13 +146,14 @@ export function HeroSection() {
           opacity: ready ? 1 : 0, transform: ready ? 'translateY(0)' : 'translateY(20px)',
           transition: 'all .7s ease .45s',
         }}>
-          <p className="font-inter" style={{
-            fontSize: 'clamp(16px, 2vw, 20px)', lineHeight: 1.65,
-            color: 'rgba(221,214,254,.65)', maxWidth: 560, margin: '0 auto 36px',
+          <h1 className="font-copernicus" style={{
+            fontSize: 'clamp(17px, 2.2vw, 22px)', lineHeight: 1.6,
+            color: 'rgba(221,214,254,.85)', maxWidth: 580, margin: '0 auto 36px',
+            fontWeight: 400,
           }}>
             Empowering the Next Generation of{' '}
             <span className="grad-text" style={{ fontWeight: 600 }}>Changemakers</span>
-          </p>
+          </h1>
         </div>
 
         {/* CTAs */}

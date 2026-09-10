@@ -47,7 +47,7 @@ function App() {
           width: '100vw',
           height: '100vh',
           pointerEvents: 'none',
-          zIndex: 99,
+          zIndex: 40,
           background: `radial-gradient(600px circle at ${cursorPos.x}px ${cursorPos.y}px, rgba(168, 85, 247, 0.08), transparent 80%)`,
           transition: 'background 0.05s ease-out',
         }}
