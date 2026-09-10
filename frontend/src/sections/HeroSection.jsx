@@ -80,13 +80,19 @@ export function HeroSection() {
           opacity: ready ? 1 : 0, transform: ready ? 'translateY(0)' : 'translateY(30px)',
           transition: 'all .8s ease .25s',
         }}>
-          <h1 className="shimmer font-syncopate" style={{
-            fontSize: 'clamp(72px, 14vw, 160px)',
-            fontWeight: 800, lineHeight: 1, letterSpacing: '-0.02em',
-            marginBottom: 12,
-          }}>
-            ILLUMINATE
-          </h1>
+          <div style={{ marginBottom: 12, display: 'flex', justifyContent: 'center' }}>
+            <img
+              src="/logo2.png"
+              alt="Illuminate"
+              style={{
+                height: 'clamp(80px, 14vw, 160px)',
+                width: 'auto',
+                objectFit: 'contain',
+                filter: 'drop-shadow(0 0 32px rgba(139,92,246,.5))',
+                display: 'block',
+              }}
+            />
+          </div>
           <p className="font-grotesk" style={{
             fontSize: 'clamp(16px, 2.5vw, 24px)',
             color: 'rgba(196,181,253,.8)', fontWeight: 400, letterSpacing: '0.06em',

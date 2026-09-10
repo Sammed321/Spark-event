@@ -6,7 +6,6 @@ const LINKS = [
   { label: 'Home',     id: 'home' },
   { label: 'About',    id: 'about' },
   { label: 'Workshop', id: 'workshop' },
-  { label: 'Benefits', id: 'benefits' },
   { label: 'Register', id: 'register' },
   { label: 'Contact',  id: 'contact' },
 ];
@@ -52,19 +51,12 @@ export function Navbar() {
             background: 'none', border: 'none', cursor: 'pointer',
             display: 'flex', alignItems: 'center', gap: 10,
           }}>
-            <div style={{
-              width: 34, height: 34, borderRadius: 10,
-              background: 'linear-gradient(135deg, #7c3aed, #a855f7)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: '0 0 16px rgba(124,58,237,.6)',
-            }}>
-              {/* Star icon */}
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
-                <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
-              </svg>
-            </div>
-            <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 18, letterSpacing: '0.12em' }}
-              className="shimmer">ILLUMINATE</span>
+            <img
+              src="/logo2.png"
+              alt="Illuminate logo"
+              style={{ height: 52, width: 'auto', objectFit: 'contain' }}
+            />
+         
           </button>
 
           {/* Desktop Nav */}
