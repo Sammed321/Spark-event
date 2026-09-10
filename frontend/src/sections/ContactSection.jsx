@@ -2,8 +2,8 @@ import { Mail, Phone } from 'lucide-react';
 import { useInView } from '../hooks/useInView';
 
 const CONTACTS = [
-  { name: 'Rachit Kumar', phone: '+91 9719362033', email: 'rachit@ecell.in' },
-  { name: 'Abhishek Gill', phone: '+91 8619283450', email: 'abhishek@ecell.in' },
+  { name: 'Shrihari Chikkodikar', phone: '+91 93804 59314', email: 'shriharichikkodikar@gmail.com' },
+  { name: 'Rishabh Kinnal', phone: '+91 8088712630', email: 'kinnalrish315@gmail.com' },
 ];
 
 export function ContactSection() {
