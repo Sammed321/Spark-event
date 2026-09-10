@@ -4,6 +4,7 @@ import { submitRegistration } from '../services/registrationService';
 import { createPaymentOrder, verifyPayment, WORKSHOP_FEE } from '../services/paymentService';
 import { CheckCircle, AlertCircle, Loader2, Ticket, Sparkles } from 'lucide-react';
 import FluidOrb from '../components/ui/fluid-orb';
+import { playPaymentSuccessSound } from '../utils/paymentSound';
 
 export function RegistrationSection() {
   const [step, setStep] = useState(1); // 1: Form, 2: Summary, 3: Processing, 4: Success, 5: Error
@@ -53,7 +54,7 @@ export function RegistrationSection() {
       if (verifyRes.verified) {
         setPaymentDetails(verifyRes);
         setStep(4); // Success
-        play('success');
+        playPaymentSuccessSound();
       } else {
         setErrorMsg(verifyRes.message || "Payment verification failed.");
         setStep(5); // Error
@@ -138,7 +139,7 @@ export function RegistrationSection() {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', position: 'relative', zIndex: 2 }}>
                 <div>
                   <div className="font-grotesk" style={{ fontSize: 12, color: 'rgba(196,181,253,0.5)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 6 }}>Venue</div>
-                  <div className="font-inter" style={{ fontWeight: 600, color: '#e9d5ff', fontSize: 15 }}>TBA / On-Campus</div>
+                  <div className="font-inter" style={{ fontWeight: 600, color: '#e9d5ff', fontSize: 15 }}>KLS GOGTE INSTITUTE OF TECHNOLOGY SJ AUDITORIUM</div>
                 </div>
                 <div style={{ textAlign: 'right' }}>
                   <div className="font-grotesk" style={{ fontSize: 12, color: 'rgba(196,181,253,0.5)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 6 }}>Fee per student</div>
