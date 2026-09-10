@@ -53,7 +53,7 @@ export function WorkshopIntroSection() {
 
           <div>
             <div className="font-inter" style={{ fontSize:12, color:'rgba(196,181,253,.5)', textTransform:'uppercase', letterSpacing:'0.14em', marginBottom:6 }}>All-Inclusive Workshop Fee</div>
-            <div className="font-syne grad-text" style={{ fontSize:'clamp(40px,6vw,68px)', fontWeight:700, lineHeight:1 }}>₹799</div>
+            <div className="font-syne grad-text" style={{ fontSize:'clamp(40px,6vw,68px)', fontWeight:700, lineHeight:1 }}>₹699</div>
             <div className="font-inter" style={{ fontSize:14, color:'rgba(196,181,253,.5)', marginTop:4 }}>per student</div>
           </div>
 

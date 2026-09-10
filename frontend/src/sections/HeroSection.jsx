@@ -149,7 +149,7 @@ export function HeroSection() {
           display:'flex', flexWrap:'wrap', gap:12, justifyContent:'center',
         }}>
           {[
-            { icon: '₹', label: '₹799', sub: 'Per Student' },
+            { icon: '₹', label: '₹699', sub: 'Per Student' },
             { icon: null, label: '6 Hours', sub: 'Duration', lucide: Clock },
             { icon: null, label: '70+', sub: 'Participants', lucide: Users },
             { icon: null, label: 'Jul – Oct 2026', sub: 'Date Range', lucide: Calendar },

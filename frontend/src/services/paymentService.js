@@ -6,7 +6,7 @@
  *
  * Backend developer: implement the TODOs below.
  */
-export const WORKSHOP_FEE = 799; // INR
+export const WORKSHOP_FEE = 699; // INR
 const BASE = import.meta.env.VITE_API_BASE ?? '';
 
 /**
