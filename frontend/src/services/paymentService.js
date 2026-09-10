@@ -7,14 +7,14 @@
  * Backend developer: implement the TODOs below.
  */
 export const WORKSHOP_FEE = 699; // INR
-const BASE = import.meta.env.VITE_API_BASE ?? '';
+const _BASE = import.meta.env.VITE_API_BASE ?? '';
 
 /**
  * POST /api/payments/create-order
  * Returns: { orderId, amount, currency, keyId }
  * keyId is the PUBLIC key only — never the secret.
  */
-export async function createPaymentOrder(params) {
+export async function createPaymentOrder(_params) {
   // TODO:
   // const res = await fetch(`${BASE}/api/payments/create-order`, {
   //   method: 'POST',
@@ -32,7 +32,7 @@ export async function createPaymentOrder(params) {
  * Backend must verify HMAC-SHA256 signature — NEVER do this on frontend.
  * Returns: { verified, registrationId, message }
  */
-export async function verifyPayment(data) {
+export async function verifyPayment(_data) {
   // TODO:
   // const res = await fetch(`${BASE}/api/payments/verify`, {
   //   method: 'POST',

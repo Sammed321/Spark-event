@@ -2,11 +2,12 @@ export function Footer() {
   const goto = id => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   const LINKS = [
-    { label: 'Home',     id: 'home' },
-    { label: 'About',    id: 'about' },
-    { label: 'Workshop', id: 'workshop' },
-    { label: 'Register', id: 'register' },
-    { label: 'Contact',  id: 'contact' },
+    { label: 'Home',      id: 'home' },
+    { label: 'About',     id: 'about' },
+    { label: 'Workshop',  id: 'workshop' },
+    { label: 'Structure', id: 'timeline' },
+    { label: 'Register',  id: 'register' },
+    { label: 'Contact',   id: 'contact' },
   ];
 
   return (
@@ -14,11 +15,11 @@ export function Footer() {
       <div className="container">
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', gap: 48, marginBottom: 64 }}>
           
-          <div style={{ maxWidth: 300 }}>
+          <div style={{ maxWidth: 320 }}>
             <h2 className="font-syne" style={{ fontSize: 28, fontWeight: 800, marginBottom: 12 }}>ILLUMINATE</h2>
-            <p className="font-inter" style={{ fontSize: 14, color: 'rgba(196,181,253,0.6)', lineHeight: 1.6 }}>
+            <p className="font-inter" style={{ fontSize: 14, color: 'rgba(196,181,253,0.65)', lineHeight: 1.65 }}>
               Entrepreneurship Workshop<br />
-              by E-Cell, IIT Bombay
+              by E-Cell, IIT Bombay X Spark
             </p>
           </div>
 

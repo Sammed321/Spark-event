@@ -3,11 +3,12 @@ import { Menu, X } from 'lucide-react';
 import { useScrolled } from '../hooks/useScrolled';
 
 const LINKS = [
-  { label: 'Home',     id: 'home' },
-  { label: 'About',    id: 'about' },
-  { label: 'Workshop', id: 'workshop' },
-  { label: 'Register', id: 'register' },
-  { label: 'Contact',  id: 'contact' },
+  { label: 'Home',      id: 'home' },
+  { label: 'About',     id: 'about' },
+  { label: 'Workshop',  id: 'workshop' },
+  { label: 'Structure', id: 'timeline' },
+  { label: 'Register',  id: 'register' },
+  { label: 'Contact',   id: 'contact' },
 ];
 
 const goto = id => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });

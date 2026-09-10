@@ -42,7 +42,7 @@ export function AboutSection() {
         <div style={{ textAlign: 'center', marginBottom: 64 }}>
           <span className="eyebrow">Who We Are</span>
           <h2 className="font-syne" style={{ fontSize: 'clamp(32px,5vw,52px)', fontWeight: 800, color: '#fff', lineHeight: 1.15 }}>
-            About <span className="grad-text">E-Cell, IIT Bombay X Spark </span>
+            About <span className="grad-text">E-Cell, IIT Bombay X Spark</span>
           </h2>
           <p className="font-inter" style={{ fontSize: 16, color: 'rgba(196,181,253,.65)', maxWidth: 580, margin: '16px auto 0', lineHeight: 1.75 }}>
             One of India's most prominent platforms for nurturing young entrepreneurs — connecting students, startups, professionals and academia.
@@ -63,7 +63,7 @@ export function AboutSection() {
               <div style={{ width: 4, height: 52, borderRadius: 4, background: 'linear-gradient(to bottom, #7c3aed, #a855f7)', flexShrink: 0 }} />
               <div>
                 <div className="font-syne" style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.18em', color: '#a78bfa', textTransform: 'uppercase' }}>
-                  Entrepreneurship Cell X Spark 
+                  Entrepreneurship Cell X Spark
                 </div>
                 <div className="font-syne" style={{ fontSize: 22, fontWeight: 800, color: '#fff' }}>IIT Bombay</div>
               </div>
@@ -81,13 +81,13 @@ export function AboutSection() {
             }}>
               <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#a78bfa', animation: 'pulse 2s ease-in-out infinite', display: 'block' }} />
               <span className="font-grotesk" style={{ fontSize: 12, color: '#c4b5fd', letterSpacing: '0.06em' }}>
-                Official initiative of E-Cell, IIT Bombay X Spark 
+                Official initiative of E-Cell, IIT Bombay X Spark
               </span>
             </div>
           </CyberCard>
 
           {/* Right pillars */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, padding: '0 10px 10px 0' }} ref={pillarsRef}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, padding: '0 10px 10px 0' }} ref={pillarsRef} className="pillars-grid">
             {PILLARS.map((p, i) => (
               <CyberCard key={p.title} style={{
                 opacity: pillarsVisible ? 1 : 0,
@@ -120,6 +120,7 @@ export function AboutSection() {
 
       <style>{`
         @media (max-width: 900px) { .about-grid { grid-template-columns: 1fr !important; } }
+        @media (max-width: 580px) { .pillars-grid { grid-template-columns: 1fr !important; } }
       `}</style>
     </section>
   );

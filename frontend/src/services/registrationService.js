@@ -5,10 +5,10 @@
  * Backend developer: implement the TODOs below.
  * Set VITE_API_BASE in .env:  VITE_API_BASE=https://api.your-backend.com
  */
-const BASE = import.meta.env.VITE_API_BASE ?? '';
+const _BASE = import.meta.env.VITE_API_BASE ?? '';
 
 /** POST /api/registrations  →  { success, registrationId, message } */
-export async function submitRegistration(data) {
+export async function submitRegistration(_data) {
   // TODO: replace with real API call
   // const res = await fetch(`${BASE}/api/registrations`, {
   //   method: 'POST',

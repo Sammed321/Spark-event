@@ -91,7 +91,7 @@ export function RegistrationSection() {
               display: 'flex',
               flexDirection: 'column',
               minHeight: 480
-            }} className="glass-spotlight">
+            }} className="glass-spotlight ticket-card">
               
               {/* Holographic shimmer */}
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.08) 25%, transparent 30%)', backgroundSize: '200% 100%', animation: 'shimmer 4s infinite linear', pointerEvents: 'none' }} />
@@ -112,7 +112,7 @@ export function RegistrationSection() {
               </div>
 
               {/* Ticket perforated tear line */}
-              <div style={{ borderTop: '2px dashed rgba(167,139,250,0.3)', margin: '0 -48px 32px -48px', position: 'relative' }}>
+              <div className="ticket-tear" style={{ borderTop: '2px dashed rgba(167,139,250,0.3)', margin: '0 -48px 32px -48px', position: 'relative' }}>
                 <div style={{ position: 'absolute', top: -16, left: -16, width: 32, height: 32, borderRadius: '50%', background: '#05000e', borderRight: '2px solid rgba(167,139,250,0.3)' }} />
                 <div style={{ position: 'absolute', top: -16, right: -16, width: 32, height: 32, borderRadius: '50%', background: '#05000e', borderLeft: '2px solid rgba(167,139,250,0.3)' }} />
               </div>
@@ -159,12 +159,12 @@ export function RegistrationSection() {
                   <div>
                     <select className={`field-input ${errors.source ? 'error' : ''}`} name="source" value={formData.source} onChange={handleChange} style={{ color: formData.source ? '#ede9fe' : 'rgba(196,181,253,.35)' }}>
                       <option value="" disabled>How did you hear about us?</option>
-                      <option value="College" style={{ color: '#000' }}>College</option>
-                      <option value="Friend" style={{ color: '#000' }}>Friend</option>
-                      <option value="Social Media" style={{ color: '#000' }}>Social Media</option>
-                      <option value="WhatsApp" style={{ color: '#000' }}>WhatsApp</option>
-                      <option value="Instagram" style={{ color: '#000' }}>Instagram</option>
-                      <option value="Other" style={{ color: '#000' }}>Other</option>
+                      <option value="College">College</option>
+                      <option value="Friend">Friend</option>
+                      <option value="Social Media">Social Media</option>
+                      <option value="WhatsApp">WhatsApp</option>
+                      <option value="Instagram">Instagram</option>
+                      <option value="Other">Other</option>
                     </select>
                     {errors.source && <div style={{ color: '#f87171', fontSize: 12, marginTop: 6 }}>{errors.source}</div>}
                   </div>
@@ -251,8 +251,10 @@ export function RegistrationSection() {
           .reg-grid { grid-template-columns: 1fr; gap: 32px; }
           .reg-grid > div:first-child { max-width: 500px; margin: 0 auto; width: 100%; }
         }
-        @media (max-width: 500px) {
-          .glass-strong.neon-card { padding: 32px !important; }
+        @media (max-width: 580px) {
+          .glass-strong.neon-card { padding: 32px 20px !important; border-radius: 24px !important; }
+          .ticket-card { padding: 32px 20px !important; border-radius: 24px !important; }
+          .ticket-tear { margin: 0 -20px 24px -20px !important; }
         }
       `}</style>
     </section>

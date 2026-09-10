@@ -1,7 +1,7 @@
-import { useEffect, useState, useRef } from 'react';
-import { Calendar, Clock, Users, ChevronDown } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Calendar, Clock, Users, ChevronDown, IndianRupee } from 'lucide-react';
 
-const PARTICLES = Array.from({ length: 24 }, (_, i) => ({
+const PARTICLES = Array.from({ length: 24 }, () => ({
   w: Math.random() * 3 + 2,
   x: Math.random() * 100,
   y: Math.random() * 100,
@@ -71,7 +71,7 @@ export function HeroSection() {
           transition: 'all .7s ease .1s',
         }}>
           <span className="eyebrow">
-            ✦ &nbsp; E-Cell, IIT Bombay X Spark Presents 
+            ✦ &nbsp; E-Cell, IIT Bombay X Spark Presents
           </span>
         </div>
 
@@ -98,7 +98,7 @@ export function HeroSection() {
             color: 'rgba(196,181,253,.8)', fontWeight: 400, letterSpacing: '0.06em',
             marginBottom: 0,
           }}>
-            Entrepreneurship Workshop &nbsp;·&nbsp; E-Cell, IIT Bombay X Spark 
+            Entrepreneurship Workshop &nbsp;·&nbsp; E-Cell, IIT Bombay X Spark
           </p>
         </div>
 
@@ -149,10 +149,10 @@ export function HeroSection() {
           display:'flex', flexWrap:'wrap', gap:12, justifyContent:'center',
         }}>
           {[
-            { icon: '₹', label: '₹699', sub: 'Per Student' },
-            { icon: null, label: '6 Hours', sub: 'Duration', lucide: Clock },
-            { icon: null, label: '70+', sub: 'Participants', lucide: Users },
-            { icon: null, label: 'Jul – Oct 2026', sub: 'Date Range', lucide: Calendar },
+            { label: '₹699', sub: 'Per Student', lucide: IndianRupee },
+            { label: '6 Hours', sub: 'Duration', lucide: Clock },
+            { label: '70+', sub: 'Participants', lucide: Users },
+            { label: 'Jul – Oct 2026', sub: 'Date Range', lucide: Calendar },
           ].map(({ label, sub, lucide: Icon }) => (
             <div key={label} style={{
               display:'flex', alignItems:'center', gap:10,

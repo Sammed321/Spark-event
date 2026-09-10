@@ -52,21 +52,21 @@ export function WorkshopIntroSection() {
           <div style={{ position:'absolute', bottom:0, left:0, right:0, height:1,
             background:'linear-gradient(to right, transparent, rgba(167,139,250,.7), transparent)' }} aria-hidden="true" />
 
-          <div>
-            <div className="font-inter" style={{ fontSize:12, color:'rgba(196,181,253,.5)', textTransform:'uppercase', letterSpacing:'0.14em', marginBottom:6 }}>All-Inclusive Workshop Fee</div>
-            <div className="font-syne grad-text" style={{ fontSize:'clamp(40px,6vw,68px)', fontWeight:700, lineHeight:1 }}>₹699</div>
-            <div className="font-inter" style={{ fontSize:14, color:'rgba(196,181,253,.5)', marginTop:4 }}>per student</div>
+          <div style={{ textAlign: 'left' }}>
+            <div className="font-inter" style={{ fontSize: 12, color: 'rgba(196,181,253,.55)', textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: 6, textAlign: 'left' }}>All-Inclusive Workshop Fee</div>
+            <div className="font-syne grad-text" style={{ fontSize: 'clamp(40px,6vw,68px)', fontWeight: 700, lineHeight: 1, textAlign: 'left' }}>₹699</div>
+            <div className="font-inter" style={{ fontSize: 14, color: 'rgba(196,181,253,.6)', marginTop: 4, textAlign: 'left' }}>per student</div>
           </div>
 
-          <div style={{ width:1, height:80, background:'rgba(139,92,246,.25)' }} className="fee-divider" aria-hidden="true" />
+          <div style={{ width: 1, height: 80, background: 'rgba(139,92,246,.25)' }} className="fee-divider" aria-hidden="true" />
 
-          <div>
-            <div className="font-grotesk" style={{ fontSize:13, color:'rgba(196,181,253,.5)', textTransform:'uppercase', letterSpacing:'0.12em', marginBottom:14 }}>What's Included</div>
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'8px 24px' }}>
+          <div style={{ textAlign: 'left', flex: 1, maxWidth: 520 }}>
+            <div className="font-grotesk" style={{ fontSize: 13, color: 'rgba(196,181,253,.65)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 14, textAlign: 'left' }}>What's Included</div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '10px 24px' }}>
               {['Expert Training','Startup Kit + BMC','E-Cell Certificate','6-Hour Immersive Day','Coordination Certs','Faculty Certificate'].map(item => (
-                <div key={item} style={{ display:'flex', alignItems:'center', gap:8 }}>
-                  <div style={{ width:6, height:6, borderRadius:'50%', background:'#a78bfa', flexShrink:0 }} />
-                  <span className="font-inter" style={{ fontSize:14, color:'rgba(221,214,254,.75)' }}>{item}</span>
+                <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 10, textAlign: 'left' }}>
+                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#a78bfa', flexShrink: 0 }} />
+                  <span className="font-inter" style={{ fontSize: 14, color: 'rgba(221,214,254,.85)', lineHeight: 1.4, textAlign: 'left' }}>{item}</span>
                 </div>
               ))}
             </div>
@@ -74,7 +74,7 @@ export function WorkshopIntroSection() {
         </div>
 
         {/* Cards */}
-        <div ref={gridRef} style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:24, padding: '0 10px 10px 0' }} className="intro-grid">
+        <div ref={gridRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24, padding: '0 10px 10px 0' }} className="intro-grid">
           {CARDS.map((c, i) => {
             const IconComponent = c.Icon;
             return (
@@ -85,7 +85,13 @@ export function WorkshopIntroSection() {
                 transform: gridVis ? 'translateY(0)' : 'translateY(28px)',
                 transition: `all .55s ease ${i * 70}ms`,
               }}
-              innerStyle={{ padding: '28px 24px' }}
+              innerStyle={{
+                padding: '28px 24px',
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%',
+                textAlign: 'left',
+              }}
             >
               <div style={{
                 width: 52,
@@ -98,12 +104,34 @@ export function WorkshopIntroSection() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: '#a855f7',
-                filter: 'drop-shadow(0 6px 16px rgba(124, 58, 237, 0.3))'
+                filter: 'drop-shadow(0 6px 16px rgba(124, 58, 237, 0.3))',
+                flexShrink: 0,
               }}>
                 <IconComponent size={28} strokeWidth={1.5} />
               </div>
-              <div className="font-grotesk" style={{ fontSize:15, fontWeight:600, color:'#e9d5ff', marginBottom:8 }}>{c.title}</div>
-              <p className="font-inter" style={{ fontSize:13, color:'rgba(196,181,253,.6)', lineHeight:1.65 }}>{c.desc}</p>
+              <h3 className="font-grotesk" style={{
+                fontSize: 16,
+                fontWeight: 600,
+                color: '#f3e8ff',
+                marginBottom: 8,
+                lineHeight: 1.35,
+                textAlign: 'left',
+                minHeight: 44,
+                display: 'flex',
+                alignItems: 'center',
+              }}>
+                {c.title}
+              </h3>
+              <p className="font-inter" style={{
+                fontSize: 13.5,
+                color: 'rgba(196,181,253,.68)',
+                lineHeight: 1.65,
+                textAlign: 'left',
+                margin: 0,
+                marginTop: 'auto',
+              }}>
+                {c.desc}
+              </p>
             </CyberCard>
           )})}
         </div>
