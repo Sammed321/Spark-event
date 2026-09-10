@@ -42,8 +42,8 @@ const SESSIONS = [
   },
   { 
     id: '08', 
-    title: 'Pitching Workshop & Q&A', 
-    desc: 'Mastering high-impact elevator pitches, compelling storytelling for investors, mentor feedback, and open Q&A.' 
+    title: 'Venture Showcase & Mentorship Q&A', 
+    desc: 'Presenting venture frameworks, strategic founder storytelling, live mentor feedback, and open interactive Q&A.' 
   },
 ];
 
@@ -95,7 +95,7 @@ export function WorkshopTimelineSection() {
             Workshop <span className="grad-text">Structure</span>
           </h2>
           <p className="font-inter" style={{ fontSize: 16, color: 'rgba(196,181,253,.65)', maxWidth: 620, margin: '14px auto 0', lineHeight: 1.75 }}>
-            A meticulously structured full-day agenda designed to take you from foundational ideation to an investor-ready pitch.
+            A meticulously structured full-day agenda designed to take you from foundational ideation to an actionable venture roadmap.
           </p>
         </div>
 

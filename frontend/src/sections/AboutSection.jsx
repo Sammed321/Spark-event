@@ -58,7 +58,7 @@ export function AboutSection() {
         }} ref={cardRef} className="about-grid">
 
           {/* Left prose card */}
-          <CyberCard innerStyle={{ padding: '36px 40px' }}>
+          <CyberCard className="about-lead-card" innerStyle={{ padding: '36px 40px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 24 }}>
               <div style={{ width: 4, height: 52, borderRadius: 4, background: 'linear-gradient(to bottom, #7c3aed, #a855f7)', flexShrink: 0 }} />
               <div>
@@ -120,6 +120,7 @@ export function AboutSection() {
 
       <style>{`
         @media (max-width: 900px) { .about-grid { grid-template-columns: 1fr !important; } }
+        @media (max-width: 600px) { .about-lead-card .cyber-box-inner { padding: 28px 20px !important; } }
         @media (max-width: 580px) { .pillars-grid { grid-template-columns: 1fr !important; } }
       `}</style>
     </section>

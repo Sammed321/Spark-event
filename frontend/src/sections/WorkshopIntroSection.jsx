@@ -31,7 +31,7 @@ export function WorkshopIntroSection() {
             From Ideas to <span className="grad-text">Impact</span>
           </h2>
           <p className="font-inter" style={{ fontSize:16, color:'rgba(196,181,253,.65)', maxWidth:580, margin:'16px auto 0', lineHeight:1.75 }}>
-            A full-day immersive workshop covering everything from ideation and team formation to business models and live pitching.
+            A full-day immersive workshop covering everything from ideation and team formation to business models and venture scaling.
           </p>
         </div>
 
@@ -143,14 +143,14 @@ export function WorkshopIntroSection() {
           borderRadius: 32,
           background: 'linear-gradient(145deg, rgba(124, 58, 237, 0.1) 0%, rgba(88, 28, 135, 0.05) 100%)',
           border: '1px solid rgba(167, 139, 250, 0.25)',
-          padding: '48px 40px',
+          padding: '56px 40px 48px',
           display: 'flex',
           flexWrap: 'wrap',
           alignItems: 'center',
           justifyContent: 'space-between',
           gap: 36,
           position: 'relative',
-          overflow: 'hidden',
+          overflow: 'visible',
           boxShadow: '0 24px 64px rgba(0,0,0,0.4)',
         }} className="glass-spotlight">
           <div style={{ flex: '1 1 340px', textAlign: 'left' }}>
@@ -168,7 +168,7 @@ export function WorkshopIntroSection() {
                 ✦ Business Model Canvas
               </div>
               <div style={{ background: 'rgba(124, 58, 237, 0.18)', padding: '6px 14px', borderRadius: 12, fontSize: 13, color: '#e879f9', border: '1px solid rgba(167, 139, 250, 0.3)' }}>
-                ✦ Pitch Deck Template
+                ✦ Startup Execution Roadmap
               </div>
               <div style={{ background: 'rgba(124, 58, 237, 0.18)', padding: '6px 14px', borderRadius: 12, fontSize: 13, color: '#e879f9', border: '1px solid rgba(167, 139, 250, 0.3)' }}>
                 ✦ Curated Resource Vault
@@ -176,7 +176,7 @@ export function WorkshopIntroSection() {
             </div>
           </div>
 
-          <div style={{ flex: '1 1 300px', display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 280 }}>
+          <div className="folder-wrapper" style={{ flex: '1 1 320px', display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 340, paddingTop: 44, paddingBottom: 16 }}>
             <FolderComponent color="black" size="md" />
           </div>
         </div>
@@ -184,7 +184,10 @@ export function WorkshopIntroSection() {
 
       <style>{`
         @media (max-width: 900px)  { .intro-grid { grid-template-columns: repeat(2,1fr) !important; } }
-        @media (max-width: 600px)  { .intro-grid { grid-template-columns: 1fr !important; } }
+        @media (max-width: 600px)  { .intro-grid { grid-template-columns: 1fr !important; }
+                                     .glass-spotlight { padding: 36px 18px 28px !important; }
+                                     .folder-wrapper { transform: scale(0.82); transform-origin: center center; margin: -20px 0 -10px; } }
+        @media (max-width: 380px)  { .folder-wrapper { transform: scale(0.72); margin: -32px 0 -18px; } }
         @media (max-width: 700px)  { .fee-banner { flex-direction: column; align-items: flex-start !important; padding: 28px 24px !important; }
                                      .fee-divider { display:none !important; } }
       `}</style>

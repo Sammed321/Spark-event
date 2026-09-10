@@ -490,5 +490,16 @@ input:-webkit-autofill:focus {
   align-items: center !important;
 }
 
+@media (max-width: 600px) {
+  .compact-cyber-card .cyber-box-inner {
+    padding: 14px 16px !important;
+    gap: 12px !important;
+  }
+}
 
-
+/* Prevent iOS Safari auto-zoom on form inputs */
+@media (max-width: 768px) {
+  .field-input {
+    font-size: 16px !important;
+  }
+}

@@ -6,17 +6,17 @@ import { cn } from "@/lib/utils";
 
 const themes = {
   black: {
-    backFill: "black",
-    backInsetColor: "0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.37 0",
-    backInsetShadow: "inset 0 0 6px 2px rgba(255,255,255,0.37)",
-    flapFill: "#292929",
-    flapFillOpacity: 0.25,
-    flapStroke: "#979797",
-    flapInsetColor: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0",
-    cardFill: "#F1F1F1",
-    cardStroke: "#E0E0E0",
-    cardLineFill: "#D4D4D4",
-    cardInsetColor: "0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0",
+    backFill: "#12052b",
+    backInsetColor: "0 0 0 0 0.65 0 0 0 0 0.35 0 0 0 0 0.97 0 0 0 0.45 0",
+    backInsetShadow: "inset 0 0 16px 2px rgba(168,85,247,0.45)",
+    flapFill: "#24094a",
+    flapFillOpacity: 0.6,
+    flapStroke: "#a855f7",
+    flapInsetColor: "0 0 0 0 0.65 0 0 0 0 0.35 0 0 0 0 0.97 0 0 0 0.25 0",
+    cardFill: "#160733",
+    cardStroke: "#a855f7",
+    cardLineFill: "#8b5cf6",
+    cardInsetColor: "0 0 0 0 0.65 0 0 0 0 0.35 0 0 0 0 0.97 0 0 0 0.3 0",
   },
   white: {
     backFill: "#ffffff",
@@ -123,41 +123,41 @@ const FolderComponent = ({
             <motion.div
               className="absolute"
               animate={{
-                y: isOpen ? -160 : isHovered ? -30 : -10,
-                x: isOpen ? 70 : 40,
-                rotate: isOpen ? 18 : isHovered ? 14 : 10,
+                y: isOpen ? -95 : isHovered ? -30 : -10,
+                x: isOpen ? 60 : 40,
+                rotate: isOpen ? 14 : isHovered ? 14 : 10,
               }}
               transition={{
                 type: "spring",
                 stiffness: 120,
                 damping: 13,
-                delay: isOpen ? 0.1 : isHovered ? 0.12 : 0,
+                delay: isOpen ? 0.08 : isHovered ? 0.12 : 0,
               }}
             >
-              <Card id={1} theme={theme} />
+              <VaultCard />
             </motion.div>
             <motion.div
               className="absolute"
               animate={{
-                y: isOpen ? -180 : isHovered ? -35 : -20,
+                y: isOpen ? -105 : isHovered ? -35 : -20,
                 x: isOpen ? 0 : 3,
-                rotate: isOpen ? -3 : isHovered ? -1 : 2,
+                rotate: isOpen ? -2 : isHovered ? -1 : 2,
               }}
               transition={{
                 type: "spring",
                 stiffness: 120,
                 damping: 13,
-                delay: isOpen ? 0.05 : isHovered ? 0.06 : 0,
+                delay: isOpen ? 0.04 : isHovered ? 0.06 : 0,
               }}
             >
-              <Card id={2} theme={theme} />
+              <BMCCard />
             </motion.div>
             <motion.div
               className="absolute"
               animate={{
-                y: isOpen ? -170 : isHovered ? -44 : -22,
-                x: isOpen ? -65 : -40,
-                rotate: isOpen ? -14 : isHovered ? -9 : -5,
+                y: isOpen ? -100 : isHovered ? -44 : -22,
+                x: isOpen ? -60 : -40,
+                rotate: isOpen ? -12 : isHovered ? -9 : -5,
               }}
               transition={{
                 type: "spring",
@@ -166,7 +166,7 @@ const FolderComponent = ({
                 delay: isOpen ? 0 : 0,
               }}
             >
-              <Card id={3} theme={theme} />
+              <RoadmapCard />
             </motion.div>
           </div>
 
@@ -253,6 +253,41 @@ const FolderComponent = ({
                 </filter>
               </defs>
             </svg>
+
+            {/* Glowing E-Cell Startup Kit Brand Emblem on Front Flap */}
+            <div
+              style={{
+                position: "absolute",
+                bottom: 34,
+                left: "50%",
+                transform: "translateX(-50%)",
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                background: "rgba(18, 6, 38, 0.8)",
+                border: "1px solid rgba(192, 132, 252, 0.45)",
+                borderRadius: 20,
+                padding: "5px 14px",
+                boxShadow: "0 6px 18px rgba(0,0,0,0.55)",
+                backdropFilter: "blur(8px)",
+                pointerEvents: "none",
+                whiteSpace: "nowrap",
+              }}
+            >
+              <span style={{ color: "#e879f9", fontSize: 10 }}>✦</span>
+              <span
+                style={{
+                  fontFamily: "Space Grotesk, sans-serif",
+                  fontSize: 10,
+                  fontWeight: 700,
+                  color: "#f3e8ff",
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                }}
+              >
+                STARTUP KIT '26
+              </span>
+            </div>
           </motion.div>
         </div>
       </div>
@@ -265,211 +300,486 @@ export default FolderComponent;
 export { FolderComponent as Folder };
 export type { FolderComponentProps };
 
-type Theme = (typeof themes)[keyof typeof themes];
+/* ── Card 1: Curated Resource Vault ── */
+const VaultCard = () => (
+  <div
+    style={{
+      width: 164,
+      height: 214,
+      borderRadius: 18,
+      background: "linear-gradient(145deg, #180836 0%, #0d021f 100%)",
+      border: "1px solid rgba(167, 139, 250, 0.45)",
+      boxShadow: "0 10px 24px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.15)",
+      padding: "12px",
+      display: "flex",
+      flexDirection: "column",
+      color: "#f5f3ff",
+      fontFamily: "Inter, sans-serif",
+      boxSizing: "border-box",
+      overflow: "hidden",
+      position: "relative",
+    }}
+  >
+    <div
+      style={{
+        position: "absolute",
+        top: -20,
+        right: -20,
+        width: 70,
+        height: 70,
+        borderRadius: "50%",
+        background: "rgba(168,85,247,0.25)",
+        filter: "blur(16px)",
+        pointerEvents: "none",
+      }}
+    />
 
-const Card = ({ id, theme }: { id: number; theme: Theme }) => {
-  const filterId = `filter0_i_card_${id}`;
-  return (
-    <div data-slot="folder-card">
-      <svg
-        width="164"
-        height="214"
-        viewBox="0 0 164 214"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
+    {/* Header */}
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
+      <span
+        style={{
+          fontSize: 8,
+          fontWeight: 700,
+          letterSpacing: "0.08em",
+          color: "#c084fc",
+          textTransform: "uppercase",
+          background: "rgba(168,85,247,0.2)",
+          padding: "2px 6px",
+          borderRadius: 4,
+          border: "1px solid rgba(168,85,247,0.3)",
+        }}
       >
-        <g filter={`url(#${filterId})`}>
-          <rect
-            width="163.078"
-            height="213.262"
-            rx="20"
-            fill={theme.cardFill}
-          />
-        </g>
-        <rect
-          x="0.5"
-          y="0.5"
-          width="162.078"
-          height="212.262"
-          rx="19.5"
-          stroke={theme.cardStroke}
-        />
-        <rect
-          x="14.1193"
-          y="31.2091"
-          width="134.84"
-          height="11.8892"
-          rx="5.94459"
-          fill={theme.cardLineFill}
-        />
-        <rect
-          width="64.5183"
-          height="5.88276"
-          rx="2.94138"
-          transform="matrix(1 -0.000409158 0.00201956 0.999998 14.8253 60.9939)"
-          fill={theme.cardLineFill}
-        />
-        <rect
-          width="64.5183"
-          height="5.88276"
-          rx="2.94138"
-          transform="matrix(1 -0.000461045 0.00179228 0.999998 84.4303 60.9617)"
-          fill={theme.cardLineFill}
-        />
-        <rect
-          width="64.5183"
-          height="5.88276"
-          rx="2.94138"
-          transform="matrix(1 -0.000409158 0.00201956 0.999998 14.8253 75.1122)"
-          fill={theme.cardLineFill}
-        />
-        <rect
-          width="64.5183"
-          height="5.88276"
-          rx="2.94138"
-          transform="matrix(1 -0.000461045 0.00179228 0.999998 84.4303 75.0801)"
-          fill={theme.cardLineFill}
-        />
-        <rect
-          width="64.5183"
-          height="5.88276"
-          rx="2.94138"
-          transform="matrix(1 -0.000409158 0.00201956 0.999998 14.8253 89.2306)"
-          fill={theme.cardLineFill}
-        />
-        <rect
-          width="64.5183"
-          height="5.88276"
-          rx="2.94138"
-          transform="matrix(1 -0.000461045 0.00179228 0.999998 84.4303 89.1985)"
-          fill={theme.cardLineFill}
-        />
-        <rect
-          width="64.5183"
-          height="5.88276"
-          rx="2.94138"
-          transform="matrix(1 -0.000409158 0.00201956 0.999998 14.8253 103.349)"
-          fill={theme.cardLineFill}
-        />
-        <rect
-          width="64.5183"
-          height="5.88276"
-          rx="2.94138"
-          transform="matrix(1 -0.000461045 0.00179228 0.999998 84.4303 103.317)"
-          fill={theme.cardLineFill}
-        />
-        <rect
-          width="64.5183"
-          height="5.88276"
-          rx="2.94138"
-          transform="matrix(1 -0.000409158 0.00201956 0.999998 14.8253 117.467)"
-          fill={theme.cardLineFill}
-        />
-        <rect
-          width="64.5183"
-          height="5.88276"
-          rx="2.94138"
-          transform="matrix(1 -0.000461045 0.00179228 0.999998 84.4303 117.435)"
-          fill={theme.cardLineFill}
-        />
-        <rect
-          width="64.5183"
-          height="5.88276"
-          rx="2.94138"
-          transform="matrix(1 -0.000409158 0.00201956 0.999998 14.8253 131.586)"
-          fill={theme.cardLineFill}
-        />
-        <rect
-          width="64.5183"
-          height="5.88276"
-          rx="2.94138"
-          transform="matrix(1 -0.000461045 0.00179228 0.999998 84.4303 131.554)"
-          fill={theme.cardLineFill}
-        />
-        <rect
-          width="64.5183"
-          height="5.88276"
-          rx="2.94138"
-          transform="matrix(1 -0.000409158 0.00201956 0.999998 14.8253 145.704)"
-          fill={theme.cardLineFill}
-        />
-        <rect
-          width="64.5183"
-          height="5.88276"
-          rx="2.94138"
-          transform="matrix(1 -0.000461045 0.00179228 0.999998 84.4303 145.672)"
-          fill={theme.cardLineFill}
-        />
-        <rect
-          width="64.5183"
-          height="5.88276"
-          rx="2.94138"
-          transform="matrix(1 -0.000409158 0.00201956 0.999998 14.8253 159.823)"
-          fill={theme.cardLineFill}
-        />
-        <rect
-          width="64.5183"
-          height="5.88276"
-          rx="2.94138"
-          transform="matrix(1 -0.000461045 0.00179228 0.999998 84.4303 159.79)"
-          fill={theme.cardLineFill}
-        />
-        <rect
-          width="64.5183"
-          height="5.88276"
-          rx="2.94138"
-          transform="matrix(1 -0.000409158 0.00201956 0.999998 14.8253 173.941)"
-          fill={theme.cardLineFill}
-        />
-        <rect
-          width="64.5183"
-          height="5.88276"
-          rx="2.94138"
-          transform="matrix(1 -0.000461045 0.00179228 0.999998 84.4303 173.909)"
-          fill={theme.cardLineFill}
-        />
-        <defs>
-          <filter
-            id={filterId}
-            x="0"
-            y="0"
-            width="166.078"
-            height="218.262"
-            filterUnits="userSpaceOnUse"
-            colorInterpolationFilters="sRGB"
-          >
-            <feFlood floodOpacity="0" result="BackgroundImageFix" />
-            <feBlend
-              mode="normal"
-              in="SourceGraphic"
-              in2="BackgroundImageFix"
-              result="shape"
-            />
-            <feColorMatrix
-              in="SourceAlpha"
-              type="matrix"
-              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-              result="hardAlpha"
-            />
-            <feMorphology
-              radius="2"
-              operator="erode"
-              in="SourceAlpha"
-              result={`effect1_innerShadow_${id}`}
-            />
-            <feOffset dx="3" dy="5" />
-            <feGaussianBlur stdDeviation="3.05" />
-            <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" />
-            <feColorMatrix type="matrix" values={theme.cardInsetColor} />
-            <feBlend
-              mode="normal"
-              in2="shape"
-              result={`effect1_innerShadow_${id}`}
-            />
-          </filter>
-        </defs>
-      </svg>
+        VAULT
+      </span>
+      <span style={{ fontSize: 7.5, color: "rgba(216,180,254,0.7)", fontWeight: 600 }}>SPARK X E-CELL</span>
     </div>
-  );
-};
+
+    <div style={{ fontSize: 11, fontWeight: 700, color: "#fff", lineHeight: 1.25, marginBottom: 2 }}>
+      Resource Vault
+    </div>
+    <div style={{ fontSize: 7.5, color: "rgba(196,181,253,0.65)", marginBottom: 8 }}>
+      Curated Founder Assets
+    </div>
+
+    {/* Asset Items */}
+    <div style={{ display: "flex", flexDirection: "column", gap: 5, flex: 1 }}>
+      {[
+        { label: "Legal & IP Kit", icon: "⚖️" },
+        { label: "Cap Table Model", icon: "📊" },
+        { label: "Financial Models", icon: "📈" },
+        { label: "Investor CRM", icon: "💼" },
+      ].map((item) => (
+        <div
+          key={item.label}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            background: "rgba(255,255,255,0.04)",
+            border: "1px solid rgba(167,139,250,0.15)",
+            borderRadius: 6,
+            padding: "4px 6px",
+          }}
+        >
+          <span style={{ fontSize: 9 }}>{item.icon}</span>
+          <span style={{ fontSize: 8, fontWeight: 500, color: "#e9d5ff", whiteSpace: "nowrap" }}>
+            {item.label}
+          </span>
+        </div>
+      ))}
+    </div>
+
+    {/* Footer badge */}
+    <div
+      style={{
+        marginTop: "auto",
+        paddingTop: 6,
+        borderTop: "1px solid rgba(167,139,250,0.2)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}
+    >
+      <span style={{ fontSize: 7, color: "rgba(196,181,253,0.6)" }}>VERIFIED BUNDLE</span>
+      <span style={{ fontSize: 7.5, color: "#4ade80", fontWeight: 700 }}>✓ READY</span>
+    </div>
+  </div>
+);
+
+/* ── Card 2: Business Model Canvas (BMC) ── */
+const BMCCard = () => (
+  <div
+    style={{
+      width: 164,
+      height: 214,
+      borderRadius: 18,
+      background: "linear-gradient(145deg, #1d0940 0%, #0e0224 100%)",
+      border: "1px solid rgba(192, 132, 252, 0.55)",
+      boxShadow: "0 12px 28px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.2)",
+      padding: "12px",
+      display: "flex",
+      flexDirection: "column",
+      color: "#f5f3ff",
+      fontFamily: "Inter, sans-serif",
+      boxSizing: "border-box",
+      overflow: "hidden",
+      position: "relative",
+    }}
+  >
+    <div
+      style={{
+        position: "absolute",
+        top: -15,
+        left: -15,
+        width: 80,
+        height: 80,
+        borderRadius: "50%",
+        background: "rgba(192,132,252,0.3)",
+        filter: "blur(20px)",
+        pointerEvents: "none",
+      }}
+    />
+
+    {/* Header */}
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 5 }}>
+      <span
+        style={{
+          fontSize: 8,
+          fontWeight: 700,
+          letterSpacing: "0.08em",
+          color: "#f0abfc",
+          textTransform: "uppercase",
+          background: "rgba(232,121,249,0.25)",
+          padding: "2px 6px",
+          borderRadius: 4,
+          border: "1px solid rgba(232,121,249,0.35)",
+        }}
+      >
+        CORE ASSET
+      </span>
+      <span style={{ fontSize: 7.5, color: "#c084fc", fontWeight: 600 }}>IIT BOMBAY</span>
+    </div>
+
+    <div style={{ fontSize: 11, fontWeight: 800, color: "#fff", lineHeight: 1.2 }}>
+      Business Model Canvas
+    </div>
+    <div style={{ fontSize: 7.5, color: "rgba(196,181,253,0.7)", marginBottom: 8 }}>
+      9-Block Startup Architecture
+    </div>
+
+    {/* Miniature BMC Grid */}
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(5, 1fr)",
+        gridTemplateRows: "repeat(3, 1fr)",
+        gap: 3,
+        flex: 1,
+        background: "rgba(0,0,0,0.35)",
+        padding: 4,
+        borderRadius: 8,
+        border: "1px solid rgba(167,139,250,0.25)",
+      }}
+    >
+      {/* Key Partners */}
+      <div
+        style={{
+          gridColumn: "1 / 2",
+          gridRow: "1 / 3",
+          background: "rgba(124,58,237,0.18)",
+          borderRadius: 4,
+          padding: 3,
+          display: "flex",
+          flexDirection: "column",
+          border: "1px solid rgba(139,92,246,0.2)",
+        }}
+      >
+        <span style={{ fontSize: 5.5, fontWeight: 700, color: "#c4b5fd" }}>PARTNERS</span>
+        <div style={{ width: 12, height: 2, background: "#a78bfa", marginTop: 3, borderRadius: 1 }} />
+      </div>
+
+      {/* Key Activities */}
+      <div
+        style={{
+          gridColumn: "2 / 3",
+          gridRow: "1 / 2",
+          background: "rgba(124,58,237,0.12)",
+          borderRadius: 4,
+          padding: 3,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <span style={{ fontSize: 5.5, fontWeight: 700, color: "#c4b5fd" }}>ACTIVITIES</span>
+      </div>
+
+      {/* Key Resources */}
+      <div
+        style={{
+          gridColumn: "2 / 3",
+          gridRow: "2 / 3",
+          background: "rgba(124,58,237,0.12)",
+          borderRadius: 4,
+          padding: 3,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <span style={{ fontSize: 5.5, fontWeight: 700, color: "#c4b5fd" }}>RESOURCES</span>
+      </div>
+
+      {/* Value Proposition (Center Highlight) */}
+      <div
+        style={{
+          gridColumn: "3 / 4",
+          gridRow: "1 / 3",
+          background: "linear-gradient(135deg, rgba(168,85,247,0.35), rgba(124,58,237,0.2))",
+          borderRadius: 4,
+          padding: 3,
+          display: "flex",
+          flexDirection: "column",
+          border: "1px solid rgba(192,132,252,0.4)",
+        }}
+      >
+        <span style={{ fontSize: 5.5, fontWeight: 800, color: "#f5d0fe" }}>VALUE PROP</span>
+        <div style={{ width: 14, height: 3, background: "#f0abfc", marginTop: 3, borderRadius: 2 }} />
+        <div style={{ width: 9, height: 2, background: "#c084fc", marginTop: 2, borderRadius: 1 }} />
+      </div>
+
+      {/* Customer Relationships */}
+      <div
+        style={{
+          gridColumn: "4 / 5",
+          gridRow: "1 / 2",
+          background: "rgba(124,58,237,0.12)",
+          borderRadius: 4,
+          padding: 3,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <span style={{ fontSize: 5.5, fontWeight: 700, color: "#c4b5fd" }}>RELATION</span>
+      </div>
+
+      {/* Channels */}
+      <div
+        style={{
+          gridColumn: "4 / 5",
+          gridRow: "2 / 3",
+          background: "rgba(124,58,237,0.12)",
+          borderRadius: 4,
+          padding: 3,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <span style={{ fontSize: 5.5, fontWeight: 700, color: "#c4b5fd" }}>CHANNELS</span>
+      </div>
+
+      {/* Customer Segments */}
+      <div
+        style={{
+          gridColumn: "5 / 6",
+          gridRow: "1 / 3",
+          background: "rgba(124,58,237,0.18)",
+          borderRadius: 4,
+          padding: 3,
+          display: "flex",
+          flexDirection: "column",
+          border: "1px solid rgba(139,92,246,0.2)",
+        }}
+      >
+        <span style={{ fontSize: 5.5, fontWeight: 700, color: "#c4b5fd" }}>CUSTOMERS</span>
+        <div style={{ width: 12, height: 2, background: "#a78bfa", marginTop: 3, borderRadius: 1 }} />
+      </div>
+
+      {/* Bottom: Cost Structure */}
+      <div
+        style={{
+          gridColumn: "1 / 3",
+          gridRow: "3 / 4",
+          background: "rgba(239,68,68,0.1)",
+          borderRadius: 4,
+          padding: 3,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          border: "1px solid rgba(239,68,68,0.2)",
+        }}
+      >
+        <span style={{ fontSize: 5.5, fontWeight: 700, color: "#fca5a5" }}>COST STRUCTURE</span>
+      </div>
+
+      {/* Bottom: Revenue Streams */}
+      <div
+        style={{
+          gridColumn: "3 / 6",
+          gridRow: "3 / 4",
+          background: "rgba(34,197,94,0.12)",
+          borderRadius: 4,
+          padding: 3,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          border: "1px solid rgba(34,197,94,0.25)",
+        }}
+      >
+        <span style={{ fontSize: 5.5, fontWeight: 700, color: "#86efac" }}>REVENUE STREAMS</span>
+        <span style={{ fontSize: 6.5, fontWeight: 800, color: "#4ade80" }}>₹ $</span>
+      </div>
+    </div>
+
+    {/* Footer */}
+    <div
+      style={{
+        marginTop: "auto",
+        paddingTop: 6,
+        borderTop: "1px solid rgba(192,132,252,0.2)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}
+    >
+      <span style={{ fontSize: 7, color: "#c084fc", fontWeight: 600 }}>✦ BMC TEMPLATE</span>
+      <span style={{ fontSize: 7, color: "#e9d5ff" }}>EDITABLE</span>
+    </div>
+  </div>
+);
+
+/* ── Card 3: Startup Roadmap & Execution Blueprint ── */
+const RoadmapCard = () => (
+  <div
+    style={{
+      width: 164,
+      height: 214,
+      borderRadius: 18,
+      background: "linear-gradient(145deg, #150630 0%, #0b021a 100%)",
+      border: "1px solid rgba(167, 139, 250, 0.45)",
+      boxShadow: "0 10px 24px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.15)",
+      padding: "12px",
+      display: "flex",
+      flexDirection: "column",
+      color: "#f5f3ff",
+      fontFamily: "Inter, sans-serif",
+      boxSizing: "border-box",
+      overflow: "hidden",
+      position: "relative",
+    }}
+  >
+    <div
+      style={{
+        position: "absolute",
+        bottom: -15,
+        right: -15,
+        width: 70,
+        height: 70,
+        borderRadius: "50%",
+        background: "rgba(124,58,237,0.25)",
+        filter: "blur(16px)",
+        pointerEvents: "none",
+      }}
+    />
+
+    {/* Header */}
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 5 }}>
+      <span
+        style={{
+          fontSize: 8,
+          fontWeight: 700,
+          letterSpacing: "0.08em",
+          color: "#67e8f9",
+          textTransform: "uppercase",
+          background: "rgba(6,182,212,0.2)",
+          padding: "2px 6px",
+          borderRadius: 4,
+          border: "1px solid rgba(6,182,212,0.3)",
+        }}
+      >
+        ROADMAP
+      </span>
+      <span style={{ fontSize: 7.5, color: "rgba(196,181,253,0.7)", fontWeight: 600 }}>4 PHASES</span>
+    </div>
+
+    <div style={{ fontSize: 11, fontWeight: 700, color: "#fff", lineHeight: 1.25, marginBottom: 2 }}>
+      Venture Roadmap
+    </div>
+    <div style={{ fontSize: 7.5, color: "rgba(196,181,253,0.65)", marginBottom: 8 }}>
+      0 to 1 Execution Blueprint
+    </div>
+
+    {/* Milestone Roadmap Graphic */}
+    <div
+      style={{
+        flex: 1,
+        background: "rgba(0,0,0,0.35)",
+        borderRadius: 8,
+        border: "1px solid rgba(167,139,250,0.2)",
+        padding: "8px 10px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        position: "relative",
+      }}
+    >
+      {/* Vertical connection track */}
+      <div
+        style={{
+          position: "absolute",
+          left: 17,
+          top: 14,
+          bottom: 14,
+          width: 2,
+          background: "linear-gradient(to bottom, #67e8f9, #a855f7, #ec4899)",
+          opacity: 0.6,
+        }}
+      />
+
+      {[
+        { step: "01", name: "Problem Validation", color: "#67e8f9" },
+        { step: "02", name: "MVP Architecture", color: "#a855f7" },
+        { step: "03", name: "Product-Market Fit", color: "#c084fc" },
+        { step: "04", name: "Scale & Economics", color: "#ec4899" },
+      ].map((p) => (
+        <div key={p.step} style={{ display: "flex", alignItems: "center", gap: 8, position: "relative", zIndex: 1 }}>
+          <div
+            style={{
+              width: 16,
+              height: 16,
+              borderRadius: "50%",
+              background: "#0e0324",
+              border: `1.5px solid ${p.color}`,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: 7,
+              fontWeight: 800,
+              color: p.color,
+              flexShrink: 0,
+            }}
+          >
+            {p.step}
+          </div>
+          <span style={{ fontSize: 8, fontWeight: 600, color: "#e9d5ff", whiteSpace: "nowrap" }}>
+            {p.name}
+          </span>
+        </div>
+      ))}
+    </div>
+
+    {/* Footer */}
+    <div
+      style={{
+        marginTop: "auto",
+        paddingTop: 6,
+        borderTop: "1px solid rgba(167,139,250,0.2)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}
+    >
+      <span style={{ fontSize: 7, color: "rgba(196,181,253,0.6)" }}>BLUEPRINT</span>
+      <span style={{ fontSize: 7.5, color: "#a78bfa", fontWeight: 600 }}>IIT BOMBAY</span>
+    </div>
+  </div>
+);
 
