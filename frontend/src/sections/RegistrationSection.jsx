@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { play } from 'cuelume';
 import { submitRegistration } from '../services/registrationService';
 import { createPaymentOrder, verifyPayment, WORKSHOP_FEE } from '../services/paymentService';
 import { CheckCircle, AlertCircle, Loader2, Ticket, Sparkles } from 'lucide-react';
@@ -19,18 +20,26 @@ export function RegistrationSection() {
     if (!formData.college) err.college = "College is required";
     if (!formData.source) err.source = "Source is required";
     setErrors(err);
-    return Object.keys(err).length === 0;
+    const isValid = Object.keys(err).length === 0;
+    if (!isValid) {
+      play('error');
+    }
+    return isValid;
   };
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleProceedToSummary = (e) => {
     e.preventDefault();
-    if (validate()) setStep(2);
+    if (validate()) {
+      play('ready');
+      setStep(2);
+    }
   };
 
   const handlePayment = async () => {
     setStep(3); // Processing
+    play('loading');
     try {
       // 1. Backend submits registration
       const regRes = await submitRegistration(formData);
@@ -44,13 +53,16 @@ export function RegistrationSection() {
       if (verifyRes.verified) {
         setPaymentDetails(verifyRes);
         setStep(4); // Success
+        play('success');
       } else {
         setErrorMsg(verifyRes.message || "Payment verification failed.");
         setStep(5); // Error
+        play('error');
       }
     } catch (err) {
       setErrorMsg(err.message || "An unexpected error occurred.");
       setStep(5);
+      play('error');
     }
   };
 
@@ -174,7 +186,13 @@ export function RegistrationSection() {
                     </select>
                     {errors.source && <div style={{ color: '#f87171', fontSize: 12, marginTop: 6 }}>{errors.source}</div>}
                   </div>
-                  <button type="submit" className="btn btn-primary btn-xl" style={{ width: '100%', marginTop: 24 }}>
+                  <button
+                    type="submit"
+                    className="btn btn-primary btn-xl"
+                    style={{ width: '100%', marginTop: 24 }}
+                    data-cuelume-hover="tick"
+                    data-cuelume-press="pulse"
+                  >
                     Continue to Payment
                   </button>
                 </div>
@@ -204,8 +222,23 @@ export function RegistrationSection() {
                   </div>
                 </div>
                 <div style={{ display: 'flex', gap: 16 }}>
-                  <button className="btn btn-outline" style={{ flex: 1, padding: '16px' }} onClick={() => setStep(1)}>Back</button>
-                  <button className="btn btn-primary" style={{ flex: 2, padding: '16px' }} onClick={handlePayment}>Pay & Register</button>
+                  <button
+                    className="btn btn-outline"
+                    style={{ flex: 1, padding: '16px' }}
+                    onClick={() => { play('release'); setStep(1); }}
+                    data-cuelume-hover="tick"
+                  >
+                    Back
+                  </button>
+                  <button
+                    className="btn btn-primary"
+                    style={{ flex: 2, padding: '16px' }}
+                    onClick={handlePayment}
+                    data-cuelume-hover="tick"
+                    data-cuelume-press="pulse"
+                  >
+                    Pay & Register
+                  </button>
                 </div>
               </div>
             )}
@@ -234,7 +267,15 @@ export function RegistrationSection() {
                     <span className="font-inter" style={{ fontWeight: 600, color: '#34d399' }}>Paid Successfully (₹{WORKSHOP_FEE})</span>
                   </div>
                 </div>
-                <button className="btn btn-primary btn-xl" style={{ width: '100%' }} onClick={() => window.location.href = '/'}>Back to Home</button>
+                <button
+                  className="btn btn-primary btn-xl"
+                  style={{ width: '100%' }}
+                  onClick={() => window.location.href = '/'}
+                  data-cuelume-hover="tick"
+                  data-cuelume-press="press"
+                >
+                  Back to Home
+                </button>
               </div>
             )}
 
@@ -243,7 +284,15 @@ export function RegistrationSection() {
                 <AlertCircle size={72} style={{ color: '#f87171', margin: '0 auto 28px' }} />
                 <h3 className="font-syne" style={{ fontSize: 28, marginBottom: 16 }}>Payment Failed</h3>
                 <p className="font-inter" style={{ color: 'rgba(255,255,255,0.7)', marginBottom: 36, fontSize: 15, lineHeight: 1.6 }}>{errorMsg}</p>
-                <button className="btn btn-primary btn-xl" style={{ width: '100%' }} onClick={() => setStep(2)}>Try Again</button>
+                <button
+                  className="btn btn-primary btn-xl"
+                  style={{ width: '100%' }}
+                  onClick={() => { play('release'); setStep(2); }}
+                  data-cuelume-hover="tick"
+                  data-cuelume-press="pulse"
+                >
+                  Try Again
+                </button>
               </div>
             )}
 

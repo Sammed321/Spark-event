@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "motion/react";
+import { play } from "cuelume";
 import { cn } from "@/lib/utils";
 
 const themes = {
@@ -91,12 +92,25 @@ const FolderComponent = ({
           touchAction: "manipulation",
           WebkitTapHighlightColor: "transparent",
         }}
-        onMouseEnter={() => setIsHovered(true)}
+        onMouseEnter={() => {
+          setIsHovered(true);
+          play("tick", { volume: 0.3 });
+        }}
         onMouseLeave={() => {
           setIsHovered(false);
           setIsOpen(false);
         }}
-        onClick={() => setIsOpen((o) => !o)}
+        onClick={() => {
+          setIsOpen((o) => {
+            const next = !o;
+            if (next) {
+              play("page", { volume: 0.55 });
+            } else {
+              play("release", { volume: 0.35 });
+            }
+            return next;
+          });
+        }}
       >
         <div
           className="absolute top-1/2 left-1/2"

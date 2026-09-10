@@ -27,10 +27,18 @@ export function Footer() {
             <h4 className="font-grotesk" style={{ fontSize: 16, fontWeight: 600, color: '#fff', marginBottom: 20 }}>Quick Links</h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {LINKS.map(link => (
-                <button key={link.id} onClick={() => goto(link.id)} style={{
-                  background: 'none', border: 'none', color: 'rgba(196,181,253,0.6)', cursor: 'pointer',
-                  textAlign: 'left', fontSize: 14, fontFamily: 'Inter, sans-serif', transition: 'color 0.2s', padding: 0
-                }} onMouseEnter={e => e.currentTarget.style.color='#fff'} onMouseLeave={e => e.currentTarget.style.color='rgba(196,181,253,0.6)'}>
+                <button
+                  key={link.id}
+                  onClick={() => goto(link.id)}
+                  data-cuelume-hover="tick"
+                  data-cuelume-press="tick"
+                  style={{
+                    background: 'none', border: 'none', color: 'rgba(196,181,253,0.6)', cursor: 'pointer',
+                    textAlign: 'left', fontSize: 14, fontFamily: 'Inter, sans-serif', transition: 'color 0.2s', padding: 0
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.color='#fff'}
+                  onMouseLeave={e => e.currentTarget.style.color='rgba(196,181,253,0.6)'}
+                >
                   {link.label}
                 </button>
               ))}

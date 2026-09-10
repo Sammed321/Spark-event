@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Volume2, VolumeX } from 'lucide-react';
+import { play, setEnabled } from 'cuelume';
 import { useScrolled } from '../hooks/useScrolled';
 
 const LINKS = [
@@ -17,6 +18,20 @@ export function Navbar() {
   const scrolled = useScrolled(40);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState('home');
+  const [soundEnabled, setSoundEnabled] = useState(() => {
+    const saved = localStorage.getItem('cuelume_sound');
+    return saved === null ? true : saved === 'true';
+  });
+
+  const toggleSound = () => {
+    const next = !soundEnabled;
+    setSoundEnabled(next);
+    setEnabled(next);
+    localStorage.setItem('cuelume_sound', String(next));
+    if (next) {
+      play('sparkle', { volume: 0.5 });
+    }
+  };
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -50,6 +65,8 @@ export function Navbar() {
           {/* Brand & Institution Logos */}
           <div
             onClick={() => click('home')}
+            data-cuelume-hover="tick"
+            data-cuelume-press="press"
             style={{
               cursor: 'pointer',
               display: 'flex',
@@ -114,29 +131,64 @@ export function Navbar() {
           {/* Desktop Nav */}
           <nav style={{ display:'flex', alignItems:'center', gap: 4 }} className="hidden-mobile">
             {LINKS.map(l => (
-              <button key={l.id} onClick={() => click(l.id)} style={{
-                background: active === l.id ? 'rgba(124,58,237,.18)' : 'transparent',
-                border: 'none', cursor: 'pointer',
-                padding: '8px 16px', borderRadius: 10,
-                fontFamily: 'Space Grotesk, sans-serif', fontWeight: 500, fontSize: 14,
-                color: active === l.id ? '#e9d5ff' : 'rgba(196,181,253,.7)',
-                transition: 'all .2s',
-              }}
-              onMouseEnter={e => { if (active !== l.id) e.target.style.color = '#e9d5ff'; }}
-              onMouseLeave={e => { if (active !== l.id) e.target.style.color = 'rgba(196,181,253,.7)'; }}
+              <button
+                key={l.id}
+                onClick={() => click(l.id)}
+                data-cuelume-hover="tick"
+                data-cuelume-press="tick"
+                style={{
+                  background: active === l.id ? 'rgba(124,58,237,.18)' : 'transparent',
+                  border: 'none', cursor: 'pointer',
+                  padding: '8px 16px', borderRadius: 10,
+                  fontFamily: 'Space Grotesk, sans-serif', fontWeight: 500, fontSize: 14,
+                  color: active === l.id ? '#e9d5ff' : 'rgba(196,181,253,.7)',
+                  transition: 'all .2s',
+                }}
+                onMouseEnter={e => { if (active !== l.id) e.target.style.color = '#e9d5ff'; }}
+                onMouseLeave={e => { if (active !== l.id) e.target.style.color = 'rgba(196,181,253,.7)'; }}
               >
                 {l.label}
               </button>
             ))}
           </nav>
 
-          {/* CTA + Hamburger */}
-          <div style={{ display:'flex', alignItems:'center', gap: 12 }}>
-            <button className="btn btn-primary btn-sm hidden-mobile" onClick={() => click('register')}>
+          {/* Controls: Audio Toggle + CTA + Hamburger */}
+          <div style={{ display:'flex', alignItems:'center', gap: 10 }}>
+            {/* Audio Toggle Button */}
+            <button
+              onClick={toggleSound}
+              style={{
+                background: soundEnabled ? 'rgba(124,58,237,.2)' : 'rgba(255,255,255,.05)',
+                border: soundEnabled ? '1px solid rgba(167,139,250,.35)' : '1px solid rgba(255,255,255,.12)',
+                borderRadius: 10,
+                width: 38,
+                height: 38,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                color: soundEnabled ? '#e879f9' : 'rgba(196,181,253,.4)',
+                transition: 'all .25s ease',
+                boxShadow: soundEnabled ? '0 0 16px rgba(168,85,247,0.25)' : 'none',
+              }}
+              title={soundEnabled ? 'Mute Sound Effects' : 'Unmute Sound Effects'}
+              aria-label={soundEnabled ? 'Mute Sound Effects' : 'Unmute Sound Effects'}
+            >
+              {soundEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
+            </button>
+
+            <button
+              className="btn btn-primary btn-sm hidden-mobile"
+              onClick={() => click('register')}
+              data-cuelume-hover="tick"
+              data-cuelume-press="pulse"
+            >
               Register Now
             </button>
+
             <button
               onClick={() => setOpen(o => !o)}
+              data-cuelume-press="toggle"
               style={{
                 display: 'none', background: 'rgba(124,58,237,.15)', border: '1px solid rgba(139,92,246,.3)',
                 borderRadius: 10, width: 40, height: 40, alignItems: 'center', justifyContent: 'center',
@@ -171,19 +223,31 @@ export function Navbar() {
         }}>
           <nav style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             {LINKS.map(l => (
-              <button key={l.id} onClick={() => click(l.id)} style={{
-                background: active === l.id ? 'rgba(124,58,237,.2)' : 'transparent',
-                border: active === l.id ? '1px solid rgba(139,92,246,.3)' : '1px solid transparent',
-                borderRadius: 12, padding: '14px 18px', cursor: 'pointer', textAlign: 'left',
-                fontFamily: 'Space Grotesk, sans-serif', fontWeight: 500, fontSize: 15,
-                color: active === l.id ? '#e9d5ff' : 'rgba(196,181,253,.75)',
-                transition: 'all .2s',
-              }}>
+              <button
+                key={l.id}
+                onClick={() => click(l.id)}
+                data-cuelume-hover="tick"
+                data-cuelume-press="tick"
+                style={{
+                  background: active === l.id ? 'rgba(124,58,237,.2)' : 'transparent',
+                  border: active === l.id ? '1px solid rgba(139,92,246,.3)' : '1px solid transparent',
+                  borderRadius: 12, padding: '14px 18px', cursor: 'pointer', textAlign: 'left',
+                  fontFamily: 'Space Grotesk, sans-serif', fontWeight: 500, fontSize: 15,
+                  color: active === l.id ? '#e9d5ff' : 'rgba(196,181,253,.75)',
+                  transition: 'all .2s',
+                }}
+              >
                 {l.label}
               </button>
             ))}
           </nav>
-          <button className="btn btn-primary btn-md" style={{ marginTop: 24 }} onClick={() => click('register')}>
+          <button
+            className="btn btn-primary btn-md"
+            style={{ marginTop: 24 }}
+            onClick={() => click('register')}
+            data-cuelume-hover="tick"
+            data-cuelume-press="pulse"
+          >
             Register Now
           </button>
         </div>

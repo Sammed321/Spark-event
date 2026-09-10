@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { bind, setVolume, setEnabled } from 'cuelume';
+import { handleScrollSound } from './utils/scrollSound';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './sections/HeroSection';
 import { AboutSection } from './sections/AboutSection';
@@ -13,7 +15,15 @@ function App() {
   const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
 
   useEffect(() => {
+    // Initialize Cuelume Web Audio UI sound bindings
+    bind();
+    const savedSound = localStorage.getItem('cuelume_sound');
+    const isEnabled = savedSound === null ? true : savedSound === 'true';
+    setEnabled(isEnabled);
+    setVolume(0.22);
+
     const handleScroll = () => {
+      handleScrollSound(window.scrollY);
       const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
       if (totalHeight > 0) {
         setScrollProgress((window.scrollY / totalHeight) * 100);

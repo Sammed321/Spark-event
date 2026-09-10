@@ -163,10 +163,20 @@ export function HeroSection() {
           transition: 'all .7s ease .55s',
           display:'flex', flexWrap:'wrap', gap:16, justifyContent:'center', marginBottom: 52,
         }}>
-          <button className="btn btn-primary btn-xl" onClick={() => goto('register')}>
+          <button
+            className="btn btn-primary btn-xl"
+            onClick={() => goto('register')}
+            data-cuelume-hover="tick"
+            data-cuelume-press="pulse"
+          >
             Register Now  →
           </button>
-          <button className="btn btn-outline btn-xl" onClick={() => goto('workshop')}>
+          <button
+            className="btn btn-outline btn-xl"
+            onClick={() => goto('workshop')}
+            data-cuelume-hover="tick"
+            data-cuelume-press="press"
+          >
             Explore Workshop
           </button>
         </div>
@@ -182,13 +192,17 @@ export function HeroSection() {
             { label: '70+', sub: 'Participants', lucide: Users },
             { label: 'Jul – Oct 2026', sub: 'Date Range', lucide: Calendar },
           ].map(({ label, sub, lucide: Icon }) => (
-            <div key={label} style={{
-              display:'flex', alignItems:'center', gap:10,
-              padding: '12px 20px', borderRadius: 14,
-              background:'rgba(255,255,255,.04)',
-              border:'1px solid rgba(139,92,246,.22)',
-              backdropFilter:'blur(12px)',
-            }}>
+            <div
+              key={label}
+              style={{
+                display:'flex', alignItems:'center', gap:10,
+                padding: '12px 20px', borderRadius: 14,
+                background:'rgba(255,255,255,.04)',
+                border:'1px solid rgba(139,92,246,.22)',
+                backdropFilter:'blur(12px)',
+                cursor: 'default',
+              }}
+            >
               {Icon && <Icon size={16} style={{ color:'#a78bfa', flexShrink:0 }} />}
               <div style={{ textAlign:'left' }}>
                 <div className="font-grotesk" style={{ fontSize:15, fontWeight:700, color:'#fff', lineHeight:1.2 }}>{label}</div>
@@ -202,6 +216,8 @@ export function HeroSection() {
       {/* Scroll cue */}
       <button
         onClick={() => goto('about')}
+        data-cuelume-hover="tick"
+        data-cuelume-press="press"
         aria-label="Scroll down"
         style={{
           position:'absolute', bottom:32, left:'50%', transform:'translateX(-50%)',
