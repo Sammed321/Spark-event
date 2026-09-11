@@ -38,6 +38,18 @@ export function unlockScrollAudio() {
   }
 }
 
+if (typeof window !== 'undefined') {
+  const tryResume = () => {
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume().catch(() => {});
+    }
+  };
+  window.addEventListener('pointerdown', tryResume, { passive: true });
+  window.addEventListener('touchstart', tryResume, { passive: true });
+  window.addEventListener('keydown', tryResume, { passive: true });
+  window.addEventListener('wheel', tryResume, { passive: true });
+}
+
 function isSoundGloballyEnabled() {
   if (typeof window === 'undefined') return false;
   const saved = localStorage.getItem('cuelume_sound');
