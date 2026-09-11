@@ -98,7 +98,7 @@ export function playGooglePayChime() {
     const audio = new Audio('/sounds/payment-success.wav');
     audio.volume = 0.5;
     audio.play().catch(() => {});
-  } catch (e) {
+  } catch {
     try {
       const audio = new Audio('/sounds/payment-success.wav');
       audio.volume = 0.95;

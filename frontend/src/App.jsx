@@ -21,12 +21,9 @@ function MainLayout() {
   const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
 
   useEffect(() => {
-    // Initialize Cuelume Web Audio UI sound bindings
-    bind();
-    const savedSound = localStorage.getItem('cuelume_sound');
-    const isEnabled = savedSound === null ? true : savedSound === 'true';
-    setEnabled(isEnabled);
-    setVolume(0.22);
+    // Initialize Web Audio Engine and attempt instant autoplay
+    const cleanupAudio = initAudioSystem();
+    playWelcomeChime(0.85);
 
     const handleScroll = () => {
       handleScrollSound(window.scrollY);
@@ -44,6 +41,7 @@ function MainLayout() {
     window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
+      cleanupAudio();
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('mousemove', handleMouseMove);
     };
