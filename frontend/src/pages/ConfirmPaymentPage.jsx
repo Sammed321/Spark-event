@@ -12,7 +12,7 @@ import {
   Loader2, 
   ShieldCheck, 
   ExternalLink,
-  QrCode
+  Receipt
 } from 'lucide-react';
 import { api } from '../services/api';
 import { useGsapFloatingOrbs, gsap } from '../utils/gsapAnimations';
@@ -411,13 +411,13 @@ export function ConfirmPaymentPage() {
                   Enter UTR for <span className="grad-text">Confirmation</span>
                 </h1>
                 <p className="font-inter" style={{ fontSize: 16, color: 'rgba(196,181,253,.7)', maxWidth: 580, margin: '16px auto 0' }}>
-                  Pay ₹{paymentInfo.amount_rupees} using the payment QR or UPI ID below. Then enter your 12-digit UPI reference (UTR) to generate your Attendance QR Code.
+                  Pay ₹{paymentInfo.amount_rupees} using the UPI QR code sent to your email or the UPI ID below. Then enter your 12-digit UPI reference (UTR) to confirm your registration.
                 </p>
               </div>
 
               <div style={{ display: 'grid', gap: 40 }} className="confirm-grid">
                 
-                {/* Left: Payment QR & Payee Details */}
+                {/* Left: Payment Summary & Payee Details (NO QR CODE ON WEBSITE) */}
                 <div style={{
                   background: 'linear-gradient(145deg, rgba(124,58,237,0.14) 0%, rgba(88,28,135,0.06) 100%)',
                   border: '1px solid rgba(167,139,250,0.35)',
@@ -432,28 +432,14 @@ export function ConfirmPaymentPage() {
                 }} className="glass-spotlight">
                   
                   <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(124,58,237,0.25)', padding: '6px 14px', borderRadius: 20, marginBottom: 24, border: '1px solid rgba(167,139,250,0.35)' }}>
-                    <QrCode size={16} color="#e879f9" />
-                    <span className="font-grotesk" style={{ fontSize: 12, fontWeight: 600, color: '#e879f9', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Official Payment QR</span>
+                    <Receipt size={16} color="#e879f9" />
+                    <span className="font-grotesk" style={{ fontSize: 12, fontWeight: 600, color: '#e879f9', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Payment Summary</span>
                   </div>
 
-                  {/* Static Payment QR image */}
-                  <div style={{
-                    background: '#ffffff',
-                    padding: 16,
-                    borderRadius: 20,
-                    boxShadow: '0 12px 40px rgba(124,58,237,0.3)',
-                    marginBottom: 24,
-                    maxWidth: 260,
-                    width: '100%',
-                  }}>
-                    <img
-                      src={paymentInfo.custom_qr_url || '/payment-qr.jpeg'}
-                      alt="Payment QR Code"
-                      style={{ width: '100%', height: 'auto', display: 'block', borderRadius: 10, objectFit: 'contain' }}
-                    />
+                  <div className="font-grotesk" style={{ fontSize: 13, color: 'rgba(196,181,253,0.6)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>
+                    Workshop Fee
                   </div>
-
-                  <div className="font-syne grad-text" style={{ fontSize: 32, fontWeight: 800, marginBottom: 12 }}>
+                  <div className="font-syne grad-text" style={{ fontSize: 44, fontWeight: 800, marginBottom: 20 }}>
                     ₹{paymentInfo.amount_rupees}
                   </div>
 
@@ -461,8 +447,8 @@ export function ConfirmPaymentPage() {
                   <div style={{
                     background: 'rgba(0,0,0,0.35)',
                     border: '1px solid rgba(167,139,250,0.25)',
-                    borderRadius: 14,
-                    padding: '10px 16px',
+                    borderRadius: 16,
+                    padding: '14px 18px',
                     display: 'flex',
                     alignItems: 'center',
                     gap: 12,
@@ -471,9 +457,12 @@ export function ConfirmPaymentPage() {
                     width: '100%',
                     justifyContent: 'space-between',
                   }}>
-                    <span className="font-inter" style={{ fontSize: 14, color: '#e9d5ff', fontWeight: 500 }}>
-                      {paymentInfo.upi_vpa}
-                    </span>
+                    <div style={{ textAlign: 'left' }}>
+                      <div style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#a78bfa', fontWeight: 600 }}>UPI ID (VPA)</div>
+                      <div className="font-inter" style={{ fontSize: 14, color: '#e9d5ff', fontWeight: 600, fontFamily: 'monospace', marginTop: 2 }}>
+                        {paymentInfo.upi_vpa}
+                      </div>
+                    </div>
                     <button
                       onClick={handleCopyUpi}
                       data-cuelume-hover="tick"
@@ -503,12 +492,26 @@ export function ConfirmPaymentPage() {
                       className="btn btn-outline"
                       data-cuelume-hover="tick"
                       data-cuelume-press="pulse"
-                      style={{ width: '100%', maxWidth: 320, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+                      style={{ width: '100%', maxWidth: 320, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 16 }}
                     >
                       <span>Pay via UPI App (Mobile)</span>
                       <ExternalLink size={15} />
                     </a>
                   )}
+
+                  <div style={{
+                    background: 'rgba(124,58,237,0.1)',
+                    border: '1px dashed rgba(167,139,250,0.3)',
+                    borderRadius: 14,
+                    padding: '12px 16px',
+                    maxWidth: 320,
+                    width: '100%',
+                    textAlign: 'left',
+                  }}>
+                    <p className="font-inter" style={{ fontSize: 12, color: '#c4b5fd', margin: 0, lineHeight: 1.5 }}>
+                      📩 <strong>Payment QR in Email:</strong> Check your inbox for the attached UPI QR image if paying from another device.
+                    </p>
+                  </div>
 
                   <p className="font-inter" style={{ fontSize: 12, color: 'rgba(196,181,253,0.5)', marginTop: 16 }}>
                     Supports Google Pay, PhonePe, Paytm, BHIM & all UPI apps.
