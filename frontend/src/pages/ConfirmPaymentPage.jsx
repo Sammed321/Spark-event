@@ -411,13 +411,13 @@ export function ConfirmPaymentPage() {
                   Enter UTR for <span className="grad-text">Confirmation</span>
                 </h1>
                 <p className="font-inter" style={{ fontSize: 16, color: 'rgba(196,181,253,.7)', maxWidth: 580, margin: '16px auto 0' }}>
-                  Pay ₹{paymentInfo.amount_rupees} using the UPI QR code sent to your email or the UPI ID below. Then enter your 12-digit UPI reference (UTR) to confirm your registration.
+                  Pay ₹{paymentInfo.amount_rupees} using the UPI QR code sent to your email. Then enter your 12-digit UPI reference (UTR) to confirm your registration.
                 </p>
               </div>
 
               <div style={{ display: 'grid', gap: 40 }} className="confirm-grid">
                 
-                {/* Left: Payment Summary & Payee Details (NO QR CODE ON WEBSITE) */}
+                {/* Left: Payment Summary (NO QR OR UPI ID ON WEBSITE) */}
                 <div style={{
                   background: 'linear-gradient(145deg, rgba(124,58,237,0.14) 0%, rgba(88,28,135,0.06) 100%)',
                   border: '1px solid rgba(167,139,250,0.35)',
@@ -439,81 +439,27 @@ export function ConfirmPaymentPage() {
                   <div className="font-grotesk" style={{ fontSize: 13, color: 'rgba(196,181,253,0.6)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>
                     Workshop Fee
                   </div>
-                  <div className="font-syne grad-text" style={{ fontSize: 44, fontWeight: 800, marginBottom: 20 }}>
+                  <div className="font-syne grad-text" style={{ fontSize: 44, fontWeight: 800, marginBottom: 24 }}>
                     ₹{paymentInfo.amount_rupees}
                   </div>
 
-                  {/* UPI VPA Copy box */}
                   <div style={{
-                    background: 'rgba(0,0,0,0.35)',
-                    border: '1px solid rgba(167,139,250,0.25)',
+                    background: 'rgba(124,58,237,0.12)',
+                    border: '1px dashed rgba(167,139,250,0.35)',
                     borderRadius: 16,
-                    padding: '14px 18px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 12,
-                    marginBottom: 20,
-                    maxWidth: 320,
-                    width: '100%',
-                    justifyContent: 'space-between',
-                  }}>
-                    <div style={{ textAlign: 'left' }}>
-                      <div style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#a78bfa', fontWeight: 600 }}>UPI ID (VPA)</div>
-                      <div className="font-inter" style={{ fontSize: 14, color: '#e9d5ff', fontWeight: 600, fontFamily: 'monospace', marginTop: 2 }}>
-                        {paymentInfo.upi_vpa}
-                      </div>
-                    </div>
-                    <button
-                      onClick={handleCopyUpi}
-                      data-cuelume-hover="tick"
-                      data-cuelume-press="press"
-                      style={{
-                        background: copiedUpi ? 'rgba(16,185,129,0.2)' : 'rgba(124,58,237,0.3)',
-                        border: 'none',
-                        color: copiedUpi ? '#34d399' : '#e9d5ff',
-                        borderRadius: 8,
-                        padding: '6px 10px',
-                        cursor: 'pointer',
-                        fontSize: 12,
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 4,
-                      }}
-                    >
-                      {copiedUpi ? <Check size={14} /> : <Copy size={14} />}
-                      <span>{copiedUpi ? 'Copied' : 'Copy'}</span>
-                    </button>
-                  </div>
-
-                  {/* Mobile Deep Link */}
-                  {paymentInfo.upi_link && (
-                    <a
-                      href={paymentInfo.upi_link}
-                      className="btn btn-outline"
-                      data-cuelume-hover="tick"
-                      data-cuelume-press="pulse"
-                      style={{ width: '100%', maxWidth: 320, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 16 }}
-                    >
-                      <span>Pay via UPI App (Mobile)</span>
-                      <ExternalLink size={15} />
-                    </a>
-                  )}
-
-                  <div style={{
-                    background: 'rgba(124,58,237,0.1)',
-                    border: '1px dashed rgba(167,139,250,0.3)',
-                    borderRadius: 14,
-                    padding: '12px 16px',
-                    maxWidth: 320,
+                    padding: '16px 20px',
+                    maxWidth: 340,
                     width: '100%',
                     textAlign: 'left',
+                    marginBottom: 20,
                   }}>
-                    <p className="font-inter" style={{ fontSize: 12, color: '#c4b5fd', margin: 0, lineHeight: 1.5 }}>
-                      📩 <strong>Payment QR in Email:</strong> Check your inbox for the attached UPI QR image if paying from another device.
+                    <p className="font-inter" style={{ fontSize: 13, color: '#c4b5fd', margin: 0, lineHeight: 1.6 }}>
+                      📩 <strong>Payment Instructions:</strong><br />
+                      Scan the official UPI payment QR code sent to your registered email to complete your ₹{paymentInfo.amount_rupees} payment.
                     </p>
                   </div>
 
-                  <p className="font-inter" style={{ fontSize: 12, color: 'rgba(196,181,253,0.5)', marginTop: 16 }}>
+                  <p className="font-inter" style={{ fontSize: 12, color: 'rgba(196,181,253,0.5)', margin: 0 }}>
                     Supports Google Pay, PhonePe, Paytm, BHIM & all UPI apps.
                   </p>
                 </div>
