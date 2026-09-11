@@ -110,9 +110,7 @@ export function RegisterPage() {
 
       localStorage.setItem('spark_user_email', cleanEmail);
       play('success');
-
-      // Navigate to the payment confirmation & UTR entry page
-      navigate(`/confirm-payment?email=${encodeURIComponent(cleanEmail)}`);
+      setStep(4);
     } catch (err) {
       setErrorMsg(err.message || "An unexpected error occurred while submitting registration.");
       setStep(5);
@@ -122,7 +120,7 @@ export function RegisterPage() {
 
   return (
     <div ref={containerRef} style={{ background: '#05000e', minHeight: '100vh', position: 'relative', overflowX: 'hidden' }}>
-      
+
       {/* Decorative Cyberpunk Background Orbs */}
       <div className="orb anim-pulse" style={{ width: 650, height: 650, top: '-10%', left: '-10%', background: 'radial-gradient(circle, rgba(167,139,250,0.18) 0%, transparent 65%)' }} aria-hidden="true" />
       <div className="orb" style={{ width: 550, height: 550, bottom: '5%', right: '-8%', background: 'radial-gradient(circle, rgba(232,121,249,0.14) 0%, transparent 65%)' }} aria-hidden="true" />
@@ -137,7 +135,7 @@ export function RegisterPage() {
         borderBottom: '1px solid rgba(139,92,246,0.2)',
       }}>
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 68 }}>
-          
+
           {/* Brand Logos */}
           <div
             onClick={() => navigate('/')}
@@ -193,7 +191,7 @@ export function RegisterPage() {
       {/* Main Registration Content */}
       <main style={{ padding: '64px 0 96px', position: 'relative', zIndex: 2 }}>
         <div className="container">
-          
+
           {/* Header */}
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <span className="eyebrow" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
@@ -209,7 +207,7 @@ export function RegisterPage() {
 
           {/* Grid: Ticket Card + Registration Form */}
           <div style={{ display: 'grid', gap: 40 }} className="reg-grid">
-            
+
             {/* Left: Cyberpunk Holographic Ticket */}
             <div ref={ticketRef} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               <div style={{
@@ -224,10 +222,10 @@ export function RegisterPage() {
                 flexDirection: 'column',
                 minHeight: 480
               }} className="glass-spotlight ticket-card">
-                
+
                 {/* Holographic shimmer */}
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.08) 25%, transparent 30%)', backgroundSize: '200% 100%', animation: 'shimmer 4s infinite linear', pointerEvents: 'none' }} />
-                
+
                 {/* Fluid Orb decoration */}
                 <div style={{ position: 'absolute', top: 16, right: 16, pointerEvents: 'none', opacity: 0.5, zIndex: 1 }} aria-hidden="true">
                   <FluidOrb size={140} color="#c084fc" />
@@ -238,11 +236,11 @@ export function RegisterPage() {
                     <Ticket size={16} color="#e879f9" />
                     <span className="font-grotesk" style={{ fontSize: 12, fontWeight: 600, color: '#e879f9', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Official Event Pass</span>
                   </div>
-                  
+
                   <h2 className="font-syne" style={{ fontSize: 'clamp(32px, 4vw, 42px)', fontWeight: 800, color: '#fff', lineHeight: 1.1, marginBottom: 16 }}>
                     Illuminate <br /><span className="grad-text">Workshop '26</span>
                   </h2>
-                  
+
                   <p className="font-inter" style={{ fontSize: 16, color: 'rgba(196,181,253,0.7)', lineHeight: 1.7, marginBottom: 24, maxWidth: 320 }}>
                     Certified by Entrepreneurship Cell, IIT Bombay. Hands-on venture building, Startup Kit, and Coordinator awards.
                   </p>
@@ -253,7 +251,7 @@ export function RegisterPage() {
                   <div style={{ position: 'absolute', top: -16, left: -16, width: 32, height: 32, borderRadius: '50%', background: '#05000e', borderRight: '2px solid rgba(167,139,250,0.35)' }} />
                   <div style={{ position: 'absolute', top: -16, right: -16, width: 32, height: 32, borderRadius: '50%', background: '#05000e', borderLeft: '2px solid rgba(167,139,250,0.35)' }} />
                 </div>
-                
+
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', position: 'relative', zIndex: 2 }}>
                   <div>
                     <div className="font-grotesk" style={{ fontSize: 12, color: 'rgba(196,181,253,0.5)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 6 }}>Venue</div>
@@ -269,7 +267,7 @@ export function RegisterPage() {
 
             {/* Right: Registration Multi-Step Form */}
             <div ref={formCardRef} className="glass-strong neon-card" style={{ padding: '48px', borderRadius: '32px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              
+
               {step === 1 && (
                 <form onSubmit={handleProceedToSummary}>
                   <div style={{ marginBottom: 32 }}>
@@ -371,7 +369,63 @@ export function RegisterPage() {
                 <div style={{ textAlign: 'center', padding: '64px 0' }}>
                   <Loader2 size={56} className="anim-spin-slow" style={{ color: '#a855f7', margin: '0 auto 28px' }} />
                   <h3 className="font-syne" style={{ fontSize: 26, marginBottom: 14 }}>Submitting Registration</h3>
-                  <p className="font-inter" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 15 }}>Directing you to the Payment & UTR Confirmation page...</p>
+                  <p className="font-inter" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 15 }}>Processing your details and generating your payment instructions...</p>
+                </div>
+              )}
+
+              {step === 4 && (
+                <div style={{ textAlign: 'center', padding: '16px 0' }}>
+                  <div style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: 76,
+                    height: 76,
+                    borderRadius: '50%',
+                    background: 'rgba(16,185,129,0.15)',
+                    border: '1px solid rgba(16,185,129,0.35)',
+                    margin: '0 auto 20px',
+                    boxShadow: '0 0 30px rgba(16,185,129,0.25)',
+                  }}>
+                    <CheckCircle size={40} style={{ color: '#34d399' }} />
+                  </div>
+
+                  <h3 className="font-syne" style={{ fontSize: 28, fontWeight: 800, color: '#fff', marginBottom: 10 }}>
+                    Registration Received!
+                  </h3>
+
+                  <p className="font-inter" style={{ color: 'rgba(196,181,253,0.8)', fontSize: 15, lineHeight: 1.6, maxWidth: 420, margin: '0 auto 24px' }}>
+                    We have dispatched your official payment QR code and your private UTR verification link to: <br />
+                    <strong style={{ color: '#e9d5ff', wordBreak: 'break-all' }}>{formData.email}</strong>
+                  </p>
+
+                  <div style={{
+                    background: 'linear-gradient(145deg, rgba(124,58,237,0.12) 0%, rgba(88,28,135,0.08) 100%)',
+                    border: '1px solid rgba(167,139,250,0.25)',
+                    borderRadius: 20,
+                    padding: 22,
+                    textAlign: 'left',
+                    marginBottom: 28,
+                  }}>
+                    <div style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#c084fc', marginBottom: 10 }}>
+                      Next Steps to Claim Your Pass:
+                    </div>
+                    <ol style={{ margin: 0, paddingLeft: 18, color: '#c4b5fd', fontSize: 13, lineHeight: 1.8 }}>
+                      <li>Check your email inbox (check <strong>Spam / Promotions</strong> if not in primary).</li>
+                      <li>Scan the <strong>₹{WORKSHOP_FEE} UPI QR</strong> to complete your payment.</li>
+                      <li>Click the green <strong>"Enter UTR for Confirmation"</strong> link in the email to submit your 12-digit UTR and download your Official Attendance QR Pass.</li>
+                    </ol>
+                  </div>
+
+                  <button
+                    className="btn btn-outline btn-lg"
+                    style={{ width: '100%' }}
+                    onClick={() => navigate('/')}
+                    data-cuelume-hover="tick"
+                    data-cuelume-press="press"
+                  >
+                    Return to Home
+                  </button>
                 </div>
               )}
 
@@ -382,21 +436,13 @@ export function RegisterPage() {
                   <p className="font-inter" style={{ color: 'rgba(255,255,255,0.7)', marginBottom: 36, fontSize: 15, lineHeight: 1.6 }}>{errorMsg}</p>
                   <div style={{ display: 'flex', gap: 14 }}>
                     <button
-                      className="btn btn-outline"
-                      style={{ flex: 1 }}
-                      onClick={() => { play('release'); setStep(1); }}
-                      data-cuelume-hover="tick"
-                    >
-                      Edit Info
-                    </button>
-                    <button
                       className="btn btn-primary"
-                      style={{ flex: 1 }}
-                      onClick={() => navigate(`/confirm-payment?email=${encodeURIComponent(formData.email)}`)}
+                      style={{ width: '100%' }}
+                      onClick={() => { play('release'); setStep(1); }}
                       data-cuelume-hover="tick"
                       data-cuelume-press="pulse"
                     >
-                      Enter UTR Directly
+                      Try Again
                     </button>
                   </div>
                 </div>
