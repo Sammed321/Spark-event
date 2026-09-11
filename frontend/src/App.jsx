@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { bind, setVolume, setEnabled } from 'cuelume';
 import { handleScrollSound } from './utils/scrollSound';
+import { initAudioSystem, playWelcomeChime } from './utils/audioManager';
 import { HomePage } from './pages/HomePage';
 import { RegisterPage } from './pages/RegisterPage';
 import { ConfirmPaymentPage } from './pages/ConfirmPaymentPage';
