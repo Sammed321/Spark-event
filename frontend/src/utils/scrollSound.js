@@ -7,16 +7,16 @@
 
 let audioCtx = null;
 let lastTickTime = 0;
-let lastScrollY = 0;
+let lastScrollY = typeof window !== 'undefined' ? window.scrollY : 0;
 let accumulatedDelta = 0;
 
-// Every ~75px of scroll distance produces one precision haptic tick
-const STEP_PIXELS = 75;
+// Every ~65px of scroll distance produces one precision haptic tick
+const STEP_PIXELS = 65;
 // Maximum tick rate (~22 ticks/sec) to keep fast flings sounding like a smooth ratchet
 const MIN_INTERVAL_MS = 45;
-const TICK_VOLUME = 0.13;
+const TICK_VOLUME = 0.35;
 
-function getAudioContext() {
+export function getAudioContext() {
   if (audioCtx) return audioCtx;
   if (typeof window === 'undefined') return null;
 
@@ -31,10 +31,67 @@ function getAudioContext() {
   return audioCtx;
 }
 
+export function unlockScrollAudio() {
+  const ctx = getAudioContext();
+  if (ctx && ctx.state === 'suspended') {
+    ctx.resume().catch(() => {});
+  }
+}
+
 function isSoundGloballyEnabled() {
   if (typeof window === 'undefined') return false;
   const saved = localStorage.getItem('cuelume_sound');
   return saved === null ? true : saved === 'true';
+}
+
+function renderTickNodes(ctx, direction) {
+  try {
+    const now = ctx.currentTime;
+
+    // Direction-aware frequencies: slightly deeper going down, slightly brighter going up
+    const baseFreq = direction > 0 ? 2150 : 2550;
+    const filterFreq = direction > 0 ? 3600 : 4200;
+
+    // 1. Transient Click Ping (Sine)
+    const osc = ctx.createOscillator();
+    const oscGain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(baseFreq, now);
+
+    oscGain.gain.setValueAtTime(0.0001, now);
+    oscGain.gain.exponentialRampToValueAtTime(TICK_VOLUME * 0.75, now + 0.001);
+    oscGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.012);
+
+    osc.connect(oscGain).connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.018);
+
+    // 2. Mechanical Friction Snap (Bandpass Filtered Noise)
+    const noiseDuration = 0.014;
+    const bufferSize = Math.max(1, Math.floor(ctx.sampleRate * noiseDuration));
+    const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = noiseBuffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = Math.random() * 2 - 1;
+    }
+
+    const noise = ctx.createBufferSource();
+    noise.buffer = noiseBuffer;
+
+    const bandpass = ctx.createBiquadFilter();
+    bandpass.type = 'bandpass';
+    bandpass.frequency.setValueAtTime(filterFreq, now);
+    bandpass.Q.setValueAtTime(2.2, now);
+
+    const noiseGain = ctx.createGain();
+    noiseGain.gain.setValueAtTime(0.0001, now);
+    noiseGain.gain.exponentialRampToValueAtTime(TICK_VOLUME * 0.9, now + 0.001);
+    noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.014);
+
+    noise.connect(bandpass).connect(noiseGain).connect(ctx.destination);
+    noise.start(now);
+    noise.stop(now + 0.018);
+  } catch {}
 }
 
 /**
@@ -46,54 +103,13 @@ function playHapticTick(direction = 1) {
   if (!ctx) return;
 
   if (ctx.state === 'suspended') {
-    void ctx.resume();
+    ctx.resume().then(() => {
+      renderTickNodes(ctx, direction);
+    }).catch(() => {});
+    return;
   }
 
-  const now = ctx.currentTime;
-
-  // Direction-aware frequencies: slightly deeper going down, slightly brighter going up
-  const baseFreq = direction > 0 ? 2150 : 2550;
-  const filterFreq = direction > 0 ? 3600 : 4200;
-
-  // 1. Transient Click Ping (Sine)
-  const osc = ctx.createOscillator();
-  const oscGain = ctx.createGain();
-  osc.type = 'sine';
-  osc.frequency.setValueAtTime(baseFreq, now);
-
-  oscGain.gain.setValueAtTime(0.0001, now);
-  oscGain.gain.exponentialRampToValueAtTime(TICK_VOLUME * 0.7, now + 0.001);
-  oscGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.009);
-
-  osc.connect(oscGain).connect(ctx.destination);
-  osc.start(now);
-  osc.stop(now + 0.015);
-
-  // 2. Mechanical Friction Snap (Bandpass Filtered Noise)
-  const noiseDuration = 0.012;
-  const bufferSize = Math.max(1, Math.floor(ctx.sampleRate * noiseDuration));
-  const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-  const data = noiseBuffer.getChannelData(0);
-  for (let i = 0; i < bufferSize; i++) {
-    data[i] = Math.random() * 2 - 1;
-  }
-
-  const noise = ctx.createBufferSource();
-  noise.buffer = noiseBuffer;
-
-  const bandpass = ctx.createBiquadFilter();
-  bandpass.type = 'bandpass';
-  bandpass.frequency.setValueAtTime(filterFreq, now);
-  bandpass.Q.setValueAtTime(2.2, now);
-
-  const noiseGain = ctx.createGain();
-  noiseGain.gain.setValueAtTime(0.0001, now);
-  noiseGain.gain.exponentialRampToValueAtTime(TICK_VOLUME * 0.9, now + 0.001);
-  noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.011);
-
-  noise.connect(bandpass).connect(noiseGain).connect(ctx.destination);
-  noise.start(now);
-  noise.stop(now + 0.015);
+  renderTickNodes(ctx, direction);
 }
 
 /**

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Menu, X, Volume2, VolumeX } from 'lucide-react';
 import { play, setEnabled } from 'cuelume';
 import { useScrolled } from '../hooks/useScrolled';
+import { unlockScrollAudio } from '../utils/scrollSound';
 
 const LINKS = [
   { label: 'Home',      id: 'home' },
@@ -29,7 +30,8 @@ export function Navbar() {
     setEnabled(next);
     localStorage.setItem('cuelume_sound', String(next));
     if (next) {
-      play('sparkle', { volume: 0.5 });
+      unlockScrollAudio();
+      play('sparkle', { volume: 0.9 });
     }
   };
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { bind, setVolume, setEnabled } from 'cuelume';
-import { handleScrollSound } from './utils/scrollSound';
+import { handleScrollSound, unlockScrollAudio } from './utils/scrollSound';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './sections/HeroSection';
 import { AboutSection } from './sections/AboutSection';
@@ -20,7 +20,19 @@ function App() {
     const savedSound = localStorage.getItem('cuelume_sound');
     const isEnabled = savedSound === null ? true : savedSound === 'true';
     setEnabled(isEnabled);
-    setVolume(0.22);
+    setVolume(0.65);
+
+    // Global first-gesture listener to unlock Web Audio on browsers (Chrome/Safari/Mobile)
+    const handleFirstGesture = () => {
+      unlockScrollAudio();
+      window.removeEventListener('pointerdown', handleFirstGesture);
+      window.removeEventListener('touchstart', handleFirstGesture);
+      window.removeEventListener('keydown', handleFirstGesture);
+    };
+
+    window.addEventListener('pointerdown', handleFirstGesture, { passive: true });
+    window.addEventListener('touchstart', handleFirstGesture, { passive: true });
+    window.addEventListener('keydown', handleFirstGesture, { passive: true });
 
     const handleScroll = () => {
       handleScrollSound(window.scrollY);
@@ -38,6 +50,9 @@ function App() {
     window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
+      window.removeEventListener('pointerdown', handleFirstGesture);
+      window.removeEventListener('touchstart', handleFirstGesture);
+      window.removeEventListener('keydown', handleFirstGesture);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('mousemove', handleMouseMove);
     };
