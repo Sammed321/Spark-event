@@ -23,9 +23,16 @@ export function ConfirmPaymentPage() {
   const pageRef = useRef(null);
   const cardRef = useRef(null);
 
-  const initialEmail = searchParams.get('email') || localStorage.getItem('spark_user_email') || '';
+  const emailParam = searchParams.get('email');
 
-  const [email, setEmail] = useState(initialEmail);
+  useEffect(() => {
+    // Prevent direct access from website/URL bar without valid registration reroute
+    if (!emailParam || !emailParam.trim()) {
+      navigate('/register', { replace: true });
+    }
+  }, [emailParam, navigate]);
+
+  const [email, setEmail] = useState(emailParam || '');
   const [utr, setUtr] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -53,8 +60,8 @@ export function ConfirmPaymentPage() {
     }).catch(() => {});
 
     // If email provided, check if user already has attendance code
-    if (initialEmail) {
-      api.getStatus(initialEmail).then(res => {
+    if (emailParam) {
+      api.getStatus(emailParam).then(res => {
         if (res?.data?.attendance_code && res?.data?.attendance_qr_data_url) {
           setAttendanceData({
             name: res.data.name,
@@ -68,7 +75,7 @@ export function ConfirmPaymentPage() {
         }
       }).catch(() => {});
     }
-  }, [initialEmail]);
+  }, [emailParam]);
 
   useEffect(() => {
     if (cardRef.current) {

@@ -314,16 +314,6 @@ export function RegisterPage() {
                       <span>Continue to Payment</span>
                       <ArrowRight size={16} />
                     </button>
-
-                    <div style={{ textAlign: 'center', marginTop: 12 }}>
-                      <button
-                        type="button"
-                        onClick={() => navigate('/confirm-payment')}
-                        style={{ background: 'none', border: 'none', color: '#c084fc', cursor: 'pointer', fontSize: 13, textDecoration: 'underline' }}
-                      >
-                        Already registered? Enter your UTR here →
-                      </button>
-                    </div>
                   </div>
                 </form>
               )}
