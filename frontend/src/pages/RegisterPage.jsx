@@ -82,12 +82,21 @@ export function RegisterPage() {
     play('loading');
     try {
       const cleanEmail = formData.email.trim().toLowerCase();
+      const mapSource = (val) => {
+        const s = (val || '').toLowerCase();
+        if (s.includes('insta') || s.includes('social') || s.includes('whats') || s.includes('spark')) return 'SPARK socials';
+        if (s.includes('college')) return 'college notice';
+        if (s.includes('friend')) return 'friend';
+        if (s.includes('iit') || s.includes('cell')) return 'IITB E-Cell';
+        return 'other';
+      };
+
       const payload = {
         name: formData.name.trim(),
         usn: formData.usn.trim(),
         email: cleanEmail,
         college: formData.college.trim(),
-        heard_via: formData.source || 'other',
+        heard_via: mapSource(formData.source),
       };
 
       try {
@@ -287,12 +296,11 @@ export function RegisterPage() {
                     <div>
                       <select className={`field-input ${errors.source ? 'error' : ''}`} name="source" value={formData.source} onChange={handleChange} style={{ color: formData.source ? '#ede9fe' : 'rgba(196,181,253,.35)' }}>
                         <option value="" disabled>How did you hear about us?</option>
-                        <option value="College">College</option>
-                        <option value="Friend">Friend</option>
-                        <option value="Social Media">Social Media</option>
-                        <option value="WhatsApp">WhatsApp</option>
-                        <option value="Instagram">Instagram</option>
-                        <option value="Other">Other</option>
+                        <option value="SPARK socials">Instagram / Social Media</option>
+                        <option value="college notice">College Notice</option>
+                        <option value="friend">Friend / Peer</option>
+                        <option value="IITB E-Cell">IITB E-Cell</option>
+                        <option value="other">Other</option>
                       </select>
                       {errors.source && <div style={{ color: '#f87171', fontSize: 12, marginTop: 6 }}>{errors.source}</div>}
                     </div>
