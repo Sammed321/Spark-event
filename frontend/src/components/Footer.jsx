@@ -1,12 +1,23 @@
+import { useNavigate, useLocation } from 'react-router-dom';
+
 export function Footer() {
-  const goto = id => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const goto = id => {
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   const LINKS = [
     { label: 'Home',      id: 'home' },
     { label: 'About',     id: 'about' },
     { label: 'Workshop',  id: 'workshop' },
     { label: 'Structure', id: 'timeline' },
-    { label: 'Register',  id: 'register' },
     { label: 'Contact',   id: 'contact' },
   ];
 

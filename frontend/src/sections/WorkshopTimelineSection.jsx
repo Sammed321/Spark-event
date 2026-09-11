@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useInView } from '../hooks/useInView';
 import { CyberCard } from '../components/CyberCard';
+import { useGsapFloatingOrbs } from '../utils/gsapAnimations';
 
 const INTERVAL_MS = 750;
 
@@ -48,8 +49,11 @@ const SESSIONS = [
 ];
 
 export function WorkshopTimelineSection() {
+  const timelineRef = useRef(null);
   const [ref, inView] = useInView({ threshold: 0.1 });
   const [visibleCount, setVisibleCount] = useState(0);
+
+  useGsapFloatingOrbs(timelineRef);
 
   // When the section comes into view, trigger the sequential 1.5s entrance
   useEffect(() => {
@@ -58,26 +62,26 @@ export function WorkshopTimelineSection() {
     // Initial card entrance
     const initialTimer = setTimeout(() => {
       setVisibleCount(1);
-    }, 60);
+    }, 150);
 
-    const intervalTimer = setInterval(() => {
-      setVisibleCount((prev) => {
+    const interval = setInterval(() => {
+      setVisibleCount(prev => {
         if (prev < SESSIONS.length) {
           return prev + 1;
         }
-        clearInterval(intervalTimer);
+        clearInterval(interval);
         return prev;
       });
     }, INTERVAL_MS);
 
     return () => {
       clearTimeout(initialTimer);
-      clearInterval(intervalTimer);
+      clearInterval(interval);
     };
   }, [inView]);
 
   return (
-    <section id="timeline" className="section" style={{ background: '#0a0010', position: 'relative', overflow: 'hidden' }}>
+    <section ref={timelineRef} id="timeline" className="section" style={{ background: '#0a0010', position: 'relative', overflow: 'hidden' }}>
       <div className="grid-bg" style={{ position: 'absolute', inset: 0, opacity: 0.15, pointerEvents: 'none' }} />
       
       {/* Background ambient glow */}

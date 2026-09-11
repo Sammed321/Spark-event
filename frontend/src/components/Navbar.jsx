@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X, Volume2, VolumeX } from 'lucide-react';
 import { play, setEnabled } from 'cuelume';
 import { useScrolled } from '../hooks/useScrolled';
@@ -9,13 +10,14 @@ const LINKS = [
   { label: 'About',     id: 'about' },
   { label: 'Workshop',  id: 'workshop' },
   { label: 'Structure', id: 'timeline' },
-  { label: 'Register',  id: 'register' },
   { label: 'Contact',   id: 'contact' },
 ];
 
 const goto = id => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
 export function Navbar() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const scrolled = useScrolled(40);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState('home');
@@ -42,14 +44,27 @@ export function Navbar() {
     );
     LINKS.forEach(l => { const el = document.getElementById(l.id); if (el) obs.observe(el); });
     return () => obs.disconnect();
-  }, []);
+  }, [location.pathname]);
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [open]);
 
-  const click = id => { setOpen(false); setTimeout(() => goto(id), 80); };
+  const click = id => {
+    setOpen(false);
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => goto(id), 120);
+    } else {
+      setTimeout(() => goto(id), 80);
+    }
+  };
+
+  const handleRegisterClick = () => {
+    setOpen(false);
+    navigate('/register');
+  };
 
   return (
     <>
@@ -181,7 +196,7 @@ export function Navbar() {
 
             <button
               className="btn btn-primary btn-sm hidden-mobile"
-              onClick={() => click('register')}
+              onClick={handleRegisterClick}
               data-cuelume-hover="tick"
               data-cuelume-press="pulse"
             >
@@ -246,7 +261,7 @@ export function Navbar() {
           <button
             className="btn btn-primary btn-md"
             style={{ marginTop: 24 }}
-            onClick={() => click('register')}
+            onClick={handleRegisterClick}
             data-cuelume-hover="tick"
             data-cuelume-press="pulse"
           >

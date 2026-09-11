@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Calendar, Clock, Users, ChevronDown, IndianRupee } from 'lucide-react';
 import FluidOrb from '../components/ui/fluid-orb';
+import { useGsapFloatingOrbs, gsap } from '../utils/gsapAnimations';
 
 const PARTICLES = Array.from({ length: 24 }, () => ({
   w: Math.random() * 3 + 2,
@@ -14,11 +16,18 @@ const PARTICLES = Array.from({ length: 24 }, () => ({
 const goto = id => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 
 export function HeroSection() {
+  const navigate = useNavigate();
+  const heroRef = useRef(null);
   const [ready, setReady] = useState(false);
-  useEffect(() => { requestAnimationFrame(() => setTimeout(() => setReady(true), 80)); }, []);
+
+  useGsapFloatingOrbs(heroRef);
+
+  useEffect(() => {
+    requestAnimationFrame(() => setTimeout(() => setReady(true), 80));
+  }, []);
 
   return (
-    <section id="home" style={{
+    <section ref={heroRef} id="home" style={{
       minHeight: '100vh',
       background: 'radial-gradient(ellipse 120% 80% at 50% -10%, rgba(109,40,217,.35) 0%, rgba(6,0,16,1) 55%)',
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
@@ -165,7 +174,7 @@ export function HeroSection() {
         }}>
           <button
             className="btn btn-primary btn-xl"
-            onClick={() => goto('register')}
+            onClick={() => navigate('/register')}
             data-cuelume-hover="tick"
             data-cuelume-press="pulse"
           >
