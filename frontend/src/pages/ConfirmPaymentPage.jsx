@@ -82,7 +82,18 @@ export function ConfirmPaymentPage() {
       gsap.fromTo(
         cardRef.current,
         { opacity: 0, y: 30, scale: 0.96 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'power3.out' }
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.6,
+          ease: 'power3.out',
+          onComplete: () => {
+            if (cardRef.current) {
+              gsap.set(cardRef.current, { clearProps: 'transform' });
+            }
+          },
+        }
       );
     }
   }, [attendanceData]);
@@ -169,11 +180,11 @@ export function ConfirmPaymentPage() {
   };
 
   return (
-    <div ref={pageRef} style={{ background: '#05000e', minHeight: '100vh', position: 'relative', overflowX: 'hidden' }}>
+    <div ref={pageRef} className="confirm-page-wrap">
       
       {/* Background Orbs */}
-      <div className="orb anim-pulse" style={{ width: 650, height: 650, top: '-10%', right: '-10%', background: 'radial-gradient(circle, rgba(167,139,250,0.16) 0%, transparent 65%)' }} aria-hidden="true" />
-      <div className="orb" style={{ width: 550, height: 550, bottom: '0%', left: '-10%', background: 'radial-gradient(circle, rgba(232,121,249,0.12) 0%, transparent 65%)' }} aria-hidden="true" />
+      <div className="orb anim-pulse" style={{ width: 'min(650px, 90vw)', height: 'min(650px, 90vw)', top: '-10%', right: '-10%', background: 'radial-gradient(circle, rgba(167,139,250,0.16) 0%, transparent 65%)', pointerEvents: 'none' }} aria-hidden="true" />
+      <div className="orb" style={{ width: 'min(550px, 80vw)', height: 'min(550px, 80vw)', bottom: '0%', left: '-10%', background: 'radial-gradient(circle, rgba(232,121,249,0.12) 0%, transparent 65%)', pointerEvents: 'none' }} aria-hidden="true" />
       <div className="grid-bg" style={{ position: 'fixed', inset: 0, opacity: 0.2, pointerEvents: 'none' }} />
 
       {/* Top Navbar */}
@@ -184,25 +195,27 @@ export function ConfirmPaymentPage() {
         WebkitBackdropFilter: 'blur(20px)',
         borderBottom: '1px solid rgba(139,92,246,0.2)',
       }}>
-        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 68 }}>
+        <div className="container confirm-header-nav" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 68 }}>
           <div
             onClick={() => navigate('/')}
             data-cuelume-hover="tick"
             data-cuelume-press="press"
-            style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }}
+            className="confirm-logos-wrap"
+            style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <img src="/kls-logo.png" alt="KLS" style={{ height: 36, width: 'auto' }} />
-              <img src="/git-logo.png" alt="GIT" style={{ height: 36, width: 'auto' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <img src="/kls-logo.png" alt="KLS" className="logo-kls" style={{ height: 36, width: 'auto' }} />
+              <img src="/git-logo.png" alt="GIT" className="logo-git" style={{ height: 36, width: 'auto' }} />
             </div>
             <div style={{ width: 1, height: 24, background: 'rgba(167,139,250,0.3)' }} aria-hidden="true" />
-            <img src="/logo2.png" alt="Illuminate" style={{ height: 40, width: 'auto' }} />
+            <img src="/logo2.png" alt="Illuminate" className="logo-illuminate" style={{ height: 40, width: 'auto' }} />
           </div>
 
           <button
             onClick={() => navigate('/')}
             data-cuelume-hover="tick"
             data-cuelume-press="press"
+            className="confirm-back-btn"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -217,35 +230,37 @@ export function ConfirmPaymentPage() {
               fontSize: 14,
               cursor: 'pointer',
               transition: 'all 0.2s ease',
+              flexShrink: 0,
             }}
           >
             <ArrowLeft size={16} />
-            <span>Back to Home</span>
+            <span className="btn-text-desktop">Back to Home</span>
+            <span className="btn-text-mobile">Home</span>
           </button>
         </div>
       </header>
 
       {/* Main Content Area */}
-      <main style={{ padding: '64px 0 96px', position: 'relative', zIndex: 2 }}>
-        <div className="container">
+      <main className="confirm-main" style={{ padding: '64px 0 96px', position: 'relative', zIndex: 2 }}>
+        <div className="container" style={{ maxWidth: 1080 }}>
 
           {/* If Attendance Pass Generated: Show Pass */}
           {attendanceData ? (
-            <div ref={cardRef} style={{ maxWidth: 680, margin: '0 auto' }}>
+            <div ref={cardRef} style={{ maxWidth: 680, margin: '0 auto', width: '100%' }}>
               
-              <div style={{ textAlign: 'center', marginBottom: 40 }}>
+              <div className="confirm-hero-title" style={{ textAlign: 'center', marginBottom: 36 }}>
                 <div style={{
-                  width: 72, height: 72, borderRadius: '50%', background: 'rgba(16,185,129,0.15)',
+                  width: 64, height: 64, borderRadius: '50%', background: 'rgba(16,185,129,0.15)',
                   border: '1px solid rgba(16,185,129,0.4)', display: 'flex', alignItems: 'center',
-                  justifyContent: 'center', margin: '0 auto 20px', color: '#34d399',
+                  justifyContent: 'center', margin: '0 auto 16px', color: '#34d399',
                   boxShadow: '0 0 30px rgba(16,185,129,0.3)',
                 }}>
-                  <CheckCircle size={40} />
+                  <CheckCircle size={36} />
                 </div>
-                <h1 className="font-syne" style={{ fontSize: 'clamp(32px, 4.5vw, 46px)', fontWeight: 800, color: '#fff', marginBottom: 12 }}>
+                <h1 className="font-syne" style={{ fontSize: 'clamp(28px, 5vw, 44px)', fontWeight: 800, color: '#fff', marginBottom: 10 }}>
                   Attendance Pass <span className="grad-text">Generated!</span>
                 </h1>
-                <p className="font-inter" style={{ fontSize: 16, color: 'rgba(196,181,253,0.75)', maxWidth: 520, margin: '0 auto' }}>
+                <p className="font-inter" style={{ fontSize: 15, color: 'rgba(196,181,253,0.75)', maxWidth: 520, margin: '0 auto' }}>
                   Your UTR has been logged. Present your official Attendance QR Code at the registration desk for check-in.
                 </p>
               </div>
@@ -255,17 +270,18 @@ export function ConfirmPaymentPage() {
                 background: 'linear-gradient(145deg, rgba(124,58,237,0.16) 0%, rgba(20,5,45,0.85) 100%)',
                 border: '1px solid rgba(167,139,250,0.4)',
                 borderRadius: 32,
-                padding: 'clamp(32px, 5vw, 48px)',
+                padding: 'clamp(24px, 5vw, 48px)',
                 position: 'relative',
                 overflow: 'hidden',
                 boxShadow: '0 30px 70px rgba(0,0,0,0.6), inset 0 0 24px rgba(167,139,250,0.1)',
                 textAlign: 'center',
-              }} className="glass-spotlight">
+                width: '100%',
+              }} className="glass-spotlight confirm-card">
                 
                 {/* Holographic shimmer */}
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.06) 25%, transparent 30%)', backgroundSize: '200% 100%', animation: 'shimmer 4s infinite linear', pointerEvents: 'none' }} />
 
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(16,185,129,0.15)', border: '1px solid rgba(16,185,129,0.3)', padding: '6px 16px', borderRadius: 20, marginBottom: 28 }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(16,185,129,0.15)', border: '1px solid rgba(16,185,129,0.3)', padding: '6px 14px', borderRadius: 20, marginBottom: 24 }}>
                   <ShieldCheck size={16} color="#34d399" />
                   <span className="font-grotesk" style={{ fontSize: 12, fontWeight: 700, color: '#34d399', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                     Seat Reserved &bull; UTR Logged
@@ -274,18 +290,19 @@ export function ConfirmPaymentPage() {
 
                 {/* The Unique Attendance QR Code */}
                 {attendanceData.attendance_qr_data_url && (
-                  <div style={{ margin: '0 auto 24px', display: 'inline-block' }}>
+                  <div style={{ margin: '0 auto 20px', display: 'inline-block', maxWidth: '100%' }}>
                     <div style={{
                       background: '#ffffff',
-                      padding: 16,
-                      borderRadius: 20,
+                      padding: 14,
+                      borderRadius: 18,
                       boxShadow: '0 10px 36px rgba(0,0,0,0.6)',
                       display: 'inline-block',
+                      maxWidth: '100%',
                     }}>
                       <img
                         src={attendanceData.attendance_qr_data_url}
                         alt="Attendance QR Code"
-                        style={{ width: 230, height: 230, display: 'block', borderRadius: 10 }}
+                        style={{ width: 220, maxWidth: '65vw', height: 'auto', aspectRatio: '1/1', display: 'block', borderRadius: 8 }}
                       />
                     </div>
                   </div>
@@ -296,19 +313,20 @@ export function ConfirmPaymentPage() {
                   background: 'rgba(0,0,0,0.35)',
                   border: '1px solid rgba(167,139,250,0.25)',
                   borderRadius: 16,
-                  padding: '16px 20px',
+                  padding: '14px 18px',
                   maxWidth: 420,
-                  margin: '0 auto 28px',
+                  margin: '0 auto 24px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   gap: 12,
+                  flexWrap: 'wrap',
                 }}>
                   <div style={{ textAlign: 'left' }}>
                     <div style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#a78bfa', fontWeight: 600 }}>
                       Unique Attendance Code
                     </div>
-                    <div style={{ fontSize: 20, fontWeight: 800, color: '#e879f9', letterSpacing: '0.08em', fontFamily: 'monospace', marginTop: 4 }}>
+                    <div style={{ fontSize: 'clamp(17px, 4.5vw, 20px)', fontWeight: 800, color: '#e879f9', letterSpacing: '0.08em', fontFamily: 'monospace', marginTop: 4, wordBreak: 'break-all' }}>
                       {attendanceData.attendance_code}
                     </div>
                   </div>
@@ -339,32 +357,33 @@ export function ConfirmPaymentPage() {
                   background: 'rgba(0,0,0,0.2)',
                   border: '1px solid rgba(139,92,246,0.15)',
                   borderRadius: 18,
-                  padding: '20px 24px',
+                  padding: '18px 20px',
                   textAlign: 'left',
                   fontSize: 14,
                   display: 'flex',
                   flexDirection: 'column',
                   gap: 12,
-                  marginBottom: 28,
+                  marginBottom: 24,
+                  overflowWrap: 'anywhere',
                 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
                     <span style={{ color: 'rgba(196,181,253,0.6)' }}>Participant:</span>
-                    <span style={{ fontWeight: 600, color: '#fff' }}>{attendanceData.name}</span>
+                    <span style={{ fontWeight: 600, color: '#fff', wordBreak: 'break-word' }}>{attendanceData.name}</span>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
                     <span style={{ color: 'rgba(196,181,253,0.6)' }}>Email:</span>
-                    <span style={{ fontWeight: 500, color: '#e9d5ff' }}>{attendanceData.email}</span>
+                    <span style={{ fontWeight: 500, color: '#e9d5ff', wordBreak: 'break-all' }}>{attendanceData.email}</span>
                   </div>
                   {attendanceData.usn && (
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
                       <span style={{ color: 'rgba(196,181,253,0.6)' }}>USN / Roll No:</span>
-                      <span style={{ fontWeight: 500, color: '#e9d5ff' }}>{attendanceData.usn}</span>
+                      <span style={{ fontWeight: 500, color: '#e9d5ff', wordBreak: 'break-all' }}>{attendanceData.usn}</span>
                     </div>
                   )}
                   {attendanceData.utr && (
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
                       <span style={{ color: 'rgba(196,181,253,0.6)' }}>UTR Reference:</span>
-                      <span style={{ fontWeight: 600, color: '#a78bfa', fontFamily: 'monospace' }}>{attendanceData.utr}</span>
+                      <span style={{ fontWeight: 600, color: '#a78bfa', fontFamily: 'monospace', wordBreak: 'break-all' }}>{attendanceData.utr}</span>
                     </div>
                   )}
                 </div>
@@ -403,35 +422,35 @@ export function ConfirmPaymentPage() {
             /* State A: Payment Info & UTR Entry Form */
             <div ref={cardRef}>
               
-              <div style={{ textAlign: 'center', marginBottom: 56 }}>
+              <div className="confirm-hero-title" style={{ textAlign: 'center', marginBottom: 44 }}>
                 <span className="eyebrow" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
                   <Sparkles size={14} /> Step 2: Payment Confirmation
                 </span>
-                <h1 className="font-syne" style={{ fontSize: 'clamp(32px,5vw,52px)', fontWeight: 800, color: '#fff', lineHeight: 1.15 }}>
+                <h1 className="font-syne" style={{ fontSize: 'clamp(28px, 5vw, 50px)', fontWeight: 800, color: '#fff', lineHeight: 1.15, marginTop: 12 }}>
                   Enter UTR for <span className="grad-text">Confirmation</span>
                 </h1>
-                <p className="font-inter" style={{ fontSize: 16, color: 'rgba(196,181,253,.7)', maxWidth: 580, margin: '16px auto 0' }}>
+                <p className="font-inter" style={{ fontSize: 16, color: 'rgba(196,181,253,.7)', maxWidth: 580, margin: '14px auto 0' }}>
                   Pay ₹{paymentInfo.amount_rupees} using the UPI QR code sent to your email. Then enter your 12-digit UPI reference (UTR) to confirm your registration.
                 </p>
               </div>
 
-              <div style={{ display: 'grid', gap: 40 }} className="confirm-grid">
+              <div style={{ display: 'grid', gap: 36 }} className="confirm-grid">
                 
-                {/* Left: Payment Summary (NO QR OR UPI ID ON WEBSITE) */}
+                {/* Left: Payment Summary */}
                 <div style={{
                   background: 'linear-gradient(145deg, rgba(124,58,237,0.14) 0%, rgba(88,28,135,0.06) 100%)',
                   border: '1px solid rgba(167,139,250,0.35)',
                   borderRadius: 32,
-                  padding: 'clamp(32px, 5vw, 48px)',
+                  padding: 'clamp(24px, 5vw, 48px)',
                   textAlign: 'center',
                   boxShadow: '0 30px 60px rgba(0,0,0,0.5)',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
-                }} className="glass-spotlight">
+                }} className="glass-spotlight confirm-card">
                   
-                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(124,58,237,0.25)', padding: '6px 14px', borderRadius: 20, marginBottom: 24, border: '1px solid rgba(167,139,250,0.35)' }}>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(124,58,237,0.25)', padding: '6px 14px', borderRadius: 20, marginBottom: 20, border: '1px solid rgba(167,139,250,0.35)' }}>
                     <Receipt size={16} color="#e879f9" />
                     <span className="font-grotesk" style={{ fontSize: 12, fontWeight: 600, color: '#e879f9', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Payment Summary</span>
                   </div>
@@ -439,16 +458,16 @@ export function ConfirmPaymentPage() {
                   <div className="font-grotesk" style={{ fontSize: 13, color: 'rgba(196,181,253,0.6)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>
                     Workshop Fee
                   </div>
-                  <div className="font-syne grad-text" style={{ fontSize: 44, fontWeight: 800, marginBottom: 24 }}>
+                  <div className="font-syne grad-text fee-amount" style={{ fontSize: 44, fontWeight: 800, marginBottom: 20 }}>
                     ₹{paymentInfo.amount_rupees}
                   </div>
 
-                  <div style={{
+                  <div className="instructions-box" style={{
                     background: 'rgba(124,58,237,0.12)',
                     border: '1px dashed rgba(167,139,250,0.35)',
                     borderRadius: 16,
                     padding: '16px 20px',
-                    maxWidth: 340,
+                    maxWidth: 380,
                     width: '100%',
                     textAlign: 'left',
                     marginBottom: 20,
@@ -465,14 +484,14 @@ export function ConfirmPaymentPage() {
                 </div>
 
                 {/* Right: Enter UTR Confirmation Form */}
-                <div className="glass-strong neon-card" style={{
-                  padding: 'clamp(32px, 5vw, 48px)',
+                <div className="glass-strong neon-card confirm-card" style={{
+                  padding: 'clamp(24px, 5vw, 48px)',
                   borderRadius: 32,
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'center',
                 }}>
-                  <div style={{ marginBottom: 28 }}>
+                  <div style={{ marginBottom: 24 }}>
                     <h2 className="font-syne" style={{ fontSize: 24, fontWeight: 700, color: '#fff', marginBottom: 8 }}>
                       Log Payment UTR
                     </h2>
@@ -539,7 +558,7 @@ export function ConfirmPaymentPage() {
                         type="submit"
                         className="btn btn-primary btn-xl"
                         disabled={loading}
-                        style={{ width: '100%', marginTop: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}
+                        style={{ width: '100%', marginTop: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}
                         data-cuelume-hover="tick"
                         data-cuelume-press="pulse"
                       >
@@ -559,7 +578,7 @@ export function ConfirmPaymentPage() {
                     </div>
                   </form>
 
-                  <div style={{ marginTop: 28, paddingTop: 24, borderTop: '1px solid rgba(139,92,246,0.15)', textAlign: 'center' }}>
+                  <div style={{ marginTop: 24, paddingTop: 20, borderTop: '1px solid rgba(139,92,246,0.15)', textAlign: 'center' }}>
                     <p style={{ fontSize: 13, color: 'rgba(196,181,253,0.5)' }}>
                       Haven't registered yet?{' '}
                       <button
@@ -582,9 +601,83 @@ export function ConfirmPaymentPage() {
       </main>
 
       <style>{`
-        .confirm-grid { grid-template-columns: 1fr 1.1fr; }
+        .confirm-page-wrap {
+          background: #05000e;
+          min-height: 100vh;
+          min-height: 100dvh;
+          position: relative;
+          width: 100%;
+          overflow-x: clip;
+          touch-action: pan-y;
+          -webkit-overflow-scrolling: touch;
+        }
+        .confirm-grid {
+          grid-template-columns: 1fr 1.1fr;
+        }
+        .btn-text-mobile {
+          display: none;
+        }
+
         @media (max-width: 960px) {
-          .confirm-grid { grid-template-columns: 1fr; gap: 32px; }
+          .confirm-grid {
+            grid-template-columns: 1fr;
+            gap: 28px;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .confirm-header-nav {
+            height: 58px !important;
+            padding: 0 14px !important;
+          }
+          .confirm-logos-wrap {
+            gap: 8px !important;
+          }
+          .logo-kls, .logo-git {
+            height: 26px !important;
+          }
+          .logo-illuminate {
+            height: 30px !important;
+          }
+          .confirm-back-btn {
+            padding: 6px 12px !important;
+            font-size: 13px !important;
+            border-radius: 10px !important;
+          }
+          .btn-text-desktop {
+            display: none !important;
+          }
+          .btn-text-mobile {
+            display: inline !important;
+          }
+          .confirm-main {
+            padding: 24px 0 60px !important;
+          }
+          .confirm-hero-title {
+            margin-bottom: 24px !important;
+          }
+          .confirm-hero-title h1 {
+            font-size: 28px !important;
+          }
+          .confirm-hero-title p {
+            font-size: 14px !important;
+            margin-top: 8px !important;
+          }
+          .confirm-card {
+            padding: 22px 18px !important;
+            border-radius: 22px !important;
+          }
+          .confirm-grid {
+            gap: 20px !important;
+          }
+          .fee-amount {
+            font-size: 36px !important;
+            margin-bottom: 16px !important;
+          }
+          .instructions-box {
+            padding: 14px 16px !important;
+            border-radius: 12px !important;
+          }
         }
       `}</style>
     </div>

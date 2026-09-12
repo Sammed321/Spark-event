@@ -119,11 +119,11 @@ export function RegisterPage() {
   };
 
   return (
-    <div ref={containerRef} style={{ background: '#05000e', minHeight: '100vh', position: 'relative', overflowX: 'hidden' }}>
+    <div ref={containerRef} style={{ background: '#05000e', minHeight: '100vh', minHeight: '100dvh', position: 'relative', overflowX: 'clip', width: '100%', touchAction: 'pan-y' }}>
 
       {/* Decorative Cyberpunk Background Orbs */}
-      <div className="orb anim-pulse" style={{ width: 650, height: 650, top: '-10%', left: '-10%', background: 'radial-gradient(circle, rgba(167,139,250,0.18) 0%, transparent 65%)' }} aria-hidden="true" />
-      <div className="orb" style={{ width: 550, height: 550, bottom: '5%', right: '-8%', background: 'radial-gradient(circle, rgba(232,121,249,0.14) 0%, transparent 65%)' }} aria-hidden="true" />
+      <div className="orb anim-pulse" style={{ width: 'min(650px, 90vw)', height: 'min(650px, 90vw)', top: '-10%', left: '-10%', background: 'radial-gradient(circle, rgba(167,139,250,0.18) 0%, transparent 65%)', pointerEvents: 'none' }} aria-hidden="true" />
+      <div className="orb" style={{ width: 'min(550px, 80vw)', height: 'min(550px, 80vw)', bottom: '5%', right: '-8%', background: 'radial-gradient(circle, rgba(232,121,249,0.14) 0%, transparent 65%)', pointerEvents: 'none' }} aria-hidden="true" />
       <div className="grid-bg" style={{ position: 'fixed', inset: 0, opacity: 0.2, pointerEvents: 'none' }} />
 
       {/* Top Navigation Bar */}

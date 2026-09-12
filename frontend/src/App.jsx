@@ -55,8 +55,9 @@ function MainLayout() {
       {/* Scroll Progress Bar */}
       <div className="scroll-progress-bar" style={{ width: `${scrollProgress}%` }} />
 
-      {/* Dynamic Cursor Ambient Spotlight */}
+      {/* Dynamic Cursor Ambient Spotlight (hidden on mobile/touch screens) */}
       <div
+        className="cursor-ambient-spotlight"
         style={{
           position: 'fixed',
           top: 0,
