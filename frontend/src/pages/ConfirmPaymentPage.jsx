@@ -206,11 +206,11 @@ export function ConfirmPaymentPage() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
                 <img src="/kls-logo.png" alt="KLS" className="logo-kls" style={{ height: 32, width: 'auto' }} />
-                <span className="font-grotesk" style={{ fontSize: 9.5, fontWeight: 600, color: '#c4b5fd', letterSpacing: '0.04em', lineHeight: 1 }}>Estd. 1939</span>
+                <span className="font-grotesk" style={{ fontSize: 7.5, fontWeight: 600, color: '#c4b5fd', letterSpacing: '0.04em', lineHeight: 1 }}>Estd. 1939</span>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
                 <img src="/git-logo.png" alt="GIT" className="logo-git" style={{ height: 32, width: 'auto' }} />
-                <span className="font-grotesk" style={{ fontSize: 9.5, fontWeight: 600, color: '#c4b5fd', letterSpacing: '0.04em', lineHeight: 1 }}>Estd. 1979</span>
+                <span className="font-grotesk" style={{ fontSize: 7.5, fontWeight: 600, color: '#c4b5fd', letterSpacing: '0.04em', lineHeight: 1 }}>Estd. 1979</span>
               </div>
             </div>
             <div style={{ width: 1, height: 26, background: 'rgba(167,139,250,0.3)' }} aria-hidden="true" />

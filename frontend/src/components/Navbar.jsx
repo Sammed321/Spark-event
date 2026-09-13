@@ -158,7 +158,7 @@ export function Navbar() {
                 <span
                   className="font-grotesk"
                   style={{
-                    fontSize: 'clamp(9px, 1.1vw, 10.5px)',
+                    fontSize: 'clamp(7px, 0.9vw, 8.5px)',
                     fontWeight: 600,
                     color: '#c4b5fd',
                     letterSpacing: '0.04em',
@@ -188,7 +188,7 @@ export function Navbar() {
                 <span
                   className="font-grotesk"
                   style={{
-                    fontSize: 'clamp(9px, 1.1vw, 10.5px)',
+                    fontSize: 'clamp(7px, 0.9vw, 8.5px)',
                     fontWeight: 600,
                     color: '#c4b5fd',
                     letterSpacing: '0.04em',
