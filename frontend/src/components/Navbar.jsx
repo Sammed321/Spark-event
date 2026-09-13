@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X, Volume2, VolumeX } from 'lucide-react';
 import { play, setEnabled } from 'cuelume';
@@ -14,7 +14,17 @@ const LINKS = [
   { label: 'Contact',   id: 'contact' },
 ];
 
-const goto = id => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+const goto = id => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const navHeight = 68;
+  const elementPosition = el.getBoundingClientRect().top;
+  const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+  window.scrollTo({
+    top: offsetPosition,
+    behavior: 'smooth',
+  });
+};
 
 export function Navbar() {
   const navigate = useNavigate();
@@ -22,6 +32,8 @@ export function Navbar() {
   const scrolled = useScrolled(40);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState('home');
+  const isClickScrollingRef = useRef(false);
+  const clickTimeoutRef = useRef(null);
   const [soundEnabled, setSoundEnabled] = useState(() => {
     const saved = localStorage.getItem('cuelume_sound');
     return saved === null ? true : saved === 'true';
@@ -39,12 +51,36 @@ export function Navbar() {
   };
 
   useEffect(() => {
-    const obs = new IntersectionObserver(
-      entries => entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); }),
-      { threshold: 0.4 }
-    );
-    LINKS.forEach(l => { const el = document.getElementById(l.id); if (el) obs.observe(el); });
-    return () => obs.disconnect();
+    if (location.pathname !== '/') return;
+
+    const handleScroll = () => {
+      if (isClickScrollingRef.current) return;
+
+      const scrollPosition = window.scrollY + 140;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+
+      if (windowHeight + window.scrollY >= documentHeight - 60) {
+        setActive(LINKS[LINKS.length - 1].id);
+        return;
+      }
+
+      for (let i = LINKS.length - 1; i >= 0; i--) {
+        const link = LINKS[i];
+        const el = document.getElementById(link.id);
+        if (el) {
+          const top = el.offsetTop;
+          if (scrollPosition >= top) {
+            setActive(link.id);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [location.pathname]);
 
   useEffect(() => {
@@ -53,12 +89,19 @@ export function Navbar() {
   }, [open]);
 
   const click = id => {
+    setActive(id);
     setOpen(false);
+    isClickScrollingRef.current = true;
+    if (clickTimeoutRef.current) clearTimeout(clickTimeoutRef.current);
+    clickTimeoutRef.current = setTimeout(() => {
+      isClickScrollingRef.current = false;
+    }, 850);
+
     if (location.pathname !== '/') {
       navigate('/');
       setTimeout(() => goto(id), 120);
     } else {
-      setTimeout(() => goto(id), 80);
+      setTimeout(() => goto(id), 40);
     }
   };
 
@@ -155,12 +198,14 @@ export function Navbar() {
                 data-cuelume-hover="tick"
                 data-cuelume-press="tick"
                 style={{
-                  background: active === l.id ? 'rgba(124,58,237,.18)' : 'transparent',
-                  border: 'none', cursor: 'pointer',
+                  background: active === l.id ? 'rgba(124,58,237,.22)' : 'transparent',
+                  border: active === l.id ? '1px solid rgba(167,139,250,.35)' : '1px solid transparent',
+                  boxShadow: active === l.id ? '0 0 14px rgba(124,58,237,.25)' : 'none',
+                  cursor: 'pointer',
                   padding: '8px 16px', borderRadius: 10,
                   fontFamily: 'Space Grotesk, sans-serif', fontWeight: 500, fontSize: 14,
                   color: active === l.id ? '#e9d5ff' : 'rgba(196,181,253,.7)',
-                  transition: 'all .2s',
+                  transition: 'all .2s ease',
                 }}
                 onMouseEnter={e => { if (active !== l.id) e.target.style.color = '#e9d5ff'; }}
                 onMouseLeave={e => { if (active !== l.id) e.target.style.color = 'rgba(196,181,253,.7)'; }}

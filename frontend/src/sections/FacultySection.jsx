@@ -41,6 +41,7 @@ export function FacultySection() {
         position: 'relative',
         overflow: 'hidden',
         padding: '100px 0',
+        scrollMarginTop: 80,
       }}
     >
       {/* Cyber Grid Background */}
