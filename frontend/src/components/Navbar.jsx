@@ -141,30 +141,65 @@ export function Navbar() {
             aria-label="Illuminate Home"
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <img
-                src="/kls-logo.png"
-                alt="Karnataka Law Society"
-                title="Karnataka Law Society (KLS)"
-                style={{
-                  height: 'clamp(32px, 4vw, 42px)',
-                  width: 'auto',
-                  objectFit: 'contain',
-                  filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.35))',
-                }}
-                className="hover-scale"
-              />
-              <img
-                src="/git-logo.png"
-                alt="KLS Gogte Institute of Technology"
-                title="KLS Gogte Institute of Technology (GIT)"
-                style={{
-                  height: 'clamp(32px, 4vw, 42px)',
-                  width: 'auto',
-                  objectFit: 'contain',
-                  filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.35))',
-                }}
-                className="hover-scale"
-              />
+              {/* KLS Logo with Estd. 1939 */}
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+                <img
+                  src="/kls-logo.png"
+                  alt="Karnataka Law Society"
+                  title="Karnataka Law Society (KLS)"
+                  style={{
+                    height: 'clamp(28px, 3.6vw, 36px)',
+                    width: 'auto',
+                    objectFit: 'contain',
+                    filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.35))',
+                  }}
+                  className="hover-scale"
+                />
+                <span
+                  className="font-grotesk"
+                  style={{
+                    fontSize: 'clamp(9px, 1.1vw, 10.5px)',
+                    fontWeight: 600,
+                    color: '#c4b5fd',
+                    letterSpacing: '0.04em',
+                    lineHeight: 1,
+                    whiteSpace: 'nowrap',
+                    textShadow: '0 1px 4px rgba(0,0,0,0.8)',
+                  }}
+                >
+                  Estd. 1939
+                </span>
+              </div>
+
+              {/* GIT Logo with Estd. 1979 */}
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+                <img
+                  src="/git-logo.png"
+                  alt="KLS Gogte Institute of Technology"
+                  title="KLS Gogte Institute of Technology (GIT)"
+                  style={{
+                    height: 'clamp(28px, 3.6vw, 36px)',
+                    width: 'auto',
+                    objectFit: 'contain',
+                    filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.35))',
+                  }}
+                  className="hover-scale"
+                />
+                <span
+                  className="font-grotesk"
+                  style={{
+                    fontSize: 'clamp(9px, 1.1vw, 10.5px)',
+                    fontWeight: 600,
+                    color: '#c4b5fd',
+                    letterSpacing: '0.04em',
+                    lineHeight: 1,
+                    whiteSpace: 'nowrap',
+                    textShadow: '0 1px 4px rgba(0,0,0,0.8)',
+                  }}
+                >
+                  Estd. 1979
+                </span>
+              </div>
             </div>
 
             {/* Subtle Divider */}
