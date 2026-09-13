@@ -20,7 +20,6 @@ export function HomePage() {
         <AboutSection />
         <WorkshopIntroSection />
         <WorkshopTimelineSection />
-        <FacultySection />
 
         {/* High-Energy Cyberpunk Registration CTA Banner */}
         <section style={{
@@ -99,6 +98,7 @@ export function HomePage() {
           </div>
         </section>
 
+        <FacultySection />
         <ContactSection />
       </main>
       <Footer />
