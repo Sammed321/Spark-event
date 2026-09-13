@@ -3,6 +3,21 @@ import { GraduationCap, Award, Crown, ShieldCheck, Code2, Terminal, Palette } fr
 import { CyberCard } from '../components/CyberCard';
 import { useGsapFloatingOrbs, useGsapStaggerCards } from '../utils/gsapAnimations';
 
+function LinkedinIcon({ size = 14, color = 'currentColor' }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill={color}
+      style={{ display: 'inline-block', verticalAlign: 'middle', flexShrink: 0 }}
+      aria-hidden="true"
+    >
+      <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45c-.9 0-1.63.73-1.63 1.63a1.63 1.63 0 1 0 1.63-1.63Z" />
+    </svg>
+  );
+}
+
 const FACULTY_MEMBERS = [
   {
     name: 'Dr. Pavan Kunchur',
@@ -54,6 +69,7 @@ const TECH_TEAM = [
     accent: '#38bdf8',
     scale: 1.15,
     translateY: '2px',
+    linkedin: 'https://www.linkedin.com/in/rishabchavadar20060413/',
   },
   {
     name: 'Sammed Patil',
@@ -65,6 +81,7 @@ const TECH_TEAM = [
     accent: '#a78bfa',
     scale: 1.24,
     translateY: '6px',
+    linkedin: 'https://www.linkedin.com/in/sammed-patil-071752381?utm_source=share_via&utm_content=profile&utm_medium=member_android',
   },
   {
     name: 'Raghavendra Patil',
@@ -76,6 +93,7 @@ const TECH_TEAM = [
     accent: '#e879f9',
     scale: 1,
     translateY: '0px',
+    linkedin: 'https://www.linkedin.com/in/raghavendra-patil-651a26339?utm_source=share_via&utm_content=profile&utm_medium=member_android',
   },
 ];
 
@@ -898,6 +916,48 @@ export function FacultySection() {
                     <Award size={14} color="#a855f7" style={{ flexShrink: 0 }} />
                     <span>{member.institution}</span>
                   </div>
+
+                  {/* LinkedIn Connect Button */}
+                  {member.linkedin && (
+                    <a
+                      href={member.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-cuelume-hover="tick"
+                      data-cuelume-press="tick"
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 7,
+                        marginTop: 14,
+                        padding: '6px 14px',
+                        borderRadius: 20,
+                        background: 'rgba(124, 58, 237, 0.16)',
+                        border: '1px solid rgba(167, 139, 250, 0.32)',
+                        color: '#e9d5ff',
+                        textDecoration: 'none',
+                        fontSize: 12,
+                        fontWeight: 600,
+                        fontFamily: 'Space Grotesk, sans-serif',
+                        transition: 'all 0.25s ease',
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.background = 'rgba(124, 58, 237, 0.35)';
+                        e.currentTarget.style.borderColor = '#c084fc';
+                        e.currentTarget.style.color = '#ffffff';
+                        e.currentTarget.style.boxShadow = '0 0 14px rgba(168, 85, 247, 0.4)';
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.background = 'rgba(124, 58, 237, 0.16)';
+                        e.currentTarget.style.borderColor = 'rgba(167, 139, 250, 0.32)';
+                        e.currentTarget.style.color = '#e9d5ff';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
+                    >
+                      <LinkedinIcon size={14} color="#38bdf8" />
+                      <span>Connect on LinkedIn</span>
+                    </a>
+                  )}
                 </div>
               </CyberCard>
             );
