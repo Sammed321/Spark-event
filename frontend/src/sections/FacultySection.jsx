@@ -49,10 +49,10 @@ const STUDENT_LEADERS = [
     badgeColor: '#e879f9',
   },
   {
-    name: 'Shirish Koratti',
+    name: 'Shrish Korti',
     role: 'Vice President',
     institution: 'KLS Gogte Institute of Technology',
-    image: '/team/shirish-koratti.png',
+    image: '/team/shrish-korti.png',
     Icon: ShieldCheck,
     badgeColor: '#a855f7',
   },
