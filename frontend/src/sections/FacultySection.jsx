@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { GraduationCap, Award } from 'lucide-react';
+import { GraduationCap, Award, Crown, ShieldCheck, Code2, Terminal, Palette } from 'lucide-react';
 import { CyberCard } from '../components/CyberCard';
 import { useGsapFloatingOrbs, useGsapStaggerCards } from '../utils/gsapAnimations';
 
@@ -24,12 +24,65 @@ const FACULTY_MEMBERS = [
   },
 ];
 
+const STUDENT_LEADERS = [
+  {
+    name: 'Shrihari Chikkodikar',
+    role: 'President',
+    institution: 'KLS Gogte Institute of Technology',
+    image: '/team/shrihari-chikkodikar.png',
+    Icon: Crown,
+    badgeColor: '#e879f9',
+  },
+  {
+    name: 'Shirish Koratti',
+    role: 'Vice President',
+    institution: 'KLS Gogte Institute of Technology',
+    image: '/team/shirish-koratti.png',
+    Icon: ShieldCheck,
+    badgeColor: '#a855f7',
+  },
+];
+
+const TECH_TEAM = [
+  {
+    name: 'Rishab Chavadar',
+    role: 'Tech & Web Lead',
+    specialization: 'Backend Developer',
+    institution: 'KLS Gogte Institute of Technology',
+    image: '/team/rishab-chavadar.png',
+    Icon: Terminal,
+    accent: '#38bdf8',
+  },
+  {
+    name: 'Sammed Patil',
+    role: 'Tech & Web Member',
+    specialization: 'Frontend Developer',
+    institution: 'KLS Gogte Institute of Technology',
+    image: '/team/sammed-patil.png',
+    Icon: Code2,
+    accent: '#a78bfa',
+  },
+  {
+    name: 'Raghavendra Patil',
+    role: 'Tech & Web Member',
+    specialization: 'UI/UX Designer',
+    institution: 'KLS Gogte Institute of Technology',
+    image: '/team/raghavendra-patil.png',
+    Icon: Palette,
+    accent: '#e879f9',
+  },
+];
+
 export function FacultySection() {
   const sectionRef = useRef(null);
-  const cardsRef = useRef(null);
+  const facultyCardsRef = useRef(null);
+  const leadershipCardsRef = useRef(null);
+  const techCardsRef = useRef(null);
 
   useGsapFloatingOrbs(sectionRef);
-  useGsapStaggerCards(cardsRef, '.cyber-box', { y: 35, stagger: 0.12 });
+  useGsapStaggerCards(facultyCardsRef, '.cyber-box', { y: 35, stagger: 0.12 });
+  useGsapStaggerCards(leadershipCardsRef, '.cyber-box', { y: 35, stagger: 0.12 });
+  useGsapStaggerCards(techCardsRef, '.cyber-box', { y: 35, stagger: 0.12 });
 
   return (
     <section
@@ -59,9 +112,9 @@ export function FacultySection() {
       <div
         className="orb"
         style={{
-          width: 580,
-          height: 580,
-          top: '-10%',
+          width: 600,
+          height: 600,
+          top: '-8%',
           left: '-10%',
           background: 'radial-gradient(circle, rgba(124, 58, 237, 0.16) 0%, transparent 68%)',
         }}
@@ -70,31 +123,44 @@ export function FacultySection() {
       <div
         className="orb"
         style={{
-          width: 540,
-          height: 540,
-          bottom: '-12%',
+          width: 560,
+          height: 560,
+          bottom: '-10%',
           right: '-10%',
-          background: 'radial-gradient(circle, rgba(232, 121, 249, 0.13) 0%, transparent 68%)',
+          background: 'radial-gradient(circle, rgba(232, 121, 249, 0.14) 0%, transparent 68%)',
         }}
         aria-hidden="true"
       />
       <div
         className="orb"
         style={{
-          width: 420,
-          height: 420,
-          top: '40%',
+          width: 450,
+          height: 450,
+          top: '38%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
           background: 'radial-gradient(circle, rgba(168, 85, 247, 0.09) 0%, transparent 70%)',
         }}
         aria-hidden="true"
       />
+      <div
+        className="orb"
+        style={{
+          width: 480,
+          height: 480,
+          top: '72%',
+          left: '15%',
+          background: 'radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, transparent 70%)',
+        }}
+        aria-hidden="true"
+      />
 
       <div className="container" style={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
         
-        {/* Section Header */}
-        <div style={{ textAlign: 'center', marginBottom: 54 }}>
+        {/* =================================================== */}
+        {/* 1. FACULTY COORDINATORS                             */}
+        {/* =================================================== */}
+        <div style={{ textAlign: 'center', marginBottom: 52 }}>
           <span className="eyebrow">Mentorship & Leadership</span>
           <h2
             className="font-syne"
@@ -124,7 +190,7 @@ export function FacultySection() {
 
         {/* Faculty Cards Grid */}
         <div
-          ref={cardsRef}
+          ref={facultyCardsRef}
           style={{
             display: 'flex',
             flexWrap: 'wrap',
@@ -164,7 +230,6 @@ export function FacultySection() {
                   justifyContent: 'center',
                 }}
               >
-                {/* Tech halo glow behind portrait */}
                 <div
                   style={{
                     position: 'absolute',
@@ -180,7 +245,6 @@ export function FacultySection() {
                   }}
                 />
 
-                {/* KLS GIT Badge */}
                 <div
                   style={{
                     position: 'absolute',
@@ -222,7 +286,6 @@ export function FacultySection() {
                   </span>
                 </div>
 
-                {/* Faculty Cutout Photo */}
                 <img
                   src={faculty.image}
                   alt={faculty.name}
@@ -230,6 +293,7 @@ export function FacultySection() {
                     height: '100%',
                     width: 'auto',
                     maxHeight: 295,
+                    maxWidth: '92%',
                     objectFit: 'contain',
                     objectPosition: 'bottom center',
                     position: 'relative',
@@ -241,7 +305,6 @@ export function FacultySection() {
                   loading="lazy"
                 />
 
-                {/* Bottom smooth dark blend */}
                 <div
                   style={{
                     position: 'absolute',
@@ -315,6 +378,520 @@ export function FacultySection() {
               </div>
             </CyberCard>
           ))}
+        </div>
+
+        {/* Divider */}
+        <div
+          style={{
+            width: '100%',
+            maxWidth: 500,
+            height: 1,
+            margin: '80px auto',
+            background: 'linear-gradient(to right, transparent, rgba(167, 139, 250, 0.35), transparent)',
+          }}
+          aria-hidden="true"
+        />
+
+        {/* =================================================== */}
+        {/* 2. STUDENT LEADERSHIP                               */}
+        {/* =================================================== */}
+        <div style={{ textAlign: 'center', marginBottom: 52 }}>
+          <span className="eyebrow">Student Leadership</span>
+          <h2
+            className="font-syne"
+            style={{
+              fontSize: 'clamp(32px, 5vw, 48px)',
+              fontWeight: 800,
+              color: '#fff',
+              marginBottom: 16,
+              lineHeight: 1.2,
+            }}
+          >
+            Student <span className="grad-text">Coordinators</span>
+          </h2>
+          <p
+            className="font-inter"
+            style={{
+              fontSize: 16,
+              color: 'rgba(196, 181, 253, 0.72)',
+              maxWidth: 620,
+              margin: '0 auto',
+              lineHeight: 1.75,
+            }}
+          >
+            Student executive leadership spearheading event strategy, coordination, and university outreach for Illuminate.
+          </p>
+        </div>
+
+        {/* Student Leaders Cards (2 items centered) */}
+        <div
+          ref={leadershipCardsRef}
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: 32,
+            padding: '0 6px 12px 0',
+          }}
+        >
+          {STUDENT_LEADERS.map((leader, idx) => {
+            const LeaderIcon = leader.Icon;
+            return (
+              <CyberCard
+                key={idx}
+                className="faculty-cyber-card"
+                style={{
+                  width: '100%',
+                  maxWidth: 340,
+                  minWidth: 'min(300px, 100%)',
+                  textAlign: 'left',
+                }}
+                innerStyle={{
+                  padding: 0,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  overflow: 'hidden',
+                }}
+              >
+                {/* Portrait Stage */}
+                <div
+                  style={{
+                    position: 'relative',
+                    width: '100%',
+                    height: 310,
+                    overflow: 'hidden',
+                    background: 'radial-gradient(ellipse at 50% 35%, rgba(139, 92, 246, 0.22) 0%, rgba(9, 2, 24, 0.6) 75%, transparent 100%)',
+                    borderBottom: '1px solid rgba(139, 92, 246, 0.2)',
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '30%',
+                      left: '50%',
+                      transform: 'translate(-50%, -30%)',
+                      width: 210,
+                      height: 210,
+                      borderRadius: '50%',
+                      background: `radial-gradient(circle, ${leader.badgeColor}33 0%, transparent 70%)`,
+                      filter: 'blur(22px)',
+                      pointerEvents: 'none',
+                    }}
+                  />
+
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 14,
+                      right: 14,
+                      zIndex: 3,
+                      background: 'rgba(6, 0, 16, 0.82)',
+                      backdropFilter: 'blur(8px)',
+                      WebkitBackdropFilter: 'blur(8px)',
+                      border: '1px solid rgba(167, 139, 250, 0.35)',
+                      borderRadius: 20,
+                      padding: '4px 12px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 6,
+                      boxShadow: '0 2px 10px rgba(0,0,0,0.4)',
+                    }}
+                  >
+                    <span
+                      style={{
+                        width: 6,
+                        height: 6,
+                        borderRadius: '50%',
+                        background: leader.badgeColor,
+                        boxShadow: `0 0 8px ${leader.badgeColor}`,
+                      }}
+                    />
+                    <span
+                      className="font-grotesk"
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 600,
+                        color: '#e9d5ff',
+                        letterSpacing: '0.05em',
+                        textTransform: 'uppercase',
+                      }}
+                    >
+                      KLS GIT
+                    </span>
+                  </div>
+
+                  <img
+                    src={leader.image}
+                    alt={leader.name}
+                    style={{
+                      height: '100%',
+                      width: 'auto',
+                      maxHeight: 295,
+                      maxWidth: '92%',
+                      objectFit: 'contain',
+                      objectPosition: 'bottom center',
+                      position: 'relative',
+                      zIndex: 1,
+                      filter: 'drop-shadow(0 10px 22px rgba(0,0,0,0.65))',
+                      transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                    }}
+                    className="faculty-card-img"
+                    loading="lazy"
+                  />
+
+                  <div
+                    style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      height: 38,
+                      background: 'linear-gradient(to top, rgba(9, 2, 24, 0.98), transparent)',
+                      zIndex: 2,
+                      pointerEvents: 'none',
+                    }}
+                  />
+                </div>
+
+                {/* Information */}
+                <div
+                  style={{
+                    padding: '24px 24px 28px',
+                    textAlign: 'center',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    flex: 1,
+                  }}
+                >
+                  <div
+                    className="font-grotesk"
+                    style={{
+                      fontSize: 12,
+                      color: leader.badgeColor,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.08em',
+                      fontWeight: 600,
+                      marginBottom: 8,
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 6,
+                    }}
+                  >
+                    <LeaderIcon size={15} color={leader.badgeColor} />
+                    <span>{leader.role}</span>
+                  </div>
+
+                  <h3
+                    className="font-syne"
+                    style={{
+                      fontSize: 21,
+                      fontWeight: 700,
+                      color: '#ffffff',
+                      marginBottom: 8,
+                      letterSpacing: '-0.01em',
+                    }}
+                  >
+                    {leader.name}
+                  </h3>
+
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 6,
+                      color: 'rgba(196, 181, 253, 0.75)',
+                      fontSize: 13.5,
+                    }}
+                    className="font-inter"
+                  >
+                    <Award size={14} color="#a855f7" style={{ flexShrink: 0 }} />
+                    <span>{leader.institution}</span>
+                  </div>
+                </div>
+              </CyberCard>
+            );
+          })}
+        </div>
+
+        {/* Divider */}
+        <div
+          style={{
+            width: '100%',
+            maxWidth: 500,
+            height: 1,
+            margin: '80px auto',
+            background: 'linear-gradient(to right, transparent, rgba(167, 139, 250, 0.35), transparent)',
+          }}
+          aria-hidden="true"
+        />
+
+        {/* =================================================== */}
+        {/* 3. TECH TEAM (SPECIAL TECH & WEB SECTION)           */}
+        {/* =================================================== */}
+        <div style={{ textAlign: 'center', marginBottom: 52 }}>
+          <span className="eyebrow">Tech & Web</span>
+          <h2
+            className="font-syne"
+            style={{
+              fontSize: 'clamp(32px, 5vw, 48px)',
+              fontWeight: 800,
+              color: '#fff',
+              marginBottom: 16,
+              lineHeight: 1.2,
+            }}
+          >
+            Tech <span className="grad-text">Team</span>
+          </h2>
+          <p
+            className="font-inter"
+            style={{
+              fontSize: 16,
+              color: 'rgba(196, 181, 253, 0.72)',
+              maxWidth: 620,
+              margin: '0 auto',
+              lineHeight: 1.75,
+            }}
+          >
+            The engineering, architecture, and design team behind the Illuminate digital platform and web systems.
+          </p>
+        </div>
+
+        {/* Tech Team Cards (3 items) */}
+        <div
+          ref={techCardsRef}
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: 32,
+            padding: '0 6px 12px 0',
+          }}
+        >
+          {TECH_TEAM.map((member, idx) => {
+            const TechIcon = member.Icon;
+            return (
+              <CyberCard
+                key={idx}
+                className="faculty-cyber-card"
+                style={{
+                  width: '100%',
+                  maxWidth: 340,
+                  minWidth: 'min(300px, 100%)',
+                  textAlign: 'left',
+                }}
+                innerStyle={{
+                  padding: 0,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  overflow: 'hidden',
+                }}
+              >
+                {/* Portrait Stage */}
+                <div
+                  style={{
+                    position: 'relative',
+                    width: '100%',
+                    height: 310,
+                    overflow: 'hidden',
+                    background: 'radial-gradient(ellipse at 50% 35%, rgba(139, 92, 246, 0.22) 0%, rgba(9, 2, 24, 0.6) 75%, transparent 100%)',
+                    borderBottom: '1px solid rgba(139, 92, 246, 0.2)',
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '30%',
+                      left: '50%',
+                      transform: 'translate(-50%, -30%)',
+                      width: 210,
+                      height: 210,
+                      borderRadius: '50%',
+                      background: `radial-gradient(circle, ${member.accent}33 0%, transparent 70%)`,
+                      filter: 'blur(22px)',
+                      pointerEvents: 'none',
+                    }}
+                  />
+
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 14,
+                      right: 14,
+                      zIndex: 3,
+                      background: 'rgba(6, 0, 16, 0.82)',
+                      backdropFilter: 'blur(8px)',
+                      WebkitBackdropFilter: 'blur(8px)',
+                      border: '1px solid rgba(167, 139, 250, 0.35)',
+                      borderRadius: 20,
+                      padding: '4px 12px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 6,
+                      boxShadow: '0 2px 10px rgba(0,0,0,0.4)',
+                    }}
+                  >
+                    <span
+                      style={{
+                        width: 6,
+                        height: 6,
+                        borderRadius: '50%',
+                        background: member.accent,
+                        boxShadow: `0 0 8px ${member.accent}`,
+                      }}
+                    />
+                    <span
+                      className="font-grotesk"
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 600,
+                        color: '#e9d5ff',
+                        letterSpacing: '0.05em',
+                        textTransform: 'uppercase',
+                      }}
+                    >
+                      KLS GIT
+                    </span>
+                  </div>
+
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    style={{
+                      height: '100%',
+                      width: 'auto',
+                      maxHeight: 295,
+                      maxWidth: '92%',
+                      objectFit: 'contain',
+                      objectPosition: 'bottom center',
+                      position: 'relative',
+                      zIndex: 1,
+                      filter: 'drop-shadow(0 10px 22px rgba(0,0,0,0.65))',
+                      transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                    }}
+                    className="faculty-card-img"
+                    loading="lazy"
+                  />
+
+                  <div
+                    style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      height: 38,
+                      background: 'linear-gradient(to top, rgba(9, 2, 24, 0.98), transparent)',
+                      zIndex: 2,
+                      pointerEvents: 'none',
+                    }}
+                  />
+                </div>
+
+                {/* Information */}
+                <div
+                  style={{
+                    padding: '24px 24px 28px',
+                    textAlign: 'center',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    flex: 1,
+                  }}
+                >
+                  {/* Primary Role */}
+                  <div
+                    className="font-grotesk"
+                    style={{
+                      fontSize: 12,
+                      color: member.accent,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.08em',
+                      fontWeight: 600,
+                      marginBottom: 6,
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 6,
+                    }}
+                  >
+                    <TechIcon size={15} color={member.accent} />
+                    <span>{member.role}</span>
+                  </div>
+
+                  {/* Name */}
+                  <h3
+                    className="font-syne"
+                    style={{
+                      fontSize: 21,
+                      fontWeight: 700,
+                      color: '#ffffff',
+                      marginBottom: 8,
+                      letterSpacing: '-0.01em',
+                    }}
+                  >
+                    {member.name}
+                  </h3>
+
+                  {/* Specialization Pill Badge */}
+                  <div
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 6,
+                      background: 'rgba(124, 58, 237, 0.16)',
+                      border: '1px solid rgba(167, 139, 250, 0.3)',
+                      borderRadius: 20,
+                      padding: '4px 14px',
+                      marginBottom: 12,
+                    }}
+                  >
+                    <span
+                      style={{
+                        width: 5,
+                        height: 5,
+                        borderRadius: '50%',
+                        background: member.accent,
+                        boxShadow: `0 0 6px ${member.accent}`,
+                      }}
+                    />
+                    <span
+                      className="font-grotesk"
+                      style={{
+                        fontSize: 12,
+                        fontWeight: 600,
+                        color: '#f1ebfc',
+                        letterSpacing: '0.03em',
+                      }}
+                    >
+                      {member.specialization}
+                    </span>
+                  </div>
+
+                  {/* Institution */}
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 6,
+                      color: 'rgba(196, 181, 253, 0.75)',
+                      fontSize: 13,
+                    }}
+                    className="font-inter"
+                  >
+                    <Award size={14} color="#a855f7" style={{ flexShrink: 0 }} />
+                    <span>{member.institution}</span>
+                  </div>
+                </div>
+              </CyberCard>
+            );
+          })}
         </div>
       </div>
 
