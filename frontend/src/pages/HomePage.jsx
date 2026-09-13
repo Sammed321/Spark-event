@@ -4,6 +4,7 @@ import { HeroSection } from '../sections/HeroSection';
 import { AboutSection } from '../sections/AboutSection';
 import { WorkshopIntroSection } from '../sections/WorkshopIntroSection';
 import { WorkshopTimelineSection } from '../sections/WorkshopTimelineSection';
+import { FacultySection } from '../sections/FacultySection';
 import { ContactSection } from '../sections/ContactSection';
 import { Footer } from '../components/Footer';
 import { Sparkles, ArrowRight, ShieldCheck, Award } from 'lucide-react';
@@ -19,6 +20,7 @@ export function HomePage() {
         <AboutSection />
         <WorkshopIntroSection />
         <WorkshopTimelineSection />
+        <FacultySection />
 
         {/* High-Energy Cyberpunk Registration CTA Banner */}
         <section style={{

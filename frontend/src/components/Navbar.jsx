@@ -10,6 +10,7 @@ const LINKS = [
   { label: 'About',     id: 'about' },
   { label: 'Workshop',  id: 'workshop' },
   { label: 'Structure', id: 'timeline' },
+  { label: 'Know more', id: 'know-more' },
   { label: 'Contact',   id: 'contact' },
 ];
 
