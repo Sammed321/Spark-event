@@ -11,16 +11,16 @@ const FACULTY_MEMBERS = [
     image: '/faculty/dr-pavan-kunchur.png',
   },
   {
-    name: 'Prof. Coordinator',
+    name: 'Prof. Pavan K. Korlahalli',
     role: 'Faculty Coordinator',
     institution: 'KLS Gogte Institute of Technology',
-    image: '/faculty/prof-coordinator-1.png',
+    image: '/faculty/prof-pavan-korlahalli.png',
   },
   {
-    name: 'Prof. Coordinator',
+    name: 'Prof. Prasad Mathapati',
     role: 'Faculty Coordinator',
     institution: 'KLS Gogte Institute of Technology',
-    image: '/faculty/prof-coordinator-2.png',
+    image: '/faculty/prof-prasad-mathapati.png',
   },
 ];
 
