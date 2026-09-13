@@ -52,8 +52,8 @@ const TECH_TEAM = [
     image: '/team/rishab-chavadar.png',
     Icon: Terminal,
     accent: '#38bdf8',
-    scale: 1.34,
-    translateY: '8px',
+    scale: 1.15,
+    translateY: '2px',
   },
   {
     name: 'Sammed Patil',
