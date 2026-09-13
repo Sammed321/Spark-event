@@ -52,6 +52,8 @@ const TECH_TEAM = [
     image: '/team/rishab-chavadar.png',
     Icon: Terminal,
     accent: '#38bdf8',
+    scale: 1.34,
+    translateY: '8px',
   },
   {
     name: 'Sammed Patil',
@@ -61,6 +63,8 @@ const TECH_TEAM = [
     image: '/team/sammed-patil.png',
     Icon: Code2,
     accent: '#a78bfa',
+    scale: 1.24,
+    translateY: '6px',
   },
   {
     name: 'Raghavendra Patil',
@@ -70,6 +74,8 @@ const TECH_TEAM = [
     image: '/team/raghavendra-patil.png',
     Icon: Palette,
     accent: '#e879f9',
+    scale: 1,
+    translateY: '0px',
   },
 ];
 
@@ -768,13 +774,17 @@ export function FacultySection() {
                       height: '100%',
                       width: 'auto',
                       maxHeight: 295,
-                      maxWidth: '92%',
+                      maxWidth: member.scale ? `${Math.round(92 * member.scale)}%` : '92%',
                       objectFit: 'contain',
                       objectPosition: 'bottom center',
                       position: 'relative',
                       zIndex: 1,
                       filter: 'drop-shadow(0 10px 22px rgba(0,0,0,0.65))',
+                      transform: `scale(${member.scale || 1}) translateY(${member.translateY || '0px'})`,
+                      transformOrigin: 'bottom center',
                       transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                      '--base-scale': member.scale || 1,
+                      '--base-ty': member.translateY || '0px',
                     }}
                     className="faculty-card-img"
                     loading="lazy"
@@ -896,8 +906,11 @@ export function FacultySection() {
       </div>
 
       <style>{`
+        .faculty-card-img {
+          transform-origin: bottom center;
+        }
         .faculty-cyber-card:hover .faculty-card-img {
-          transform: scale(1.05) translateY(-4px);
+          transform: scale(calc(var(--base-scale, 1) * 1.05)) translateY(calc(var(--base-ty, 0px) - 4px)) !important;
         }
       `}</style>
     </section>
