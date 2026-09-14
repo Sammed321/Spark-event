@@ -224,7 +224,7 @@ const STUDENT_LEADERS = [
   },
   {
     name: 'Rishabh Kinnal',
-    role: 'Student Coordinator',
+    role: 'Secretary',
     institution: 'KLS Gogte Institute of Technology',
     image: '/team/Rishabh.png',
     Icon: Sparkles,
