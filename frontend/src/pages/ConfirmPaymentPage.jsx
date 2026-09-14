@@ -17,6 +17,24 @@ import {
 import { api } from '../services/api';
 import { useGsapFloatingOrbs, gsap } from '../utils/gsapAnimations';
 
+const WHATSAPP_GROUP_URL = 'https://chat.whatsapp.com/Gamx1CoOHWb0tu6PHvd5nW';
+
+function WhatsAppIcon({ size = 20, style = {} }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      style={{ display: 'inline-block', verticalAlign: 'middle', flexShrink: 0, ...style }}
+      aria-hidden="true"
+    >
+      <path d="M17.472 14.382c-.301-.15-1.78-.878-2.056-.979-.276-.1-.476-.15-.677.15-.2.3-.777.98-.953 1.18-.175.2-.35.225-.651.075-.3-.15-1.267-.467-2.414-1.488-.893-.796-1.496-1.78-1.671-2.08-.175-.3-.019-.462.132-.612.136-.135.301-.35.451-.525.15-.175.2-.3.3-.5.1-.2.05-.375-.025-.525-.075-.15-.676-1.63-1.027-2.23-.243-.585-.49-.505-.676-.514-.175-.009-.376-.01-.577-.01-.2 0-.526.075-.802.375-.276.3-1.053 1.03-1.053 2.51 0 1.48 1.078 2.91 1.229 3.11.15.2 2.121 3.24 5.138 4.542.718.31 1.278.496 1.716.635.722.23 1.379.197 1.9.12.58-.087 1.78-.727 2.03-1.43.251-.702.251-1.303.176-1.43-.075-.126-.276-.201-.577-.351z" />
+      <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 1.892.525 3.662 1.438 5.176L2 22l4.98-1.307A9.957 9.957 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.2a8.163 8.163 0 01-4.167-1.137l-.299-.178-2.96.777.79-2.885-.195-.31A8.168 8.168 0 013.8 12c0-4.522 3.678-8.2 8.2-8.2 4.522 0 8.2 3.678 8.2 8.2 0 4.522-3.678 8.2-8.2 8.2z" />
+    </svg>
+  );
+}
+
 export function ConfirmPaymentPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -39,6 +57,7 @@ export function ConfirmPaymentPage() {
   const [attendanceData, setAttendanceData] = useState(null);
   const [copiedUpi, setCopiedUpi] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
+  const [copiedWaLink, setCopiedWaLink] = useState(false);
   const [paymentInfo, setPaymentInfo] = useState({
     upi_vpa: 'spark.ecell@upi',
     upi_payee_name: 'SPARK Club',
@@ -121,6 +140,13 @@ export function ConfirmPaymentPage() {
     link.download = `SPARK-Attendance-Pass-${attendanceData.attendance_code || 'QR'}.png`;
     link.click();
     play('success');
+  };
+
+  const handleCopyWaLink = () => {
+    navigator.clipboard.writeText(WHATSAPP_GROUP_URL);
+    setCopiedWaLink(true);
+    play('sparkle');
+    setTimeout(() => setCopiedWaLink(false), 2000);
   };
 
   const handleSubmitUtr = async (e) => {
@@ -394,6 +420,99 @@ export function ConfirmPaymentPage() {
                   )}
                 </div>
 
+                {/* WhatsApp Community Group Card */}
+                <div style={{
+                  background: 'linear-gradient(135deg, rgba(37, 211, 102, 0.12) 0%, rgba(16, 185, 129, 0.05) 100%)',
+                  border: '1px solid rgba(37, 211, 102, 0.4)',
+                  borderRadius: 20,
+                  padding: '22px 24px',
+                  marginBottom: 24,
+                  textAlign: 'left',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  boxShadow: '0 10px 30px rgba(37, 211, 102, 0.1)',
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap', marginBottom: 12 }}>
+                    <div style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 8,
+                      background: 'rgba(37, 211, 102, 0.18)',
+                      border: '1px solid rgba(37, 211, 102, 0.35)',
+                      padding: '5px 12px',
+                      borderRadius: 20,
+                    }}>
+                      <WhatsAppIcon size={16} style={{ color: '#25D366' }} />
+                      <span className="font-grotesk" style={{ fontSize: 11, fontWeight: 700, color: '#25D366', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                        Official Attendee Group
+                      </span>
+                    </div>
+                    <span style={{ fontSize: 12, color: '#a7f3d0', fontWeight: 500 }}>
+                      ⚡ Required for Announcements
+                    </span>
+                  </div>
+
+                  <h3 className="font-syne" style={{ fontSize: 19, fontWeight: 700, color: '#ffffff', margin: '0 0 8px' }}>
+                    Join the Official Attendees WhatsApp Group
+                  </h3>
+                  <p className="font-inter" style={{ fontSize: 13.5, color: '#d1fae5', lineHeight: 1.55, margin: '0 0 16px', opacity: 0.9 }}>
+                    Stay informed with real-time workshop announcements, session schedule, venue navigation, and workshop materials directly from the organizing team.
+                  </p>
+
+                  <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                    <a
+                      href={WHATSAPP_GROUP_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-cuelume-hover="tick"
+                      data-cuelume-press="press"
+                      className="wa-btn-cta"
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 8,
+                        background: '#25D366',
+                        color: '#03200e',
+                        fontWeight: 700,
+                        fontSize: 14,
+                        padding: '11px 22px',
+                        borderRadius: 12,
+                        textDecoration: 'none',
+                        boxShadow: '0 4px 18px rgba(37, 211, 102, 0.35)',
+                        transition: 'all 0.2s ease',
+                      }}
+                    >
+                      <WhatsAppIcon size={18} style={{ color: '#03200e' }} />
+                      <span>Join WhatsApp Group</span>
+                      <ExternalLink size={15} />
+                    </a>
+
+                    <button
+                      type="button"
+                      onClick={handleCopyWaLink}
+                      data-cuelume-hover="tick"
+                      data-cuelume-press="press"
+                      style={{
+                        background: copiedWaLink ? 'rgba(37, 211, 102, 0.25)' : 'rgba(0, 0, 0, 0.35)',
+                        border: '1px solid rgba(37, 211, 102, 0.35)',
+                        borderRadius: 12,
+                        padding: '11px 16px',
+                        color: copiedWaLink ? '#34d399' : '#a7f3d0',
+                        cursor: 'pointer',
+                        fontSize: 13,
+                        fontWeight: 600,
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 6,
+                        transition: 'all 0.2s ease',
+                      }}
+                    >
+                      {copiedWaLink ? <Check size={14} /> : <Copy size={14} />}
+                      <span>{copiedWaLink ? 'Invite Copied' : 'Copy Link'}</span>
+                    </button>
+                  </div>
+                </div>
+
                 {/* Action Buttons */}
                 <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
                   {attendanceData.attendance_qr_data_url && (
@@ -408,6 +527,31 @@ export function ConfirmPaymentPage() {
                       <span>Download QR Pass</span>
                     </button>
                   )}
+                  <a
+                    href={WHATSAPP_GROUP_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-lg wa-btn-secondary"
+                    data-cuelume-hover="tick"
+                    data-cuelume-press="press"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 8,
+                      background: 'rgba(37, 211, 102, 0.15)',
+                      border: '1px solid rgba(37, 211, 102, 0.45)',
+                      color: '#25D366',
+                      fontWeight: 600,
+                      textDecoration: 'none',
+                      padding: '12px 22px',
+                      borderRadius: 14,
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    <WhatsAppIcon size={18} style={{ color: '#25D366' }} />
+                    <span>WhatsApp Group</span>
+                    <ExternalLink size={15} />
+                  </a>
                   <button
                     className="btn btn-outline btn-lg"
                     onClick={() => navigate('/')}
@@ -684,6 +828,18 @@ export function ConfirmPaymentPage() {
             padding: 14px 16px !important;
             border-radius: 12px !important;
           }
+        }
+
+        .wa-btn-cta:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(37, 211, 102, 0.5) !important;
+          filter: brightness(1.06);
+        }
+        .wa-btn-secondary:hover {
+          background: rgba(37, 211, 102, 0.25) !important;
+          border-color: rgba(37, 211, 102, 0.6) !important;
+          color: #34d399 !important;
+          transform: translateY(-2px);
         }
       `}</style>
     </div>

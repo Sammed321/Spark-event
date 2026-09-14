@@ -1,7 +1,163 @@
-import { useRef } from 'react';
-import { GraduationCap, Award, Crown, ShieldCheck, Code2, Terminal, Palette } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { 
+  GraduationCap, 
+  Award, 
+  Crown, 
+  ShieldCheck, 
+  Code2, 
+  Terminal, 
+  Palette, 
+  Sparkles,
+  ChevronLeft,
+  ChevronRight
+} from 'lucide-react';
+import { play } from 'cuelume';
 import { CyberCard } from '../components/CyberCard';
 import { useGsapFloatingOrbs, useGsapStaggerCards } from '../utils/gsapAnimations';
+
+function MobileCarouselWrapper({
+  containerRef,
+  itemsCount,
+  children,
+  className = '',
+  accentColor = '#a855f7',
+}) {
+  const trackRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isInteracting, setIsInteracting] = useState(false);
+
+  const handleScroll = () => {
+    if (!trackRef.current) return;
+    const track = trackRef.current;
+    const childrenNodes = track.children;
+    if (!childrenNodes || childrenNodes.length === 0) return;
+
+    const trackCenter = track.scrollLeft + track.clientWidth / 2;
+    let closestIndex = 0;
+    let minDiff = Infinity;
+
+    for (let i = 0; i < childrenNodes.length; i++) {
+      const child = childrenNodes[i];
+      const childCenter = child.offsetLeft + child.offsetWidth / 2;
+      const diff = Math.abs(trackCenter - childCenter);
+      if (diff < minDiff) {
+        minDiff = diff;
+        closestIndex = i;
+      }
+    }
+
+    if (closestIndex !== activeIndex) {
+      setActiveIndex(closestIndex);
+    }
+  };
+
+  const scrollToSlide = (index, playSound = true) => {
+    if (!trackRef.current) return;
+    const track = trackRef.current;
+    const child = track.children[index];
+    if (child) {
+      const scrollPos = child.offsetLeft - (track.clientWidth - child.offsetWidth) / 2;
+      track.scrollTo({ left: scrollPos, behavior: 'smooth' });
+      setActiveIndex(index);
+      if (playSound) {
+        try { play('tick'); } catch (_) {}
+      }
+    }
+  };
+
+  // Automatic scrolling for mobile view
+  useEffect(() => {
+    if (itemsCount <= 1) return;
+
+    const interval = setInterval(() => {
+      if (isInteracting || typeof window === 'undefined' || window.innerWidth > 768) return;
+      setActiveIndex((prev) => {
+        const next = (prev + 1) % itemsCount;
+        scrollToSlide(next, false);
+        return next;
+      });
+    }, 3500);
+
+    return () => clearInterval(interval);
+  }, [itemsCount, isInteracting]);
+
+  const handlePrev = () => {
+    if (activeIndex > 0) {
+      scrollToSlide(activeIndex - 1, true);
+    }
+  };
+
+  const handleNext = () => {
+    if (activeIndex < itemsCount - 1) {
+      scrollToSlide(activeIndex + 1, true);
+    }
+  };
+
+  return (
+    <div
+      className={`faculty-carousel-wrapper ${className}`}
+      onMouseEnter={() => setIsInteracting(true)}
+      onMouseLeave={() => setIsInteracting(false)}
+      onTouchStart={() => setIsInteracting(true)}
+      onTouchEnd={() => setTimeout(() => setIsInteracting(false), 2500)}
+    >
+      {/* Cards track (Grid on desktop, Carousel on mobile) */}
+      <div
+        ref={(el) => {
+          trackRef.current = el;
+          if (containerRef) containerRef.current = el;
+        }}
+        onScroll={handleScroll}
+        className="faculty-carousel-track"
+      >
+        {children}
+      </div>
+
+      {/* Mobile Navigation Controls */}
+      <div className="faculty-carousel-controls">
+        <button
+          type="button"
+          onClick={handlePrev}
+          disabled={activeIndex === 0}
+          className="faculty-carousel-arrow"
+          aria-label="Previous card"
+          data-cuelume-hover="tick"
+          data-cuelume-press="tick"
+        >
+          <ChevronLeft size={18} />
+        </button>
+
+        <div className="faculty-carousel-dots">
+          {Array.from({ length: itemsCount }).map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => scrollToSlide(i)}
+              className={`faculty-carousel-dot ${i === activeIndex ? 'active' : ''}`}
+              style={{
+                background: i === activeIndex ? accentColor : 'rgba(167, 139, 250, 0.25)',
+                boxShadow: i === activeIndex ? `0 0 10px ${accentColor}` : 'none',
+              }}
+              aria-label={`Go to card ${i + 1}`}
+            />
+          ))}
+        </div>
+
+        <button
+          type="button"
+          onClick={handleNext}
+          disabled={activeIndex === itemsCount - 1}
+          className="faculty-carousel-arrow"
+          aria-label="Next card"
+          data-cuelume-hover="tick"
+          data-cuelume-press="tick"
+        >
+          <ChevronRight size={18} />
+        </button>
+      </div>
+    </div>
+  );
+}
 
 function LinkedinIcon({ size = 14, color = 'currentColor' }) {
   return (
@@ -24,18 +180,24 @@ const FACULTY_MEMBERS = [
     role: 'Faculty Coordinator',
     institution: 'KLS Gogte Institute of Technology',
     image: '/faculty/dr-pavan-kunchur.png',
+    scale: 1.08,
+    translateY: '3px',
   },
   {
     name: 'Prof. Pavan K. Korlahalli',
     role: 'Faculty Coordinator',
     institution: 'KLS Gogte Institute of Technology',
     image: '/faculty/prof-pavan-korlahalli.png',
+    scale: 1,
+    translateY: '0px',
   },
   {
     name: 'Prof. Prasad Mathapati',
     role: 'Faculty Coordinator',
     institution: 'KLS Gogte Institute of Technology',
     image: '/faculty/prof-prasad-mathapati.png',
+    scale: 1,
+    translateY: '0px',
   },
 ];
 
@@ -47,6 +209,8 @@ const STUDENT_LEADERS = [
     image: '/team/shrihari-chikkodikar.png',
     Icon: Crown,
     badgeColor: '#e879f9',
+    scale: 1,
+    translateY: '0px',
   },
   {
     name: 'Shrish Korti',
@@ -55,6 +219,18 @@ const STUDENT_LEADERS = [
     image: '/team/shrish-korti.png',
     Icon: ShieldCheck,
     badgeColor: '#a855f7',
+    scale: 0.96,
+    translateY: '2px',
+  },
+  {
+    name: 'Rishabh Kinnal',
+    role: 'Student Coordinator',
+    institution: 'KLS Gogte Institute of Technology',
+    image: '/team/Rishabh.png',
+    Icon: Sparkles,
+    badgeColor: '#38bdf8',
+    scale: 1.30,
+    translateY: '4px',
   },
 ];
 
@@ -212,16 +388,11 @@ export function FacultySection() {
           </p>
         </div>
 
-        {/* Faculty Cards Grid */}
-        <div
-          ref={facultyCardsRef}
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            gap: 32,
-            padding: '0 6px 12px 0',
-          }}
+        {/* Faculty Cards Grid / Mobile Carousel */}
+        <MobileCarouselWrapper
+          containerRef={facultyCardsRef}
+          itemsCount={FACULTY_MEMBERS.length}
+          accentColor="#a855f7"
         >
           {FACULTY_MEMBERS.map((faculty, idx) => (
             <CyberCard
@@ -317,13 +488,17 @@ export function FacultySection() {
                     height: '100%',
                     width: 'auto',
                     maxHeight: 295,
-                    maxWidth: '92%',
+                    maxWidth: faculty.scale ? `${Math.round(92 * faculty.scale)}%` : '92%',
                     objectFit: 'contain',
                     objectPosition: 'bottom center',
                     position: 'relative',
                     zIndex: 1,
                     filter: 'drop-shadow(0 10px 22px rgba(0,0,0,0.65))',
+                    transform: `scale(${faculty.scale || 1}) translateY(${faculty.translateY || '0px'})`,
+                    transformOrigin: 'bottom center',
                     transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                    '--base-scale': faculty.scale || 1,
+                    '--base-ty': faculty.translateY || '0px',
                   }}
                   className="faculty-card-img"
                   loading="lazy"
@@ -402,7 +577,7 @@ export function FacultySection() {
               </div>
             </CyberCard>
           ))}
-        </div>
+        </MobileCarouselWrapper>
 
         {/* Divider */}
         <div
@@ -447,16 +622,11 @@ export function FacultySection() {
           </p>
         </div>
 
-        {/* Student Leaders Cards (2 items centered) */}
-        <div
-          ref={leadershipCardsRef}
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            gap: 32,
-            padding: '0 6px 12px 0',
-          }}
+        {/* Student Leaders Cards / Mobile Carousel */}
+        <MobileCarouselWrapper
+          containerRef={leadershipCardsRef}
+          itemsCount={STUDENT_LEADERS.length}
+          accentColor="#e879f9"
         >
           {STUDENT_LEADERS.map((leader, idx) => {
             const LeaderIcon = leader.Icon;
@@ -554,13 +724,17 @@ export function FacultySection() {
                       height: '100%',
                       width: 'auto',
                       maxHeight: 295,
-                      maxWidth: '92%',
+                      maxWidth: leader.scale ? `${Math.round(92 * leader.scale)}%` : '92%',
                       objectFit: 'contain',
                       objectPosition: 'bottom center',
                       position: 'relative',
                       zIndex: 1,
                       filter: 'drop-shadow(0 10px 22px rgba(0,0,0,0.65))',
+                      transform: `scale(${leader.scale || 1}) translateY(${leader.translateY || '0px'})`,
+                      transformOrigin: 'bottom center',
                       transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                      '--base-scale': leader.scale || 1,
+                      '--base-ty': leader.translateY || '0px',
                     }}
                     className="faculty-card-img"
                     loading="lazy"
@@ -640,7 +814,7 @@ export function FacultySection() {
               </CyberCard>
             );
           })}
-        </div>
+        </MobileCarouselWrapper>
 
         {/* Divider */}
         <div
@@ -685,16 +859,11 @@ export function FacultySection() {
           </p>
         </div>
 
-        {/* Tech Team Cards (3 items) */}
-        <div
-          ref={techCardsRef}
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            gap: 32,
-            padding: '0 6px 12px 0',
-          }}
+        {/* Tech Team Cards / Mobile Carousel */}
+        <MobileCarouselWrapper
+          containerRef={techCardsRef}
+          itemsCount={TECH_TEAM.length}
+          accentColor="#38bdf8"
         >
           {TECH_TEAM.map((member, idx) => {
             const TechIcon = member.Icon;
@@ -962,7 +1131,7 @@ export function FacultySection() {
               </CyberCard>
             );
           })}
-        </div>
+        </MobileCarouselWrapper>
       </div>
 
       <style>{`
@@ -971,6 +1140,102 @@ export function FacultySection() {
         }
         .faculty-cyber-card:hover .faculty-card-img {
           transform: scale(calc(var(--base-scale, 1) * 1.05)) translateY(calc(var(--base-ty, 0px) - 4px)) !important;
+        }
+
+        .faculty-carousel-wrapper {
+          width: 100%;
+          position: relative;
+        }
+        .faculty-carousel-track {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 32px;
+          padding: 0 6px 12px 0;
+        }
+        .faculty-carousel-controls {
+          display: none !important;
+        }
+
+        @media (max-width: 768px) {
+          .faculty-carousel-track {
+            display: flex !important;
+            flex-wrap: nowrap !important;
+            justify-content: flex-start !important;
+            overflow-x: auto !important;
+            scroll-snap-type: x mandatory !important;
+            scroll-behavior: smooth !important;
+            -webkit-overflow-scrolling: touch !important;
+            gap: 16px !important;
+            padding-top: 14px !important;
+            padding-bottom: 24px !important;
+            padding-left: max(20px, calc((100% - min(310px, 84vw)) / 2)) !important;
+            padding-right: max(20px, calc((100% - min(310px, 84vw)) / 2)) !important;
+            margin-left: -16px !important;
+            margin-right: -16px !important;
+            scrollbar-width: none !important;
+          }
+          .faculty-carousel-track::-webkit-scrollbar {
+            display: none !important;
+          }
+          .faculty-carousel-track > .cyber-box {
+            flex: 0 0 min(310px, 84vw) !important;
+            max-width: min(310px, 84vw) !important;
+            min-width: min(310px, 84vw) !important;
+            scroll-snap-align: center !important;
+            scroll-snap-stop: always !important;
+          }
+          .faculty-carousel-controls {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 4px;
+            margin-bottom: 8px;
+          }
+          .faculty-carousel-arrow {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(124, 58, 237, 0.18);
+            border: 1px solid rgba(167, 139, 250, 0.35);
+            color: #e9d5ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            touch-action: manipulation;
+          }
+          .faculty-carousel-arrow:disabled {
+            opacity: 0.25;
+            cursor: not-allowed;
+            border-color: rgba(167, 139, 250, 0.15);
+          }
+          .faculty-carousel-arrow:not(:disabled):active {
+            transform: scale(0.92);
+            background: rgba(124, 58, 237, 0.4);
+          }
+          .faculty-carousel-dots {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+          }
+          .faculty-carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 4px;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            touch-action: manipulation;
+          }
+          .faculty-carousel-dot.active {
+            width: 26px;
+          }
         }
       `}</style>
     </section>
