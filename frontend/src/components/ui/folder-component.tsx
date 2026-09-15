@@ -363,25 +363,25 @@ const VaultCard = () => (
           border: "1px solid rgba(168,85,247,0.3)",
         }}
       >
-        VAULT
+        SWAG & KIT
       </span>
-      <span style={{ fontSize: 7.5, color: "rgba(216,180,254,0.7)", fontWeight: 600 }}>SPARK X E-CELL</span>
+      <span style={{ fontSize: 7.5, color: "rgba(216,180,254,0.7)", fontWeight: 600 }}>9 ESSENTIALS</span>
     </div>
 
     <div style={{ fontSize: 11, fontWeight: 700, color: "#fff", lineHeight: 1.25, marginBottom: 2 }}>
-      Resource Vault
+      Physical Kit Box
     </div>
     <div style={{ fontSize: 7.5, color: "rgba(196,181,253,0.65)", marginBottom: 8 }}>
-      Curated Founder Assets
+      Tangible Founder Goods
     </div>
 
     {/* Asset Items */}
     <div style={{ display: "flex", flexDirection: "column", gap: 5, flex: 1 }}>
       {[
-        { label: "Legal & IP Kit", icon: "⚖️" },
-        { label: "Cap Table Model", icon: "📊" },
-        { label: "Financial Models", icon: "📈" },
-        { label: "Investor CRM", icon: "💼" },
+        { label: "Kit Bag & Executive Pen", icon: "🎒" },
+        { label: "Ideation Pad & Stickers", icon: "📝" },
+        { label: "Handout Booklet & Book", icon: "📖" },
+        { label: "Keychain & Poster", icon: "🔑" },
       ].map((item) => (
         <div
           key={item.label}
@@ -414,8 +414,8 @@ const VaultCard = () => (
         justifyContent: "space-between",
       }}
     >
-      <span style={{ fontSize: 7, color: "rgba(196,181,253,0.6)" }}>VERIFIED BUNDLE</span>
-      <span style={{ fontSize: 7.5, color: "#4ade80", fontWeight: 700 }}>✓ READY</span>
+      <span style={{ fontSize: 7, color: "rgba(196,181,253,0.6)" }}>PHYSICAL BUNDLE</span>
+      <span style={{ fontSize: 7.5, color: "#4ade80", fontWeight: 700 }}>✓ ALL 9 ITEMS</span>
     </div>
   </div>
 );
