@@ -211,6 +211,7 @@ const STUDENT_LEADERS = [
     badgeColor: '#e879f9',
     scale: 1,
     translateY: '0px',
+    linkedin: 'https://www.linkedin.com/in/shrihari-vc-551777328?utm_source=share_via&utm_content=profile&utm_medium=member_android',
   },
   {
     name: 'Shrish Korti',
@@ -221,6 +222,7 @@ const STUDENT_LEADERS = [
     badgeColor: '#a855f7',
     scale: 0.96,
     translateY: '2px',
+    linkedin: 'https://www.linkedin.com/in/shrish-korti-17642b404?utm_source=share_via&utm_content=profile&utm_medium=member_android',
   },
   {
     name: 'Rishabh Kinnal',
@@ -231,6 +233,7 @@ const STUDENT_LEADERS = [
     badgeColor: '#38bdf8',
     scale: 1.30,
     translateY: '4px',
+    linkedin: 'https://www.linkedin.com/in/rishabh-r-kinnal-101955369?utm_source=share_via&utm_content=profile&utm_medium=member_android',
   },
 ];
 
@@ -810,6 +813,48 @@ export function FacultySection() {
                     <Award size={14} color="#a855f7" style={{ flexShrink: 0 }} />
                     <span>{leader.institution}</span>
                   </div>
+
+                  {/* LinkedIn Connect Button */}
+                  {leader.linkedin && (
+                    <a
+                      href={leader.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-cuelume-hover="tick"
+                      data-cuelume-press="tick"
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 7,
+                        marginTop: 14,
+                        padding: '6px 14px',
+                        borderRadius: 20,
+                        background: 'rgba(124, 58, 237, 0.16)',
+                        border: '1px solid rgba(167, 139, 250, 0.32)',
+                        color: '#e9d5ff',
+                        textDecoration: 'none',
+                        fontSize: 12,
+                        fontWeight: 600,
+                        fontFamily: 'Space Grotesk, sans-serif',
+                        transition: 'all 0.25s ease',
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.background = 'rgba(124, 58, 237, 0.35)';
+                        e.currentTarget.style.borderColor = '#c084fc';
+                        e.currentTarget.style.color = '#ffffff';
+                        e.currentTarget.style.boxShadow = '0 0 14px rgba(168, 85, 247, 0.4)';
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.background = 'rgba(124, 58, 237, 0.16)';
+                        e.currentTarget.style.borderColor = 'rgba(167, 139, 250, 0.32)';
+                        e.currentTarget.style.color = '#e9d5ff';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
+                    >
+                      <LinkedinIcon size={14} color="#38bdf8" />
+                      <span>Connect on LinkedIn</span>
+                    </a>
+                  )}
                 </div>
               </CyberCard>
             );
