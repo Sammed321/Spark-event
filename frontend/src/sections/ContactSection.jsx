@@ -5,9 +5,8 @@ import { useGsapFloatingOrbs, useGsapStaggerCards } from '../utils/gsapAnimation
 
 const CONTACTS = [
   { name: 'Shrihari Chikkodikar', role: 'Student Coordinator', phone: '+91 93804 59314', email: 'shriharichikkodikar@gmail.com' },
-  { name: 'Rishabh Kinnal', role: 'Secretary', phone: '+91 80887 12630', email: 'kinnalrish315@gmail.com' },
+  { name: 'Shriom Rai', role: 'PR Lead', phone: '+91 95085 70143', email: 'shriomrai4871@gmail.com' },
   { name: 'Rishab Chavadar', role: 'Technical Lead', phone: '+91 63644 33736', email: 'rchavadar@gmail.com' },
-  { name: 'Shriom Rai', role: 'Student Coordinator', phone: '+91 95085 70143', email: 'shriomrai4871@gmail.com' },
 ];
 
 export function ContactSection() {
