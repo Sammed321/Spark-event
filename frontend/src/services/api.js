@@ -47,7 +47,13 @@ export const api = {
   // Get active pricing and payment details
   getPaymentInfo: () => request('/payment/info', { method: 'GET' }),
 
-  // Register participant
+  // Request 6-digit email OTP
+  sendOtp: (email) => request('/auth/send-otp', {
+    method: 'POST',
+    body: JSON.stringify({ email }),
+  }),
+
+  // Register participant with verified OTP
   register: (payload) => request('/register', {
     method: 'POST',
     body: JSON.stringify(payload),
@@ -60,7 +66,11 @@ export const api = {
   }),
 
   // Lookup status and attendance code/QR by email or ID
-  getStatus: (identifier) => request(`/registrations/${encodeURIComponent(identifier.trim())}`, {
-    method: 'GET',
-  }),
+  getStatus: (identifier, token) => {
+    const headers = token ? { Authorization: `Bearer ${token}` } : {};
+    return request(`/registrations/${encodeURIComponent(identifier.trim())}`, {
+      method: 'GET',
+      headers,
+    });
+  },
 };

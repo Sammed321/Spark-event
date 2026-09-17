@@ -17,7 +17,14 @@ export function RegistrationSection() {
     let err = {};
     if (!formData.name) err.name = "Name is required";
     if (!formData.usn) err.usn = "USN is required";
-    if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) err.email = "Valid email is required";
+    if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) {
+      err.email = "Valid email is required";
+    } else {
+      const emailLower = formData.email.trim().toLowerCase();
+      if (!emailLower.endsWith('@gmail.com') && !emailLower.endsWith('@students.git.edu')) {
+        err.email = "Only personal Gmail (@gmail.com) and official college (@students.git.edu) emails are allowed";
+      }
+    }
     if (!formData.college) err.college = "College is required";
     if (!formData.source) err.source = "Source is required";
     setErrors(err);

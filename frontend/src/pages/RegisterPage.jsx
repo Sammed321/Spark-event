@@ -3,10 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import { play } from 'cuelume';
 import { api } from '../services/api';
 import { WORKSHOP_FEE } from '../services/paymentService';
-import { CheckCircle, AlertCircle, Loader2, Ticket, Sparkles, ArrowLeft, ArrowRight } from 'lucide-react';
+import { CheckCircle, AlertCircle, Loader2, Ticket, Sparkles, ArrowLeft, ArrowRight, ShieldCheck } from 'lucide-react';
 import FluidOrb from '../components/ui/fluid-orb';
 import { gsap } from '../utils/gsapAnimations';
 import { useGsapFloatingOrbs } from '../utils/gsapAnimations';
+
+const ALLOWED_EMAIL_DOMAINS = ['gmail.com', 'students.git.edu'];
+
+function isAllowedEmailDomain(email) {
+  if (!email) return false;
+  const parts = email.trim().toLowerCase().split('@');
+  return parts.length === 2 && ALLOWED_EMAIL_DOMAINS.includes(parts[1]);
+}
 
 export function RegisterPage() {
   const navigate = useNavigate();
@@ -14,8 +22,11 @@ export function RegisterPage() {
   const ticketRef = useRef(null);
   const formCardRef = useRef(null);
 
-  const [step, setStep] = useState(1); // 1: Form, 2: Summary, 3: Processing, 5: Error
+  const [step, setStep] = useState(1); // 1: Form, 2: OTP & Summary, 3: Processing, 4: Success, 5: Error
   const [formData, setFormData] = useState({ name: '', usn: '', email: '', college: '', source: '' });
+  const [otp, setOtp] = useState('');
+  const [resendTimer, setResendTimer] = useState(0);
+  const [sendingOtp, setSendingOtp] = useState(false);
   const [errors, setErrors] = useState({});
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -27,6 +38,15 @@ export function RegisterPage() {
 
   // Floating background orbs animation
   useGsapFloatingOrbs(containerRef);
+
+  // Countdown timer for OTP resend
+  useEffect(() => {
+    if (resendTimer <= 0) return;
+    const timer = setInterval(() => {
+      setResendTimer((prev) => prev - 1);
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [resendTimer]);
 
   // GSAP Cyberpunk entrance reveal for ticket and form
   useEffect(() => {
@@ -56,7 +76,11 @@ export function RegisterPage() {
     let err = {};
     if (!formData.name.trim()) err.name = "Name is required (2-100 characters)";
     if (!formData.usn.trim()) err.usn = "USN / Roll Number is required";
-    if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) err.email = "Valid email is required";
+    if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) {
+      err.email = "Valid email is required";
+    } else if (!isAllowedEmailDomain(formData.email)) {
+      err.email = "Only personal Gmail (@gmail.com) and official college (@students.git.edu) email addresses are allowed";
+    }
     if (!formData.college.trim()) err.college = "College name is required";
     if (!formData.source) err.source = "Please select how you heard about us";
     setErrors(err);
@@ -69,15 +93,50 @@ export function RegisterPage() {
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const handleProceedToSummary = (e) => {
+  const handleProceedToOtpAndSummary = async (e) => {
     e.preventDefault();
-    if (validate()) {
+    if (!validate()) return;
+
+    const cleanEmail = formData.email.trim().toLowerCase();
+    try {
+      setSendingOtp(true);
+      play('loading');
+      await api.sendOtp(cleanEmail);
+      setResendTimer(60);
       play('ready');
       setStep(2);
+    } catch (err) {
+      if (err.status === 409) {
+        localStorage.setItem('spark_user_email', cleanEmail);
+        navigate('/confirm-payment');
+        return;
+      }
+      setErrors({ email: err.message || "Failed to send verification code. Please check your email." });
+      play('error');
+    } finally {
+      setSendingOtp(false);
+    }
+  };
+
+  const handleResendOtp = async () => {
+    if (resendTimer > 0) return;
+    try {
+      const cleanEmail = formData.email.trim().toLowerCase();
+      await api.sendOtp(cleanEmail);
+      setResendTimer(60);
+      play('ready');
+    } catch (err) {
+      setErrorMsg(err.message || "Failed to resend code. Please wait a minute.");
     }
   };
 
   const handlePayment = async () => {
+    if (!otp || !/^\d{6}$/.test(otp.trim())) {
+      setErrorMsg("Please enter the valid 6-digit verification code sent to your email.");
+      play('error');
+      return;
+    }
+
     setStep(3); // Processing
     play('loading');
     try {
@@ -97,17 +156,13 @@ export function RegisterPage() {
         email: cleanEmail,
         college: formData.college.trim(),
         heard_via: mapSource(formData.source),
+        otp: otp.trim(),
       };
 
-      try {
-        await api.register(payload);
-      } catch (regErr) {
-        // If conflict 409 (already registered), permit proceeding to enter UTR
-        if (regErr.status !== 409) {
-          throw regErr;
-        }
+      const res = await api.register(payload);
+      if (res?.data?.access_token) {
+        localStorage.setItem('spark_access_token', res.data.access_token);
       }
-
       localStorage.setItem('spark_user_email', cleanEmail);
       play('success');
       setStep(4);
@@ -275,7 +330,7 @@ export function RegisterPage() {
             <div ref={formCardRef} className="glass-strong neon-card" style={{ padding: '48px', borderRadius: '32px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
 
               {step === 1 && (
-                <form onSubmit={handleProceedToSummary}>
+                <form onSubmit={handleProceedToOtpAndSummary}>
                   <div style={{ marginBottom: 32 }}>
                     <h3 className="font-syne" style={{ fontSize: 24, fontWeight: 700, color: '#fff', marginBottom: 8 }}>Participant Details</h3>
                     <p className="font-inter" style={{ fontSize: 14, color: 'rgba(196,181,253,0.6)' }}>Fill in your info to reserve your ticket.</p>
@@ -290,7 +345,10 @@ export function RegisterPage() {
                       {errors.usn && <div style={{ color: '#f87171', fontSize: 12, marginTop: 6 }}>{errors.usn}</div>}
                     </div>
                     <div>
-                      <input className={`field-input ${errors.email ? 'error' : ''}`} type="email" name="email" placeholder="Email Address" value={formData.email} onChange={handleChange} />
+                      <input className={`field-input ${errors.email ? 'error' : ''}`} type="email" name="email" placeholder="Email Address (@gmail.com or @students.git.edu)" value={formData.email} onChange={handleChange} />
+                      <span style={{ fontSize: 11, color: 'rgba(196,181,253,0.5)', marginTop: 4, display: 'block' }}>
+                        Allowed: Personal <strong>@gmail.com</strong> or College <strong>@students.git.edu</strong>
+                      </span>
                       {errors.email && <div style={{ color: '#f87171', fontSize: 12, marginTop: 6 }}>{errors.email}</div>}
                     </div>
                     <div>
@@ -310,13 +368,23 @@ export function RegisterPage() {
                     </div>
                     <button
                       type="submit"
+                      disabled={sendingOtp}
                       className="btn btn-primary btn-xl"
                       style={{ width: '100%', marginTop: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
                       data-cuelume-hover="tick"
                       data-cuelume-press="pulse"
                     >
-                      <span>Continue to Payment</span>
-                      <ArrowRight size={16} />
+                      {sendingOtp ? (
+                        <>
+                          <Loader2 size={18} className="anim-spin-slow" />
+                          <span>Sending Verification Code...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>Verify Email & Proceed</span>
+                          <ArrowRight size={16} />
+                        </>
+                      )}
                     </button>
                   </div>
                 </form>
@@ -324,47 +392,89 @@ export function RegisterPage() {
 
               {step === 2 && (
                 <div style={{ textAlign: 'center' }}>
-                  <h3 className="font-syne" style={{ fontSize: 26, marginBottom: 24 }}>Review Details</h3>
-                  <div style={{ background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(139,92,246,0.15)', borderRadius: 20, padding: 28, textAlign: 'left', marginBottom: 32 }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
-                      <span className="font-inter" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14 }}>Event</span>
-                      <span className="font-inter" style={{ fontWeight: 600, fontSize: 15 }}>Illuminate Workshop</span>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(16,185,129,0.15)', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 20, padding: '4px 14px', marginBottom: 16 }}>
+                    <ShieldCheck size={16} color="#34d399" />
+                    <span style={{ fontSize: 12, fontWeight: 700, color: '#34d399', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Verification Code Sent</span>
+                  </div>
+                  <h3 className="font-syne" style={{ fontSize: 24, fontWeight: 700, color: '#fff', marginBottom: 8 }}>Verify Your Email</h3>
+                  <p className="font-inter" style={{ fontSize: 14, color: 'rgba(196,181,253,0.7)', marginBottom: 24 }}>
+                    We sent a 6-digit code to <strong style={{ color: '#e9d5ff' }}>{formData.email}</strong>
+                  </p>
+
+                  <div style={{ background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(139,92,246,0.2)', borderRadius: 20, padding: 24, textAlign: 'left', marginBottom: 24 }}>
+                    <div style={{ marginBottom: 20 }}>
+                      <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#c4b5fd', marginBottom: 8 }}>
+                        6-Digit Verification Code (OTP) *
+                      </label>
+                      <input
+                        className="field-input"
+                        type="text"
+                        maxLength={6}
+                        placeholder="e.g. 849201"
+                        value={otp}
+                        onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
+                        style={{ letterSpacing: '0.25em', fontWeight: 700, fontSize: 22, textAlign: 'center' }}
+                        autoFocus
+                      />
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 10, fontSize: 12 }}>
+                        <span style={{ color: 'rgba(196,181,253,0.5)' }}>Check inbox / spam</span>
+                        <button
+                          type="button"
+                          disabled={resendTimer > 0}
+                          onClick={handleResendOtp}
+                          style={{
+                            background: 'none',
+                            border: 'none',
+                            color: resendTimer > 0 ? 'rgba(196,181,253,0.4)' : '#c084fc',
+                            cursor: resendTimer > 0 ? 'default' : 'pointer',
+                            fontWeight: 600,
+                            padding: 0,
+                          }}
+                        >
+                          {resendTimer > 0 ? `Resend in ${resendTimer}s` : 'Resend Code'}
+                        </button>
+                      </div>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
-                      <span className="font-inter" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14 }}>Participant</span>
-                      <span className="font-inter" style={{ fontWeight: 600, fontSize: 15 }}>{formData.name}</span>
+
+                    <div style={{ height: 1, background: 'rgba(139,92,246,0.2)', margin: '0 -24px 20px -24px' }} />
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12, fontSize: 13 }}>
+                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>Participant</span>
+                      <span style={{ fontWeight: 600, color: '#ede9fe' }}>{formData.name} ({formData.usn})</span>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
-                      <span className="font-inter" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14 }}>USN</span>
-                      <span className="font-inter" style={{ fontWeight: 600, fontSize: 15 }}>{formData.usn}</span>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16, fontSize: 13 }}>
+                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>College</span>
+                      <span style={{ fontWeight: 600, color: '#ede9fe' }}>{formData.college}</span>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 28 }}>
-                      <span className="font-inter" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14 }}>College</span>
-                      <span className="font-inter" style={{ fontWeight: 600, fontSize: 15 }}>{formData.college}</span>
-                    </div>
-                    <div style={{ height: 1, background: 'rgba(139,92,246,0.2)', margin: '0 -28px 24px -28px' }} />
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span className="font-grotesk" style={{ fontSize: 16, color: 'rgba(255,255,255,0.7)' }}>Total Fee</span>
-                      <span className="font-syne grad-text" style={{ fontSize: 28, fontWeight: 700 }}>₹{WORKSHOP_FEE}</span>
+                      <span className="font-grotesk" style={{ fontSize: 15, color: 'rgba(255,255,255,0.7)' }}>Total Fee</span>
+                      <span className="font-syne grad-text" style={{ fontSize: 26, fontWeight: 700 }}>₹{WORKSHOP_FEE}</span>
                     </div>
                   </div>
-                  <div style={{ display: 'flex', gap: 16 }}>
+
+                  {errorMsg && (
+                    <div style={{ color: '#f87171', fontSize: 13, marginBottom: 18, background: 'rgba(239,68,68,0.1)', padding: '10px 14px', borderRadius: 10, border: '1px solid rgba(239,68,68,0.3)' }}>
+                      {errorMsg}
+                    </div>
+                  )}
+
+                  <div style={{ display: 'flex', gap: 14 }}>
                     <button
                       className="btn btn-outline"
-                      style={{ flex: 1, padding: '16px' }}
-                      onClick={() => { play('release'); setStep(1); }}
+                      style={{ flex: 1, padding: '14px' }}
+                      onClick={() => { play('release'); setErrorMsg(''); setStep(1); }}
                       data-cuelume-hover="tick"
                     >
                       Back
                     </button>
                     <button
                       className="btn btn-primary"
-                      style={{ flex: 2, padding: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+                      style={{ flex: 2, padding: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
                       onClick={handlePayment}
                       data-cuelume-hover="tick"
                       data-cuelume-press="pulse"
                     >
-                      <span>Proceed to Payment</span>
+                      <span>Confirm & Register</span>
                       <ArrowRight size={16} />
                     </button>
                   </div>
@@ -375,7 +485,7 @@ export function RegisterPage() {
                 <div style={{ textAlign: 'center', padding: '64px 0' }}>
                   <Loader2 size={56} className="anim-spin-slow" style={{ color: '#a855f7', margin: '0 auto 28px' }} />
                   <h3 className="font-syne" style={{ fontSize: 26, marginBottom: 14 }}>Submitting Registration</h3>
-                  <p className="font-inter" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 15 }}>Processing your details and generating your payment instructions...</p>
+                  <p className="font-inter" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 15 }}>Verifying your code and securing your slot...</p>
                 </div>
               )}
 
@@ -397,11 +507,11 @@ export function RegisterPage() {
                   </div>
 
                   <h3 className="font-syne" style={{ fontSize: 28, fontWeight: 800, color: '#fff', marginBottom: 10 }}>
-                    Registration Received!
+                    Registration Confirmed!
                   </h3>
 
                   <p className="font-inter" style={{ color: 'rgba(196,181,253,0.8)', fontSize: 15, lineHeight: 1.6, maxWidth: 420, margin: '0 auto 24px' }}>
-                    We have dispatched your official payment QR code and your private UTR verification link to: <br />
+                    Your registration has been verified and registered for: <br />
                     <strong style={{ color: '#e9d5ff', wordBreak: 'break-all' }}>{formData.email}</strong>
                   </p>
 
@@ -417,18 +527,26 @@ export function RegisterPage() {
                       Next Steps to Claim Your Pass:
                     </div>
                     <ol style={{ margin: 0, paddingLeft: 18, color: '#c4b5fd', fontSize: 13, lineHeight: 1.8 }}>
-                      <li>Check your email inbox (check <strong>Spam / Promotions</strong> if not in primary).</li>
-                      <li>Scan the <strong>₹{WORKSHOP_FEE} UPI QR</strong> to complete your payment.</li>
-                      <li>Click the green <strong>"Enter UTR for Confirmation"</strong> link in the email to submit your 12-digit UTR and download your Official Attendance QR Pass.</li>
+                      <li>Proceed to payment page or scan the <strong>₹{WORKSHOP_FEE} UPI QR</strong>.</li>
+                      <li>Complete transaction on GPay / PhonePe / Paytm.</li>
+                      <li>Submit your 12-digit UTR to immediately download your Official Attendance QR Pass.</li>
                     </ol>
                   </div>
 
                   <button
-                    className="btn btn-outline btn-lg"
+                    className="btn btn-primary btn-lg"
+                    style={{ width: '100%', marginBottom: 12 }}
+                    onClick={() => navigate('/confirm-payment')}
+                    data-cuelume-hover="tick"
+                    data-cuelume-press="press"
+                  >
+                    Proceed to Payment & Enter UTR →
+                  </button>
+                  <button
+                    className="btn btn-outline"
                     style={{ width: '100%' }}
                     onClick={() => navigate('/')}
                     data-cuelume-hover="tick"
-                    data-cuelume-press="press"
                   >
                     Return to Home
                   </button>
