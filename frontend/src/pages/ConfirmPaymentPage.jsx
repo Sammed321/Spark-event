@@ -612,6 +612,66 @@ export function ConfirmPaymentPage() {
                     ₹{paymentInfo.amount_rupees}
                   </div>
 
+                  {/* Official UPI Payment QR Code */}
+                  <div style={{
+                    background: "#ffffff",
+                    padding: 14,
+                    borderRadius: 20,
+                    boxShadow: "0 12px 36px rgba(0,0,0,0.5), 0 0 24px rgba(167,139,250,0.25)",
+                    marginBottom: 18,
+                    display: "inline-block",
+                    maxWidth: "100%",
+                    position: "relative",
+                  }}>
+                    <img
+                      src="/payment-qr.jpeg"
+                      alt="SPARK UPI Payment QR Code"
+                      style={{
+                        width: 220,
+                        maxWidth: "55vw",
+                        height: "auto",
+                        aspectRatio: "1/1",
+                        display: "block",
+                        borderRadius: 10,
+                        objectFit: "contain",
+                      }}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "/payment-qr.jpeg";
+                      }}
+                    />
+                  </div>
+
+                  {/* UPI VPA Copy Box */}
+                  <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: 10,
+                    background: "rgba(124,58,237,0.18)",
+                    border: "1px solid rgba(167,139,250,0.3)",
+                    borderRadius: 14,
+                    padding: "10px 14px",
+                    marginBottom: 18,
+                    maxWidth: 360,
+                    width: "100%",
+                  }}>
+                    <div style={{ textAlign: "left" }}>
+                      <div style={{ fontSize: 10, color: "rgba(196,181,253,0.65)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600 }}>UPI ID / VPA</div>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: "#ede9fe", fontFamily: "monospace" }}>{paymentInfo.upi_vpa}</div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleCopyUpi}
+                      className="btn btn-outline"
+                      style={{ padding: "6px 12px", fontSize: 12, display: "flex", alignItems: "center", gap: 6, borderRadius: 10, height: "auto" }}
+                      title="Copy UPI VPA"
+                    >
+                      {copiedUpi ? <Check size={14} color="#34d399" /> : <Copy size={14} />}
+                      <span>{copiedUpi ? "Copied" : "Copy"}</span>
+                    </button>
+                  </div>
+
                   <div className="instructions-box" style={{
                     background: 'rgba(124,58,237,0.12)',
                     border: '1px dashed rgba(167,139,250,0.35)',
