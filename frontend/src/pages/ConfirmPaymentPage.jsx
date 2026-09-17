@@ -41,7 +41,7 @@ export function ConfirmPaymentPage() {
   const pageRef = useRef(null);
   const cardRef = useRef(null);
 
-  const emailParam = searchParams.get('email');
+  const emailParam = searchParams.get('email') || (typeof window !== 'undefined' ? localStorage.getItem('spark_user_email') : '') || '';
 
   useEffect(() => {
     // Prevent direct access from website/URL bar without valid registration reroute

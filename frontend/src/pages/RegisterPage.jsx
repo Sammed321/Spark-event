@@ -108,7 +108,7 @@ export function RegisterPage() {
     } catch (err) {
       if (err.status === 409) {
         localStorage.setItem('spark_user_email', cleanEmail);
-        navigate('/confirm-payment');
+        navigate(`/confirm-payment?email=${encodeURIComponent(cleanEmail)}`);
         return;
       }
       setErrors({ email: err.message || "Failed to send verification code. Please check your email." });
@@ -165,7 +165,7 @@ export function RegisterPage() {
       }
       localStorage.setItem('spark_user_email', cleanEmail);
       play('success');
-      setStep(4);
+      navigate(`/confirm-payment?email=${encodeURIComponent(cleanEmail)}`);
     } catch (err) {
       setErrorMsg(err.message || "An unexpected error occurred while submitting registration.");
       setStep(5);
@@ -536,7 +536,7 @@ export function RegisterPage() {
                   <button
                     className="btn btn-primary btn-lg"
                     style={{ width: '100%', marginBottom: 12 }}
-                    onClick={() => navigate('/confirm-payment')}
+                    onClick={() => navigate(`/confirm-payment?email=${encodeURIComponent(formData.email.trim().toLowerCase())}`)}
                     data-cuelume-hover="tick"
                     data-cuelume-press="press"
                   >

@@ -67,7 +67,8 @@ export const api = {
 
   // Lookup status and attendance code/QR by email or ID
   getStatus: (identifier, token) => {
-    const headers = token ? { Authorization: `Bearer ${token}` } : {};
+    const activeToken = token || (typeof window !== 'undefined' ? localStorage.getItem('spark_access_token') : null);
+    const headers = activeToken ? { Authorization: `Bearer ${activeToken}` } : {};
     return request(`/registrations/${encodeURIComponent(identifier.trim())}`, {
       method: 'GET',
       headers,
